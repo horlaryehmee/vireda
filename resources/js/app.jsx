@@ -733,38 +733,16 @@ function CapabilityVisual({ type }) {
 }
 
 function CapabilityCard({ capability, index }) {
-    const getStart = (cardIndex) => (cardIndex === 0 ? 0 : 0.16 + cardIndex * 0.24);
-    const start = getStart(index);
-    const progress = typeof capability.progress === 'number' ? capability.progress : 0;
-    const localProgress =
-        index === 0 ? 1 : Math.max(0, Math.min(1, (progress - start) / 0.22));
-    const stackOffset = index * 46;
-    const hiddenOffset = index === 0 ? 0 : 108 * (1 - localProgress);
-    const y = index === 0 ? `${stackOffset}px` : `calc(${hiddenOffset}% + ${stackOffset * localProgress}px)`;
-    const laterProgressValues = capabilities
-        .slice(index + 1)
-        .map((_, laterOffset) => {
-            const laterIndex = index + laterOffset + 1;
-            return Math.max(0, Math.min(1, (progress - getStart(laterIndex)) / 0.22));
-        });
-    const shrinkByLaterCards = laterProgressValues
-        .reduce((shrink, laterProgress) => {
-
-            return shrink + laterProgress * 6;
-        }, 0);
-    const width = `${Math.max(86, 100 - shrinkByLaterCards)}%`;
-    const visible = index === 0 || localProgress > 0.02;
-    const collapsed = laterProgressValues.some((laterProgress) => laterProgress > 0.94);
-
     return (
         <article
-            className={`capability-card card-${capability.number} ${collapsed ? 'is-collapsed' : ''}`}
+            className={`capability-card card-${capability.number}`}
+            data-card-index={index}
             style={{
                 '--card-index': index,
-                '--card-y': y,
-                '--card-width': width,
-                '--card-opacity': visible ? 1 : 0,
-                '--card-pointer-events': visible ? 'auto' : 'none',
+                '--card-y': index === 0 ? '0px' : '108%',
+                '--card-width': '100%',
+                '--card-opacity': index === 0 ? 1 : 0,
+                '--card-pointer-events': index === 0 ? 'auto' : 'none',
             }}
         >
             <div className="capability-content">
@@ -786,10 +764,11 @@ function CapabilityCard({ capability, index }) {
 
 function CoreCapabilities() {
     const sectionRef = useRef(null);
-    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         let frame = null;
+        const getStart = (cardIndex) => (cardIndex === 0 ? 0 : 0.16 + cardIndex * 0.24);
+        const clamp = (value) => Math.max(0, Math.min(1, value));
 
         const updateProgress = () => {
             const section = sectionRef.current;
@@ -801,8 +780,33 @@ function CoreCapabilities() {
             const rect = section.getBoundingClientRect();
             const scrollable = Math.max(1, rect.height - window.innerHeight);
             const nextProgress = Math.max(0, Math.min(1, -rect.top / scrollable));
+            const cards = section.querySelectorAll('.capability-card');
 
-            setProgress(nextProgress);
+            cards.forEach((card) => {
+                const index = Number(card.dataset.cardIndex || 0);
+                const start = getStart(index);
+                const localProgress = index === 0 ? 1 : clamp((nextProgress - start) / 0.22);
+                const stackOffset = index * 46;
+                const hiddenOffset = index === 0 ? 0 : 108 * (1 - localProgress);
+                const y = index === 0 ? `${stackOffset}px` : `calc(${hiddenOffset}% + ${stackOffset * localProgress}px)`;
+                let shrinkByLaterCards = 0;
+                let collapsed = false;
+
+                for (let laterIndex = index + 1; laterIndex < capabilities.length; laterIndex += 1) {
+                    const laterProgress = clamp((nextProgress - getStart(laterIndex)) / 0.22);
+
+                    shrinkByLaterCards += laterProgress * 6;
+                    collapsed = collapsed || laterProgress > 0.94;
+                }
+
+                const visible = index === 0 || localProgress > 0.02;
+
+                card.style.setProperty('--card-y', y);
+                card.style.setProperty('--card-width', `${Math.max(86, 100 - shrinkByLaterCards)}%`);
+                card.style.setProperty('--card-opacity', visible ? '1' : '0');
+                card.style.setProperty('--card-pointer-events', visible ? 'auto' : 'none');
+                card.classList.toggle('is-collapsed', collapsed);
+            });
         };
 
         const onScroll = () => {
@@ -850,7 +854,7 @@ function CoreCapabilities() {
                 <div className="container capabilities-stack">
                     {capabilities.map((capability, index) => (
                         <CapabilityCard
-                            capability={{ ...capability, progress }}
+                            capability={capability}
                             index={index}
                             key={capability.title}
                         />

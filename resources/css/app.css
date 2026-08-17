@@ -4191,10 +4191,7 @@ h3 {
     pointer-events: var(--card-pointer-events, auto);
     position: absolute;
     transform: translateX(-50%) translateY(var(--card-y, 0%));
-    transition:
-        opacity 120ms ease,
-        transform 90ms linear,
-        width 90ms linear;
+    transition: opacity 120ms ease;
     width: var(--card-width, 100%);
     will-change: transform, width;
 }
