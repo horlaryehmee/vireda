@@ -6577,3 +6577,32 @@ h1 span {
     font-style: italic;
     font-weight: 400;
 }
+
+main p,
+main li,
+main small,
+main .eyebrow,
+main .status-eyebrow,
+main .hero-typewriter,
+main .hero-subcopy-intro,
+main .hero-subcopy-summary,
+main .section-heading > p,
+main .capabilities-intro > p:last-child,
+main .capability-number strong,
+main .capability-copy p,
+main .service-detail .service-statement,
+main .mobile-service-panel .service-statement,
+main .deliver-card .service-statement,
+main .deliver-card p:not(.service-statement),
+main .deliver-card-top span,
+main .tags span,
+main .capability-tags span,
+main .process-columns span,
+main .project-info p,
+main .project-info a,
+.footer p,
+.footer a,
+.footer-line {
+    font-size: 0.95rem !important;
+    line-height: 1.55;
+}
