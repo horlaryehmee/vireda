@@ -6440,6 +6440,10 @@ h3 {
         width: min(100% - 20px, 1400px);
     }
 
+    .navbar .nav-cta {
+        display: none !important;
+    }
+
     .nav-shell .logo-image {
         width: 120px;
     }
