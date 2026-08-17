@@ -438,7 +438,7 @@ function HeroTypewriter() {
         const currentText = heroTypewriterItems[itemIndex];
         const isComplete = visibleCount === currentText.length;
         const isEmpty = visibleCount === 0;
-        const delay = isComplete && !isDeleting ? 1500 : isDeleting ? 10 : 34;
+        const delay = isComplete && !isDeleting ? 1500 : isDeleting ? 5 : 34;
 
         const timeout = window.setTimeout(() => {
             if (!isDeleting && isComplete) {
