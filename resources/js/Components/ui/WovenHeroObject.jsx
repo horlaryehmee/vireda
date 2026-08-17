@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
 
 const PARTICLE_COUNT = 32000;
 
@@ -9,6 +8,17 @@ export function WovenHeroObject() {
     useEffect(() => {
         const mount = mountRef.current;
         if (!mount) return undefined;
+
+        let isDisposed = false;
+        let cleanupScene = null;
+        let idleId = null;
+
+        const initialise = async () => {
+            const THREE = await import('three');
+
+            if (isDisposed || !mount.isConnected) {
+                return;
+            }
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
@@ -82,7 +92,13 @@ export function WovenHeroObject() {
         };
 
         let frameId;
+        let isVisible = true;
         const animate = () => {
+            if (!isVisible) {
+                frameId = null;
+                return;
+            }
+
             frameId = window.requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
 
@@ -124,20 +140,59 @@ export function WovenHeroObject() {
             renderer.render(scene, camera);
         };
 
+        const visibilityObserver = new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting;
+
+            if (isVisible && frameId === null) {
+                animate();
+            } else if (!isVisible && frameId !== null) {
+                window.cancelAnimationFrame(frameId);
+                frameId = null;
+            }
+        }, { rootMargin: '160px 0px' });
+
         resize();
+        visibilityObserver.observe(mount);
         animate();
         window.addEventListener('pointermove', handlePointerMove);
         window.addEventListener('resize', resize);
 
-        return () => {
-            window.cancelAnimationFrame(frameId);
+        cleanupScene = () => {
+            if (frameId !== null) {
+                window.cancelAnimationFrame(frameId);
+            }
+
             window.removeEventListener('pointermove', handlePointerMove);
             window.removeEventListener('resize', resize);
+            visibilityObserver.disconnect();
             geometry.dispose();
             torusKnot.dispose();
             material.dispose();
             renderer.dispose();
             renderer.domElement.remove();
+        };
+        };
+
+        if ('requestIdleCallback' in window) {
+            idleId = window.requestIdleCallback(initialise, { timeout: 1200 });
+        } else {
+            idleId = window.setTimeout(initialise, 400);
+        }
+
+        return () => {
+            isDisposed = true;
+
+            if (idleId !== null) {
+                if ('cancelIdleCallback' in window) {
+                    window.cancelIdleCallback(idleId);
+                } else {
+                    window.clearTimeout(idleId);
+                }
+            }
+
+            if (cleanupScene) {
+                cleanupScene();
+            }
         };
     }, []);
 
