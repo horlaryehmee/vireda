@@ -4194,6 +4194,14 @@ h3 {
     transition: opacity 120ms ease;
     width: var(--card-width, 100%);
     will-change: transform, width;
+    cursor: pointer;
+    outline: none;
+}
+
+.capability-card:focus-visible {
+    box-shadow:
+        0 0 0 2px rgba(242, 210, 123, 0.8),
+        0 14px 34px rgba(30, 25, 18, 0.07);
 }
 
 .card-01 {
