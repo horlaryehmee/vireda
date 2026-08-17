@@ -3737,8 +3737,8 @@ h3 {
 
     .radial-hero {
         background-image:
-            linear-gradient(90deg, rgba(0, 0, 0, 0.84) 0%, rgba(0, 0, 0, 0.54) 100%),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.08) 42%, rgba(0, 0, 0, 0.68) 100%),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.42) 100%),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.04) 42%, rgba(0, 0, 0, 0.56) 100%),
             url('/images/mobile-hero-gold-architecture.png');
         background-position: center center;
         background-repeat: no-repeat;
@@ -3753,8 +3753,8 @@ h3 {
 
     .radial-hero-glow {
         background:
-            linear-gradient(90deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.42) 100%),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, transparent 42%, rgba(0, 0, 0, 0.66) 100%);
+            linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.3) 100%),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, transparent 42%, rgba(0, 0, 0, 0.54) 100%);
     }
 
     .blackhole-copy {
