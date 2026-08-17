@@ -6010,6 +6010,7 @@ h3 {
     gap: 3px;
     justify-self: center;
     padding: 4px;
+    position: relative;
 }
 
 .tube-light-nav a {
@@ -6044,10 +6045,14 @@ h3 {
 .tube-light-active {
     background: rgba(216, 167, 58, 0.09);
     border: 1px solid rgba(216, 167, 58, 0.08);
-    border-radius: inherit;
-    inset: 0;
+    border-radius: 999px;
+    bottom: 4px;
+    left: var(--tube-active-left, 4px);
     pointer-events: none;
     position: absolute;
+    top: 4px;
+    transition: left 260ms cubic-bezier(0.22, 1, 0.36, 1), width 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: var(--tube-active-width, 96px);
     z-index: 1;
 }
 
