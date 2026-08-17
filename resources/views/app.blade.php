@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>VIREDÁ | Management & Technology Consulting</title>
+        <meta name="description" content="VIREDÁ brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
+        <meta property="og:title" content="VIREDÁ | Management & Technology Consulting">
+        <meta property="og:description" content="VIREDÁ brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url('/') }}">
+        <link rel="canonical" href="{{ url('/') }}">
+        <script>
+            (() => {
+                const stored = localStorage.getItem('vireda-theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (!stored && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        @viteReactRefresh
+        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
