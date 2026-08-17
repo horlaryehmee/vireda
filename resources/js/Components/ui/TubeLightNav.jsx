@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 export function TubeLightNav({ items }) {
@@ -21,15 +20,12 @@ export function TubeLightNav({ items }) {
                         <span className="tube-nav-label">{item.label}</span>
                         <Icon className="tube-nav-icon" size={17} strokeWidth={2} aria-hidden="true" />
                         {isActive && (
-                            <motion.span
+                            <span
                                 className="tube-light-active"
-                                layoutId="tube-light-active"
-                                initial={false}
-                                transition={{ type: 'spring', stiffness: 320, damping: 30 }}
                                 aria-hidden="true"
                             >
                                 <i className="tube-light-bar" />
-                            </motion.span>
+                            </span>
                         )}
                     </a>
                 );

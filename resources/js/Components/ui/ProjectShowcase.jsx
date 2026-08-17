@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 function ProjectShowcase({ projects, autoplay = false }) {
@@ -40,47 +39,34 @@ function ProjectShowcase({ projects, autoplay = false }) {
                     const distance = (index - active + projects.length) % projects.length;
                     const isActive = index === active;
                     return (
-                        <motion.div
+                        <div
                             className="project-showcase-image"
                             key={item.name}
-                            initial={false}
-                            animate={{
+                            style={{
                                 opacity: isActive ? 1 : distance < 3 ? 0.46 - distance * 0.1 : 0,
-                                rotate: isActive ? 0 : distance * 2.2,
-                                scale: isActive ? 1 : 1 - distance * 0.045,
-                                x: isActive ? 0 : distance * 14,
-                                y: isActive ? 0 : distance * 10,
+                                transform: `translate(${isActive ? 0 : distance * 14}px, ${isActive ? 0 : distance * 10}px) rotate(${isActive ? 0 : distance * 2.2}deg) scale(${isActive ? 1 : 1 - distance * 0.045})`,
                                 zIndex: projects.length - distance,
                             }}
-                            transition={{ duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
                         >
-                            <img src={item.image} alt={item.name} draggable="false" />
+                            <img src={item.image} alt={item.name} draggable="false" loading="lazy" decoding="async" />
                             <div className="project-image-label">
                                 <span>VIREDÁ / {String(index + 1).padStart(2, '0')}</span>
                                 <span>{item.industry}</span>
                             </div>
-                        </motion.div>
+                        </div>
                     );
                 })}
             </div>
 
             <div className="project-showcase-copy">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={project.name}
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -12 }}
-                        transition={{ duration: 0.24, ease: 'easeOut' }}
-                    >
-                        <p className="project-industry">{project.industry}</p>
-                        <h3>{project.name}</h3>
-                        <p className="project-description">{project.description}</p>
-                        <div className="tags">
-                            {project.services.map((service) => <span key={service}>{service}</span>)}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+                <div className="project-copy-panel" key={project.name}>
+                    <p className="project-industry">{project.industry}</p>
+                    <h3>{project.name}</h3>
+                    <p className="project-description">{project.description}</p>
+                    <div className="tags">
+                        {project.services.map((service) => <span key={service}>{service}</span>)}
+                    </div>
+                </div>
 
                 <div className="project-showcase-controls" aria-label="Project controls">
                     <button type="button" onClick={() => changeProject(-1)} aria-label="Previous project" title="Previous project">

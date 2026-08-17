@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
     ArrowRight,
@@ -32,8 +32,11 @@ import { NeonMesh } from './Components/ui/NeonMesh';
 import { ProjectShowcase } from './Components/ui/ProjectShowcase';
 import { TextRevealByWord } from './Components/ui/text-reveal';
 import { TubeLightNav } from './Components/ui/TubeLightNav';
-import { WovenHeroObject } from './Components/ui/WovenHeroObject';
 import '../css/app.css';
+
+const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').then((module) => ({
+    default: module.WovenHeroObject,
+})));
 
 const navItems = [
     { label: 'What We Do', href: '#what-we-do' },
@@ -210,6 +213,24 @@ function useThemeMode() {
     return [theme, updateTheme];
 }
 
+function useMediaQuery(query) {
+    const [matches, setMatches] = useState(() => (
+        typeof window !== 'undefined' && window.matchMedia(query).matches
+    ));
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia(query);
+        const handleChange = () => setMatches(mediaQuery.matches);
+
+        handleChange();
+        mediaQuery.addEventListener('change', handleChange);
+
+        return () => mediaQuery.removeEventListener('change', handleChange);
+    }, [query]);
+
+    return matches;
+}
+
 function handleScrollTop() {
     window.scroll({
         top: 0,
@@ -250,8 +271,8 @@ function BrandIcon({ brand }) {
 function Logo() {
     return (
         <a className="logo" href="#top" aria-label="VIREDÁ home">
-            <img className="logo-image logo-image-light" src="/images/vireda-logo-light.png" alt="VIREDÁ" />
-            <img className="logo-image logo-image-dark" src="/images/vireda-logo-dark.png" alt="" aria-hidden="true" />
+            <img className="logo-image logo-image-light" src="/images/vireda-logo-light-420.png" alt="VIREDÁ" width="420" height="140" />
+            <img className="logo-image logo-image-dark" src="/images/vireda-logo-dark-420.png" alt="" aria-hidden="true" width="420" height="140" />
         </a>
     );
 }
@@ -468,10 +489,16 @@ function HeroTypewriter() {
 }
 
 function Hero() {
+    const showDesktopObject = useMediaQuery('(min-width: 641px)');
+
     return (
         <section className="hero radial-hero" id="top" data-nav-theme="dark">
-            <HeroGridBackground />
-            <WovenHeroObject />
+            {showDesktopObject && <HeroGridBackground />}
+            {showDesktopObject && (
+                <Suspense fallback={null}>
+                    <WovenHeroObject />
+                </Suspense>
+            )}
             <div className="radial-hero-glow" aria-hidden="true" />
             <div className="blackhole-copy">
                 <div className="blackhole-copy-inner">
@@ -977,6 +1004,8 @@ function AboutVireda() {
                     <div className="about-system" aria-label="VIREDÁ works across strategy, technology, data and creativity">
                         <img
                             className="about-system-image"
+                            loading="lazy"
+                            decoding="async"
                             src="/images/about-strategy-workshop.jpg"
                             alt="A collaborative strategy workshop with a team planning ideas on a glass board"
                         />
@@ -1090,3 +1119,4 @@ function App() {
 }
 
 createRoot(document.getElementById('root')).render(<App />);
+
