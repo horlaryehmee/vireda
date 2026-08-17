@@ -6614,3 +6614,9 @@ main .project-info a,
     font-size: 0.95rem !important;
     line-height: 1.55;
 }
+
+main .tags span,
+main .capability-tags span {
+    font-size: 0.78rem !important;
+    line-height: 1.2;
+}
