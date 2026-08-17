@@ -384,7 +384,7 @@ function Navbar() {
                 </div>
             </div>
             <button className={`mobile-menu-backdrop ${open ? 'open' : ''}`} type="button" aria-label="Close menu" onClick={() => setOpen(false)} />
-            <div className={`mobile-menu ${open ? 'open' : ''}`} aria-hidden={!open} inert={!open}>
+            <div className={`mobile-menu ${open ? 'open' : ''}`} aria-hidden={!open}>
                 <div className="mobile-menu-header">
                     <Logo />
                     <button className="icon-button" type="button" aria-label="Close menu" onClick={() => setOpen(false)}><X size={19} /></button>

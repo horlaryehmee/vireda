@@ -6624,3 +6624,35 @@ main .capability-tags span {
     font-size: 0.78rem !important;
     line-height: 1.2;
 }
+
+@media (max-width: 1024px) {
+    .navbar.menu-open {
+        z-index: 2147483000 !important;
+    }
+
+    .navbar.menu-open .mobile-menu-backdrop.open {
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        position: fixed !important;
+        z-index: 2147483001 !important;
+    }
+
+    .navbar.menu-open .mobile-menu.open {
+        bottom: 0 !important;
+        display: flex !important;
+        height: 100dvh !important;
+        left: auto !important;
+        max-height: none !important;
+        opacity: 1 !important;
+        overflow: hidden !important;
+        pointer-events: auto !important;
+        position: fixed !important;
+        right: 0 !important;
+        top: 0 !important;
+        transform: translateX(0) !important;
+        visibility: visible !important;
+        width: min(430px, 100vw) !important;
+        z-index: 2147483002 !important;
+    }
+}
