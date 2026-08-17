@@ -913,7 +913,6 @@ function ServicesSection() {
                 {services.map((service, index) => (
                     <article className={`deliver-card deliver-card-${index + 1}`} key={service.title}>
                         <div className="deliver-card-top">
-                            <span>{String(index + 1).padStart(2, '0')}</span>
                             <IconStack aria-hidden="true">
                                 {React.createElement(serviceIcons[index], { size: 17, strokeWidth: 1.7 })}
                             </IconStack>

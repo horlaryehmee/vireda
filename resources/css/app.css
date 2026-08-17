@@ -2165,7 +2165,7 @@ h3 {
     align-items: center;
     color: #89847b;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: clamp(18px, 2vw, 28px);
 }
 

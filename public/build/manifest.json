@@ -56,7 +56,7 @@
     "src": "node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DiwQoDtQ.css",
+    "file": "assets/app-BKj7xoP2.css",
     "name": "app",
     "names": [
       "app.css"
@@ -80,12 +80,12 @@
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-C3NgG7um.js",
+    "file": "assets/app-B3TxNEke.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
     "css": [
-      "assets/app-DiwQoDtQ.css"
+      "assets/app-BKj7xoP2.css"
     ],
     "assets": [
       "assets/bricolage-grotesque-vietnamese-wght-normal-BUzh504Q.woff2",
