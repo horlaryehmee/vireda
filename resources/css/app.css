@@ -232,6 +232,10 @@ h3 {
     border-bottom: 1px solid var(--line);
 }
 
+.navbar.menu-open {
+    z-index: 1000;
+}
+
 .nav-inner {
     align-items: center;
     display: grid;
@@ -6318,7 +6322,7 @@ h3 {
         pointer-events: none;
         position: fixed;
         transition: opacity 220ms ease;
-        z-index: 70;
+        z-index: 1001;
     }
 
     .mobile-menu-backdrop.open {
@@ -6342,7 +6346,7 @@ h3 {
         transform: translateX(100%);
         transition: transform 260ms ease;
         width: min(430px, 100%);
-        z-index: 80;
+        z-index: 1002;
     }
 
     .mobile-menu.open {

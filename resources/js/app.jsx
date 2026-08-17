@@ -360,7 +360,7 @@ function Navbar() {
     };
 
     return (
-        <header className={`navbar ${scrolled ? 'is-scrolled' : ''} ${overDarkSection ? 'is-over-dark' : ''}`} ref={navRef}>
+        <header className={`navbar ${scrolled ? 'is-scrolled' : ''} ${overDarkSection ? 'is-over-dark' : ''} ${open ? 'menu-open' : ''}`} ref={navRef}>
             <div className="container nav-inner nav-shell">
                 <Logo />
                 <TubeLightNav items={[
