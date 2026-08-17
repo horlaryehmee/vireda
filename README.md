@@ -214,7 +214,13 @@ npm ci
 npm run build
 ```
 
-If cPanel does not have Node.js:
+This repository includes the committed `public/build` production assets for cPanel hosting environments where Node.js is unavailable. After `git pull`, confirm this file exists:
+
+```text
+public/build/manifest.json
+```
+
+If the committed build assets are missing or you need to rebuild locally:
 
 1. Build locally:
 
@@ -235,7 +241,7 @@ to:
 /home/CPANEL_USER/vireda/public/build
 ```
 
-The website will not load its CSS/JS correctly without `public/build`.
+The website will not load its CSS/JS correctly without `public/build/manifest.json`.
 
 ### 7. Set Permissions
 
@@ -297,7 +303,7 @@ php artisan route:cache
 php artisan view:cache
 ```
 
-If there is no Node.js on cPanel, run `npm run build` locally and upload the new `public/build` folder after pulling.
+If there is no Node.js on cPanel, use the committed `public/build` folder from GitHub, or run `npm run build` locally and upload the new `public/build` folder after pulling.
 
 ## Troubleshooting
 
@@ -306,4 +312,3 @@ If there is no Node.js on cPanel, run `npm run build` locally and upload the new
 - 500 error after deployment: run `php artisan optimize:clear`, verify `.env`, and check PHP version.
 - Permission errors: ensure `storage` and `bootstrap/cache` are writable.
 - Wrong domain links: set `APP_URL` correctly and rebuild config cache.
-
