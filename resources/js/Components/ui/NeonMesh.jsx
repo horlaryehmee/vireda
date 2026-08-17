@@ -9,8 +9,9 @@ function NeonMesh({ className = '' }) {
         const container = containerRef.current;
         if (!canvas || !container) return undefined;
 
-        let cleanupMesh = null;
-        let hasStarted = false;
+        const context = canvas.getContext('2d', { alpha: false });
+        if (!context) return undefined;
+
         let animationFrame = null;
         let isVisible = false;
         let width = 0;
@@ -28,16 +29,6 @@ function NeonMesh({ className = '' }) {
             angleY: 0,
             radius: 170,
         };
-
-        const startMesh = () => {
-            if (hasStarted) {
-                return;
-            }
-
-            hasStarted = true;
-
-            const context = canvas.getContext('2d', { alpha: false });
-            if (!context) return;
 
         const initialiseMesh = () => {
             points = [];
@@ -219,31 +210,11 @@ function NeonMesh({ className = '' }) {
         window.addEventListener('pointermove', handlePointerMove, { passive: true });
         resize();
 
-        cleanupMesh = () => {
+        return () => {
             if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
             window.removeEventListener('pointermove', handlePointerMove);
             resizeObserver.disconnect();
             visibilityObserver.disconnect();
-        };
-        };
-
-        const startupObserver = new IntersectionObserver(([entry]) => {
-            if (!entry.isIntersecting) {
-                return;
-            }
-
-            startupObserver.disconnect();
-            startMesh();
-        }, { rootMargin: '600px 0px' });
-
-        startupObserver.observe(container);
-
-        return () => {
-            startupObserver.disconnect();
-
-            if (cleanupMesh) {
-                cleanupMesh();
-            }
         };
     }, []);
 

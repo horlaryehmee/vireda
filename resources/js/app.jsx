@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
     ArrowRight,
@@ -32,8 +32,11 @@ import { NeonMesh } from './Components/ui/NeonMesh';
 import { ProjectShowcase } from './Components/ui/ProjectShowcase';
 import { TextRevealByWord } from './Components/ui/text-reveal';
 import { TubeLightNav } from './Components/ui/TubeLightNav';
-import { WovenHeroObject } from './Components/ui/WovenHeroObject';
 import '../css/app.css';
+
+const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').then((module) => ({
+    default: module.WovenHeroObject,
+})));
 
 const navItems = [
     { label: 'What We Do', href: '#what-we-do' },
@@ -491,7 +494,11 @@ function Hero() {
     return (
         <section className="hero radial-hero" id="top" data-nav-theme="dark">
             {showDesktopObject && <HeroGridBackground />}
-            {showDesktopObject && <WovenHeroObject />}
+            {showDesktopObject && (
+                <Suspense fallback={null}>
+                    <WovenHeroObject />
+                </Suspense>
+            )}
             <div className="radial-hero-glow" aria-hidden="true" />
             <div className="blackhole-copy">
                 <div className="blackhole-copy-inner">

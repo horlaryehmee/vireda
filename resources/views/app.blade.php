@@ -14,7 +14,6 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
         <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
         <link rel="preload" as="image" href="{{ asset('images/mobile-hero-gold-architecture-960.jpg') }}" media="(max-width: 640px)">
-        <link rel="preload" as="image" href="{{ asset('images/vireda-logo-dark-420.png') }}" media="(min-width: 641px)">
         <script>
             (() => {
                 const stored = localStorage.getItem('vireda-theme');
