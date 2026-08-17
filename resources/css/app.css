@@ -3760,7 +3760,7 @@ h3 {
     .blackhole-copy {
         align-items: flex-start;
         min-height: auto;
-        padding: 132px 18px 56px;
+        padding: 132px 18px 38px;
     }
 
     .workflow-canvas {
@@ -5756,16 +5756,16 @@ h3 {
     }
 
     .capabilities-section {
-        height: 340svh;
+        height: 320svh;
         padding: 0;
     }
 
     .capabilities-pin {
-        padding-block: 66px 14px;
+        padding-block: 38px 14px;
     }
 
     .capabilities-intro {
-        margin-bottom: 16px;
+        margin-bottom: 14px;
     }
 
     .capabilities-intro h2 {
@@ -5779,7 +5779,7 @@ h3 {
     .capability-card {
         border-radius: 16px;
         min-height: 0;
-        padding: 13px;
+        padding: 18px;
     }
 
     .capability-number {
@@ -5788,12 +5788,13 @@ h3 {
     }
 
     .capability-card h3 {
-        font-size: clamp(1.08rem, 5.8vw, 1.55rem);
+        font-size: clamp(1.32rem, 6.2vw, 1.8rem);
+        line-height: 1.08;
     }
 
     .capability-copy p {
-        font-size: 0.76rem;
-        line-height: 1.32;
+        font-size: 1rem;
+        line-height: 1.58;
     }
 
     .capability-visual,
