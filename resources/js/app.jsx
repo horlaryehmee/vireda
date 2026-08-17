@@ -809,7 +809,7 @@ function CoreCapabilities() {
                 const index = Number(card.dataset.cardIndex || 0);
                 const start = getCapabilityStart(index);
                 const localProgress = index === 0 ? 1 : clampProgress((nextProgress - start) / 0.22);
-                const stackOffset = index * 54;
+                const stackOffset = index * 48;
                 const hiddenOffset = index === 0 ? 0 : 108 * (1 - localProgress);
                 const y = index === 0 ? `${stackOffset}px` : `calc(${hiddenOffset}% + ${stackOffset * localProgress}px)`;
                 let shrinkByLaterCards = 0;
