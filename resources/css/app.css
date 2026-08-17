@@ -1715,8 +1715,8 @@ h3 {
 
 .capability-copy p {
     color: rgba(21, 18, 11, 0.68);
-    font-size: clamp(0.88rem, 0.98vw, 0.98rem);
-    line-height: 1.48;
+    font-size: clamp(0.98rem, 1.08vw, 1.08rem);
+    line-height: 1.55;
     margin: 0;
 }
 
@@ -2232,7 +2232,7 @@ h3 {
 .deliver-card h3 {
     color: var(--deliver-text);
     font-family: var(--font-sans);
-    font-size: clamp(1.2rem, 1.45vw, 1.55rem);
+    font-size: clamp(1.35rem, 1.55vw, 1.7rem);
     font-weight: 600;
     line-height: 1.04;
     margin: 0 0 12px;
@@ -2240,22 +2240,22 @@ h3 {
 
 .deliver-card-1 h3,
 .deliver-card-4 h3 {
-    font-size: clamp(1.5rem, 2vw, 2.05rem);
+    font-size: clamp(1.65rem, 2.1vw, 2.2rem);
 }
 
 .deliver-card .service-statement {
     color: var(--deliver-strong);
     font-family: var(--font-sans);
-    font-size: clamp(0.78rem, 0.92vw, 0.92rem);
+    font-size: clamp(0.96rem, 1.05vw, 1.05rem);
     font-weight: 500;
-    line-height: 1.48;
-    margin: 0 0 6px;
+    line-height: 1.5;
+    margin: 0 0 8px;
 }
 
 .deliver-card p:not(.service-statement) {
     color: var(--deliver-muted);
-    font-size: clamp(0.76rem, 0.86vw, 0.88rem);
-    line-height: 1.5;
+    font-size: clamp(0.94rem, 1.02vw, 1rem);
+    line-height: 1.55;
     margin: 0;
 }
 
@@ -2273,7 +2273,7 @@ h3 {
     border-radius: 999px;
     color: var(--deliver-strong);
     font-family: var(--font-mono);
-    font-size: 0.64rem;
+    font-size: 0.72rem;
     line-height: 1;
     padding: 8px 11px;
 }
@@ -3707,8 +3707,8 @@ h3 {
     }
 
     .capability-copy p {
-        font-size: 0.86rem;
-        line-height: 1.46;
+        font-size: 0.95rem;
+        line-height: 1.55;
     }
 
     .visual-node,
@@ -3864,7 +3864,24 @@ h3 {
 
     .deliver-card {
         min-height: 0;
-        padding: 20px;
+        padding: 22px;
+    }
+
+    .deliver-card h3,
+    .deliver-card-1 h3,
+    .deliver-card-4 h3 {
+        font-size: clamp(1.35rem, 6vw, 1.75rem);
+        line-height: 1.12;
+    }
+
+    .deliver-card .service-statement,
+    .deliver-card p:not(.service-statement) {
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+
+    .deliver-card .tags span {
+        font-size: 0.72rem;
     }
 
     .deliver-card-1,
