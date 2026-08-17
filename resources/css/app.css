@@ -5761,11 +5761,12 @@ h3 {
     }
 
     .capabilities-pin {
-        padding-block: 38px 14px;
+        justify-content: flex-start;
+        padding-block: 22px 14px;
     }
 
     .capabilities-intro {
-        margin-bottom: 14px;
+        margin-bottom: 10px;
     }
 
     .capabilities-intro h2 {
@@ -5773,7 +5774,7 @@ h3 {
     }
 
     .capabilities-stack {
-        height: clamp(300px, 42svh, 390px);
+        height: clamp(340px, 50svh, 450px);
     }
 
     .capability-card {
