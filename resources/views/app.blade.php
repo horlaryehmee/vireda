@@ -10,6 +10,9 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/') }}">
         <link rel="canonical" href="{{ url('/') }}">
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+        <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
         <script>
             (() => {
                 const stored = localStorage.getItem('vireda-theme');
