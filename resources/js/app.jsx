@@ -1562,17 +1562,22 @@ function WhatWeFixSection() {
         }
 
         const viewport = section.querySelector('.issue-track-viewport');
+        const sticky = section.querySelector('.problem-sticky');
         const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         let frame = null;
 
         const updateTrack = () => {
-            if (!viewport) {
+            if (!viewport || !sticky) {
                 return;
             }
 
             const cards = Array.from(section.querySelectorAll('.issue-card'));
 
             if (motionQuery.matches || window.innerWidth <= 640) {
+                sticky.style.removeProperty('left');
+                sticky.style.removeProperty('position');
+                sticky.style.removeProperty('top');
+                sticky.style.removeProperty('width');
                 cards.forEach((card) => {
                     card.style.setProperty('--issue-card-x', '0px');
                 });
@@ -1581,10 +1586,28 @@ function WhatWeFixSection() {
 
             const rect = section.getBoundingClientRect();
             const viewportHeight = Math.max(1, window.innerHeight);
-            const start = viewportHeight * 0.72;
-            const end = -(rect.height - viewportHeight * 1.08);
-            const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
+            const sectionTop = window.scrollY + rect.top;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            const pinEnd = sectionBottom - viewportHeight;
+            const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / Math.max(1, pinEnd - sectionTop)));
             const itemCount = Math.max(1, cards.length);
+
+            if (window.scrollY < sectionTop) {
+                sticky.style.removeProperty('left');
+                sticky.style.removeProperty('position');
+                sticky.style.removeProperty('top');
+                sticky.style.removeProperty('width');
+            } else if (window.scrollY >= pinEnd) {
+                sticky.style.left = '0';
+                sticky.style.position = 'absolute';
+                sticky.style.top = `${section.offsetHeight - viewportHeight}px`;
+                sticky.style.width = '100%';
+            } else {
+                sticky.style.left = '0';
+                sticky.style.position = 'fixed';
+                sticky.style.top = '0';
+                sticky.style.width = '100%';
+            }
 
             cards.forEach((card, index) => {
                 if (index === 0) {
