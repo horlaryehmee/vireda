@@ -460,9 +460,17 @@ function Navbar() {
                 <div className="mobile-menu-content">
                     <a className="mobile-primary-link" href="/" onClick={closeNavigation}>Home <ArrowRight size={17} /></a>
                     <section className={mobileSection === 'services' ? 'open' : ''}>
-                        <button type="button" onClick={() => setMobileSection((current) => current === 'services' ? null : 'services')}>
-                            Services <ChevronDown size={17} />
-                        </button>
+                        <div className="mobile-menu-section-header">
+                            <a href="/services" onClick={closeNavigation}>Services</a>
+                            <button
+                                aria-label="Toggle services submenu"
+                                aria-expanded={mobileSection === 'services'}
+                                type="button"
+                                onClick={() => setMobileSection((current) => current === 'services' ? null : 'services')}
+                            >
+                                <ChevronDown size={17} />
+                            </button>
+                        </div>
                         <div className="mobile-submenu">
                             {serviceNavItems.map((service) => (
                                 <a href={service.href} key={service.label} onClick={(event) => handleServiceNavClick(event, service)}>
@@ -490,11 +498,16 @@ const heroTypewriterItems = [
     'An opportunity waiting to be explored.',
     'A vision that needs the right team and technology behind it.',
 ];
+const mobileHeroTypewriterItems = heroTypewriterItems.slice(0, -1);
 
 function HeroTypewriter() {
+    const mobileHeroLine = 'A vision that needs the right team and technology behind it.';
     const [itemIndex, setItemIndex] = useState(0);
+    const [mobileItemIndex, setMobileItemIndex] = useState(0);
     const [visibleCount, setVisibleCount] = useState(0);
+    const [mobileVisibleCount, setMobileVisibleCount] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isMobileDeleting, setIsMobileDeleting] = useState(false);
 
     useEffect(() => {
         const currentText = heroTypewriterItems[itemIndex];
@@ -521,11 +534,44 @@ function HeroTypewriter() {
     }, [itemIndex, visibleCount, isDeleting]);
 
     const currentText = heroTypewriterItems[itemIndex];
+    const currentMobileText = mobileHeroTypewriterItems[mobileItemIndex];
+
+    useEffect(() => {
+        const currentText = mobileHeroTypewriterItems[mobileItemIndex];
+        const isComplete = mobileVisibleCount === currentText.length;
+        const isEmpty = mobileVisibleCount === 0;
+        const delay = isComplete && !isMobileDeleting ? 1500 : isMobileDeleting ? 5 : 34;
+
+        const timeout = window.setTimeout(() => {
+            if (!isMobileDeleting && isComplete) {
+                setIsMobileDeleting(true);
+                return;
+            }
+
+            if (isMobileDeleting && isEmpty) {
+                setIsMobileDeleting(false);
+                setMobileItemIndex((current) => (current + 1) % mobileHeroTypewriterItems.length);
+                return;
+            }
+
+            setMobileVisibleCount((current) => current + (isMobileDeleting ? -1 : 1));
+        }, delay);
+
+        return () => window.clearTimeout(timeout);
+    }, [mobileItemIndex, mobileVisibleCount, isMobileDeleting]);
 
     return (
-        <p className="hero-typewriter" aria-live="polite">
-            <span>{currentText.slice(0, visibleCount)}</span>
-        </p>
+        <>
+            <p className="hero-typewriter hero-typewriter-desktop" aria-live="polite">
+                <span>{currentText.slice(0, visibleCount)}</span>
+            </p>
+            <p className="hero-typewriter hero-typewriter-mobile-live" aria-live="polite">
+                <span>{currentMobileText.slice(0, mobileVisibleCount)}</span>
+            </p>
+            <p className="hero-typewriter hero-typewriter-mobile">
+                <span>{mobileHeroLine}</span>
+            </p>
+        </>
     );
 }
 
@@ -818,7 +864,7 @@ function CapabilityCard({ capability, index, isPinned, onActivate }) {
             style={{
                 '--card-index': index,
                 '--card-y': isPinned && index !== 0 ? '108%' : '0px',
-                '--card-width': '100%',
+                '--card-scale': 1,
                 '--card-opacity': isPinned && index !== 0 ? 0 : 1,
                 '--card-pointer-events': isPinned && index !== 0 ? 'none' : 'auto',
             }}
@@ -890,23 +936,20 @@ function CoreCapabilities() {
                 const hiddenOffset = index === 0 ? 0 : 108 * (1 - localProgress);
                 const y = index === 0 ? `${stackOffset}px` : `calc(${hiddenOffset}% + ${stackOffset * localProgress}px)`;
                 let shrinkByLaterCards = 0;
-                let collapsed = false;
 
                 for (let laterIndex = index + 1; laterIndex < capabilities.length; laterIndex += 1) {
                     const laterProgress = clampProgress((nextProgress - getCapabilityStart(laterIndex)) / 0.22);
 
                     shrinkByLaterCards += laterProgress * 6;
-                    collapsed = collapsed || laterProgress > 0.94;
                 }
 
                 const visible = index === 0 || localProgress > 0.02;
+                const scale = Math.max(0.86, 1 - (shrinkByLaterCards / 100));
 
                 card.style.setProperty('--card-y', y);
-                card.style.setProperty('--card-width', `${Math.max(86, 100 - shrinkByLaterCards)}%`);
+                card.style.setProperty('--card-scale', scale.toFixed(3));
                 card.style.setProperty('--card-opacity', visible ? '1' : '0');
                 card.style.setProperty('--card-pointer-events', visible ? 'auto' : 'none');
-                card.classList.toggle('is-collapsed', collapsed);
-                card.tabIndex = visible ? 0 : -1;
             });
         };
 
@@ -944,6 +987,7 @@ function CoreCapabilities() {
                         as="h2"
                         className="section-heading-reveal"
                         highlight="Shape it"
+                        keepTogether={['Build it.']}
                         text="Think it. Shape it. Build it."
                     />
                     <p>
@@ -1887,20 +1931,15 @@ function ServicesPage() {
                     </div>
                 </section>
 
-                <ServicesMarquee />
-
                 <WhatWeFixSection />
 
                 <section className="page-section page-services-list" id="services">
                     <KineticGridBackground className="services-kinetic-background" />
                     <div className="container section-heading services-list-heading">
                         <p className="eyebrow">Our Services</p>
-                        <TextRevealByWord
-                            as="h2"
-                            className="section-heading-reveal"
-                            highlight="works in isolation"
-                            text="Nothing here works in isolation."
-                        />
+                        <h2 className="section-heading-reveal services-list-title">
+                            Nothing here <span>works in isolation.</span>
+                        </h2>
                         <p>
                             Strategy, systems, software, data, AI and brand rarely live in separate boxes. Pick where
                             you need us most, or bring it all together.

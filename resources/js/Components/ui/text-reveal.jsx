@@ -7,6 +7,7 @@ function cn(...classes) {
 function TextRevealByWord({
     as: Element = 'p',
     highlight,
+    keepTogether = [],
     text,
     className,
     textClassName,
@@ -25,6 +26,19 @@ function TextRevealByWord({
 
                         return targetWord === part;
                     });
+                    const groupedPhrase = keepTogether.find((phrase) => {
+                        const parts = phrase.split(' ');
+
+                        return parts.every((part, partIndex) => words[i + partIndex] === part);
+                    });
+                    const insideGroupedPhrase = !groupedPhrase && keepTogether.some((phrase) => {
+                        const parts = phrase.split(' ');
+
+                        return Array.from({ length: parts.length - 1 }, (_, offset) => i - offset - 1)
+                            .some((candidateStart) => candidateStart >= 0 && parts.every((part, partIndex) => (
+                                words[candidateStart + partIndex] === part
+                            )));
+                    });
                     const insideHighlightedPhrase = !highlighted && highlightParts.length > 0
                         && Array.from({ length: highlightParts.length - 1 }, (_, offset) => i - offset - 1)
                             .some((candidateStart) => candidateStart >= 0 && highlightParts.every((part, partIndex) => {
@@ -37,12 +51,16 @@ function TextRevealByWord({
                         return null;
                     }
 
+                    if (insideGroupedPhrase) {
+                        return null;
+                    }
+
                     return (
                         <Word
                             className={highlighted ? 'editorial-italic text-reveal-highlight' : null}
                             key={`${word}-${i}`}
                         >
-                            {highlighted ? words.slice(i, i + highlightParts.length).join(' ') : word}
+                            {highlighted ? words.slice(i, i + highlightParts.length).join(' ') : groupedPhrase || word}
                         </Word>
                     );
                 })}
