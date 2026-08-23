@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-export function TubeLightNav({ items }) {
-    const [activeItem, setActiveItem] = useState(items[0]?.label);
+export function TubeLightNav({ activeLabel, items }) {
+    const [activeItem, setActiveItem] = useState(activeLabel || items[0]?.label);
     const navRef = useRef(null);
 
     useEffect(() => {
@@ -18,7 +18,10 @@ export function TubeLightNav({ items }) {
                 return;
             }
 
-            nav.style.setProperty('--tube-active-left', `${activeLink.offsetLeft}px`);
+            const navBounds = nav.getBoundingClientRect();
+            const linkBounds = activeLink.getBoundingClientRect();
+
+            nav.style.setProperty('--tube-active-left', `${linkBounds.left - navBounds.left}px`);
             nav.style.setProperty('--tube-active-width', `${activeLink.offsetWidth}px`);
         };
 
@@ -28,6 +31,12 @@ export function TubeLightNav({ items }) {
         return () => window.removeEventListener('resize', updateActiveIndicator);
     }, [activeItem]);
 
+    useEffect(() => {
+        if (activeLabel) {
+            setActiveItem(activeLabel);
+        }
+    }, [activeLabel]);
+
     return (
         <nav className="tube-light-nav" aria-label="Primary navigation" ref={navRef}>
             <span className="tube-light-active" aria-hidden="true">
@@ -36,18 +45,40 @@ export function TubeLightNav({ items }) {
             {items.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeItem === item.label;
-
-                return (
+                const link = (
                     <a
                         className={isActive ? 'is-active' : ''}
                         href={item.href}
-                        key={item.label}
-                        onClick={() => setActiveItem(item.label)}
+                        onClick={(event) => {
+                            setActiveItem(item.label);
+                            item.onClick?.(event);
+                        }}
                         aria-current={isActive ? 'page' : undefined}
                     >
                         <span className="tube-nav-label">{item.label}</span>
                         <Icon className="tube-nav-icon" size={17} strokeWidth={2} aria-hidden="true" />
                     </a>
+                );
+
+                if (!item.submenu?.length) {
+                    return React.cloneElement(link, { key: item.label });
+                }
+
+                return (
+                    <div className="tube-nav-item" key={item.label}>
+                        {link}
+                        <div className="tube-nav-submenu">
+                            {item.submenu.map((submenuItem) => (
+                                <a
+                                    href={submenuItem.href}
+                                    key={submenuItem.label}
+                                    onClick={submenuItem.onClick}
+                                >
+                                    {submenuItem.label}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
                 );
             })}
         </nav>
