@@ -5886,7 +5886,7 @@ h3 {
 
 @media (max-width: 900px) {
     .capabilities-section {
-        height: 320svh;
+        height: 350svh;
         padding: 0;
     }
 
@@ -5988,14 +5988,14 @@ h3 {
     }
 
     .capabilities-section {
-        height: 320svh;
+        height: 360svh;
         padding: 0;
     }
 
     .capabilities-pin {
         justify-content: center;
         min-height: 100svh;
-        padding-block: 78px 14px;
+        padding-block: 78px 74px;
         position: sticky;
         top: 0;
     }
@@ -6989,6 +6989,11 @@ main .capability-tags span {
     color: var(--page-text);
     font-size: var(--page-body-size);
     line-height: var(--page-body-line-height);
+}
+
+.services-page {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .page-shell p,
@@ -9447,7 +9452,7 @@ main .capability-tags span {
     }
 
     .issue-track-viewport {
-        overflow: visible;
+        overflow: hidden;
         padding-bottom: 0;
         scrollbar-width: none;
     }

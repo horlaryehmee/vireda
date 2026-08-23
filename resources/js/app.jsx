@@ -409,15 +409,22 @@ function Navbar() {
         setOpen(false);
     };
 
-    const handleServiceNavClick = (event, service) => {
+    const handleServiceNavClick = (event, service, options = {}) => {
         if (!isServicesPage) {
             closeNavigation();
             return;
         }
 
+        const href = options.href || service.href;
+
         event.preventDefault();
-        window.history.pushState({}, '', service.href);
-        window.dispatchEvent(new CustomEvent('vireda:open-service', { detail: { slug: service.slug } }));
+        window.history.pushState({}, '', href);
+        window.dispatchEvent(new CustomEvent('vireda:open-service', {
+            detail: {
+                scrollTarget: options.scrollTarget,
+                slug: service.slug,
+            },
+        }));
         closeNavigation();
     };
 
@@ -473,7 +480,14 @@ function Navbar() {
                         </div>
                         <div className="mobile-submenu">
                             {serviceNavItems.map((service) => (
-                                <a href={service.href} key={service.label} onClick={(event) => handleServiceNavClick(event, service)}>
+                                <a
+                                    href={`/services?service=${service.slug}#services`}
+                                    key={service.label}
+                                    onClick={(event) => handleServiceNavClick(event, service, {
+                                        href: `/services?service=${service.slug}#services`,
+                                        scrollTarget: 'services',
+                                    })}
+                                >
                                     <Box size={18} />
                                     <span>
                                         <strong>{service.label}</strong>
@@ -1843,7 +1857,7 @@ function ServicesPage() {
     const serviceStackRef = useRef(null);
 
     useEffect(() => {
-        const openRequestedService = (slug) => {
+        const openRequestedService = (slug, scrollTarget = 'service') => {
             const requestedIndex = servicePageServices.findIndex((service) => (
                 slugifyServiceTitle(service.title) === slug
             ));
@@ -1854,7 +1868,9 @@ function ServicesPage() {
 
             setOpenServiceIndex(requestedIndex);
             window.requestAnimationFrame(() => {
-                document.getElementById(slug)?.scrollIntoView({
+                const targetId = scrollTarget === 'services' ? 'services' : slug;
+
+                document.getElementById(targetId)?.scrollIntoView({
                     block: 'start',
                     behavior: 'auto',
                 });
@@ -1864,11 +1880,13 @@ function ServicesPage() {
         const requestedService = new URLSearchParams(window.location.search).get('service');
 
         if (requestedService) {
-            window.requestAnimationFrame(() => openRequestedService(requestedService));
+            const scrollTarget = window.location.hash === '#services' ? 'services' : 'service';
+
+            window.requestAnimationFrame(() => openRequestedService(requestedService, scrollTarget));
         }
 
         const handleServiceNav = (event) => {
-            openRequestedService(event.detail?.slug);
+            openRequestedService(event.detail?.slug, event.detail?.scrollTarget);
         };
 
         window.addEventListener('vireda:open-service', handleServiceNav);
