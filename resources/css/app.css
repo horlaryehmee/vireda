@@ -5872,8 +5872,8 @@ h3 {
 
 @media (max-width: 900px) {
     .capabilities-section {
-        height: auto;
-        padding-block: 76px;
+        height: 320svh;
+        padding: 0;
     }
 
     .capabilities-intro {
@@ -5900,29 +5900,26 @@ h3 {
     }
 
     .capabilities-pin {
-        min-height: auto;
-        padding-block: 70px 18px;
-        position: relative;
-        top: auto;
+        min-height: 100svh;
+        padding-block: 76px 22px;
+        position: sticky;
+        top: 0;
     }
 
     .capabilities-stack {
-        display: grid;
-        gap: 14px;
-        height: auto;
+        display: block;
+        height: clamp(250px, 35svh, 330px);
     }
 
     .capability-card {
-        cursor: default;
-        left: auto;
+        cursor: pointer;
+        left: 50%;
         min-height: 0;
-        opacity: 1;
         padding: 14px;
-        pointer-events: auto;
-        position: relative;
-        transform: none;
-        width: 100%;
-        will-change: auto;
+        position: absolute;
+        transform: translateX(-50%) translateY(var(--card-y, 0%));
+        width: var(--card-width, 100%);
+        will-change: transform, width;
     }
 
     .capability-card h3 {
@@ -5977,15 +5974,16 @@ h3 {
     }
 
     .capabilities-section {
-        height: auto;
-        padding-block: 72px;
+        height: 320svh;
+        padding: 0;
     }
 
     .capabilities-pin {
-        justify-content: flex-start;
-        padding-block: 0;
-        position: relative;
-        top: auto;
+        justify-content: center;
+        min-height: 100svh;
+        padding-block: 78px 14px;
+        position: sticky;
+        top: 0;
     }
 
     .capabilities-intro {
@@ -5997,14 +5995,14 @@ h3 {
     }
 
     .capabilities-stack {
-        gap: 12px;
-        height: auto;
+        height: clamp(340px, 50svh, 450px);
     }
 
     .capability-card {
         border-radius: 16px;
         min-height: 0;
         padding: 18px;
+        position: absolute;
     }
 
     .capability-number {

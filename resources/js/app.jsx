@@ -842,7 +842,7 @@ function CapabilityCard({ capability, index, isPinned, onActivate }) {
 
 function CoreCapabilities() {
     const sectionRef = useRef(null);
-    const usePinnedCards = useMediaQuery('(min-width: 901px)');
+    const usePinnedCards = useMediaQuery('(min-width: 0px)');
 
     const scrollToCapabilityCard = (index) => {
         const section = sectionRef.current;
