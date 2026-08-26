@@ -1603,12 +1603,12 @@ function WhatWeFixSection() {
             }
 
             const cards = Array.from(section.querySelectorAll('.issue-card'));
+            sticky.style.removeProperty('left');
+            sticky.style.removeProperty('position');
+            sticky.style.removeProperty('top');
+            sticky.style.removeProperty('width');
 
             if (motionQuery.matches || window.innerWidth <= 640) {
-                sticky.style.removeProperty('left');
-                sticky.style.removeProperty('position');
-                sticky.style.removeProperty('top');
-                sticky.style.removeProperty('width');
                 cards.forEach((card) => {
                     card.style.setProperty('--issue-card-x', '0px');
                 });
@@ -1623,23 +1623,6 @@ function WhatWeFixSection() {
             const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / Math.max(1, pinEnd - sectionTop)));
             const itemCount = Math.max(1, cards.length);
 
-            if (window.scrollY < sectionTop) {
-                sticky.style.removeProperty('left');
-                sticky.style.removeProperty('position');
-                sticky.style.removeProperty('top');
-                sticky.style.removeProperty('width');
-            } else if (window.scrollY >= pinEnd) {
-                sticky.style.left = '0';
-                sticky.style.position = 'absolute';
-                sticky.style.top = `${section.offsetHeight - viewportHeight}px`;
-                sticky.style.width = '100%';
-            } else {
-                sticky.style.left = '0';
-                sticky.style.position = 'fixed';
-                sticky.style.top = '0';
-                sticky.style.width = '100%';
-            }
-
             cards.forEach((card, index) => {
                 if (index === 0) {
                     card.style.setProperty('--issue-card-x', '0px');
@@ -1649,8 +1632,9 @@ function WhatWeFixSection() {
                 const segmentStart = index / itemCount;
                 const segmentEnd = segmentStart + (1 / itemCount);
                 const localProgress = Math.max(0, Math.min(1, (progress - segmentStart) / (segmentEnd - segmentStart)));
+                const easedProgress = 1 - ((1 - localProgress) ** 3);
                 const startX = viewport.clientWidth - card.offsetLeft;
-                const x = startX * (1 - localProgress);
+                const x = startX * (1 - easedProgress);
 
                 card.style.setProperty('--issue-card-x', `${x.toFixed(2)}px`);
             });

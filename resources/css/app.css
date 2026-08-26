@@ -7368,7 +7368,7 @@ main .capability-tags span {
     padding: clamp(20px, 2.2vw, 30px);
     position: relative;
     transform: translate3d(var(--issue-card-x), var(--issue-card-y), 0);
-    transition: border-color 180ms ease, box-shadow 180ms ease;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 90ms linear;
     will-change: transform;
 }
 
@@ -9481,6 +9481,11 @@ main .capability-tags span {
 
     .service-detail-points {
         grid-template-columns: 1fr;
+    }
+
+    .service-detail-point p {
+        font-size: var(--body-copy-size) !important;
+        line-height: var(--body-copy-line-height) !important;
     }
 
     .service-detail-point,
