@@ -1608,7 +1608,7 @@ function WhatWeFixSection() {
             sticky.style.removeProperty('top');
             sticky.style.removeProperty('width');
 
-            if (motionQuery.matches || window.innerWidth <= 640) {
+            if (motionQuery.matches || window.innerWidth <= 980) {
                 cards.forEach((card) => {
                     card.style.setProperty('--issue-card-x', '0px');
                 });
