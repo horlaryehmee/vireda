@@ -7436,8 +7436,8 @@ main .capability-tags span {
 
 .issue-card p {
     color: var(--page-muted) !important;
-    font-size: clamp(0.82rem, 0.9vw, 0.92rem) !important;
-    line-height: 1.5 !important;
+    font-size: var(--page-body-size) !important;
+    line-height: var(--page-body-line-height) !important;
     margin: 0;
     max-width: 100%;
 }
@@ -9069,7 +9069,8 @@ main .capability-tags span {
     }
 
     .issue-card p {
-        font-size: 0.8rem !important;
+        font-size: var(--page-body-size) !important;
+        line-height: var(--page-body-line-height) !important;
     }
 
     .service-detail-copy,
@@ -9455,7 +9456,8 @@ main .capability-tags span {
     }
 
     .issue-card p {
-        font-size: 0.84rem !important;
+        font-size: var(--body-copy-size) !important;
+        line-height: var(--body-copy-line-height) !important;
     }
 
     .service-detail-tags {
