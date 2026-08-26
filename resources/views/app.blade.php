@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>VIREDÁ | Management & Technology Consulting</title>
-        <meta name="description" content="VIREDÁ brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
-        <meta property="og:title" content="VIREDÁ | Management & Technology Consulting">
-        <meta property="og:description" content="VIREDÁ brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
+        <title>Viredá | Management & Technology Consulting</title>
+        <meta name="description" content="Viredá brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
+        <meta property="og:title" content="Viredá | Management & Technology Consulting">
+        <meta property="og:description" content="Viredá brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/') }}">
         <link rel="canonical" href="{{ url('/') }}">

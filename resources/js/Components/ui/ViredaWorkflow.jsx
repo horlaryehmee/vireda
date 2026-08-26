@@ -29,7 +29,7 @@ export function ViredaWorkflow() {
     return (
         <motion.aside
             className="vireda-workflow"
-            aria-label="VIREDÁ transformation workflow"
+            aria-label="Viredá transformation workflow"
             initial={{ opacity: 0, x: 28 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.75, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}

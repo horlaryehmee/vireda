@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import {
     ArrowRight,
     ArrowUp,
+    BadgeCheck,
     BarChart3,
     Bot,
     Box,
@@ -11,23 +12,40 @@ import {
     Cloud,
     ChevronDown,
     Compass,
+    Cpu,
     Database,
+    Eye,
+    FileBarChart2,
+    FlaskConical,
+    Gauge,
+    GraduationCap,
     Globe,
     Grid2X2,
+    Images,
+    LayoutDashboard,
+    Lightbulb,
     Mail,
     Menu,
     Moon,
+    MousePointerClick,
+    Network,
     Palette,
-    Plus,
+    PenTool,
     Puzzle,
+    RefreshCcw,
+    SearchCheck,
+    SlidersHorizontal,
     Smartphone,
     Sparkles,
     Settings,
     Sun,
     Tag,
+    Timer,
     User,
     Wifi,
+    Workflow,
     X,
+    Zap,
 } from 'lucide-react';
 import { GetStartedButton } from './Components/ui/GetStartedButton';
 import { HeroGridBackground } from './Components/ui/HeroGridBackground';
@@ -283,8 +301,8 @@ function BrandIcon({ brand }) {
 
 function Logo() {
     return (
-        <a className="logo" href="/" aria-label="VIREDÁ home">
-            <img className="logo-image logo-image-light" src="/images/vireda-logo-light-420.png" alt="VIREDÁ" width="420" height="140" />
+        <a className="logo" href="/" aria-label="Viredá home">
+            <img className="logo-image logo-image-light" src="/images/vireda-logo-light-420.png" alt="Viredá" width="420" height="140" />
             <img className="logo-image logo-image-dark" src="/images/vireda-logo-dark-420.png" alt="" aria-hidden="true" width="420" height="140" />
         </a>
     );
@@ -510,12 +528,11 @@ const heroTypewriterItems = [
     'An idea that hasn’t found its shape yet.',
     'A process that could work better.',
     'An opportunity waiting to be explored.',
-    'A vision that needs the right team and technology behind it.',
+    'A vision that needs the right team and tech',
 ];
-const mobileHeroTypewriterItems = heroTypewriterItems.slice(0, -1);
+const mobileHeroTypewriterItems = heroTypewriterItems;
 
 function HeroTypewriter() {
-    const mobileHeroLine = 'A vision that needs the right team and technology behind it.';
     const [itemIndex, setItemIndex] = useState(0);
     const [mobileItemIndex, setMobileItemIndex] = useState(0);
     const [visibleCount, setVisibleCount] = useState(0);
@@ -582,9 +599,6 @@ function HeroTypewriter() {
             <p className="hero-typewriter hero-typewriter-mobile-live" aria-live="polite">
                 <span>{currentMobileText.slice(0, mobileVisibleCount)}</span>
             </p>
-            <p className="hero-typewriter hero-typewriter-mobile">
-                <span>{mobileHeroLine}</span>
-            </p>
         </>
     );
 }
@@ -613,7 +627,7 @@ function Hero() {
                         <p className="hero-subcopy-intro">Every business has something worth building:</p>
                         <HeroTypewriter />
                         <p className="hero-subcopy-summary">
-                            VIREDÁ brings together strategy, technology and data to help businesses build better,
+                            Viredá brings together strategy, technology and data to help businesses build better,
                             work smarter and move forward with confidence.
                         </p>
                     </div>
@@ -941,6 +955,7 @@ function CoreCapabilities() {
             const scrollable = Math.max(1, rect.height - window.innerHeight);
             const nextProgress = Math.max(0, Math.min(1, -rect.top / scrollable));
             const cards = section.querySelectorAll('.capability-card');
+            const isMobileStack = window.matchMedia('(max-width: 640px)').matches;
 
             cards.forEach((card) => {
                 const index = Number(card.dataset.cardIndex || 0);
@@ -959,11 +974,16 @@ function CoreCapabilities() {
 
                 const visible = index === 0 || localProgress > 0.02;
                 const scale = Math.max(0.86, 1 - (shrinkByLaterCards / 100));
+                const nextCardProgress = index < capabilities.length - 1
+                    ? clampProgress((nextProgress - getCapabilityStart(index + 1)) / 0.22)
+                    : 0;
+                const clipBottom = isMobileStack ? Math.round(nextCardProgress * 96) : 0;
 
                 card.style.setProperty('--card-y', y);
                 card.style.setProperty('--card-scale', scale.toFixed(3));
                 card.style.setProperty('--card-opacity', visible ? '1' : '0');
                 card.style.setProperty('--card-pointer-events', visible ? 'auto' : 'none');
+                card.style.setProperty('--card-clip-bottom', `${clipBottom}px`);
             });
         };
 
@@ -1112,28 +1132,28 @@ function AboutVireda() {
         <section className="section about-section" id="about">
             <div className="container">
                 <header className="about-header">
-                    <p className="eyebrow">About VIREDÁ</p>
+                    <p className="eyebrow">About Viredá</p>
                     <h2 className="about-title">
                         Built to make better things <span>possible.</span>
                     </h2>
-                    <p className="about-lead">VIREDÁ was created around a simple belief: good ideas deserve the opportunity to become something meaningful.</p>
+                    <p className="about-lead">Viredá was created around a simple belief: good ideas deserve the opportunity to become something meaningful.</p>
                 </header>
                 <div className="about-body">
-                    <div className="about-system" aria-label="VIREDÁ works across strategy, technology, data and creativity">
+                    <div className="about-system" aria-label="Viredá works across strategy, technology, data and creativity">
                         <img
                             className="about-system-image"
                             loading="lazy"
                             decoding="async"
-                            src="/images/about-strategy-workshop.jpg"
-                            alt="A collaborative strategy workshop with a team planning ideas on a glass board"
+                            src="/images/vireda-office-building.png"
+                            alt="A realistic Viredá office building with glass, stone and warm architectural lighting"
                         />
                     </div>
                     <div className="about-copy-grid">
-                    <p>We don't believe in offering solutions simply because they can be offered. We work with organisations to understand what they're trying to achieve, uncover what's getting in the way, and find the path that moves them forward.</p>
-                    <p>We work at the intersection of strategy, technology, data and creativity turning challenges into opportunities and ideas into solutions people can actually build on.</p>
-                    <p>Every engagement starts with understanding and ends with something tangible: a clearer direction, a better way of working, a solution that works, or an opportunity brought to life.</p>
-                    <p>We measure our work by the difference it makes, not simply by what we deliver.</p>
-                        <GetStartedButton href="#about" size="sm" className="about-link">More about VIREDÁ</GetStartedButton>
+                        <p>We don't believe in offering solutions simply because they can be offered. We work with organisations to understand what they're trying to achieve, uncover what's getting in the way, and find the path that moves them forward.</p>
+                        <p>We work at the intersection of strategy, technology, data and creativity turning challenges into opportunities and ideas into solutions people can actually build on.</p>
+                        <p>Every engagement starts with understanding and ends with something tangible: a clearer direction, a better way of working, a solution that works, or an opportunity brought to life.</p>
+                        <p>We measure our work by the difference it makes, not simply by what we deliver.</p>
+                        <GetStartedButton href="#about" size="sm" className="about-link">More about Viredá</GetStartedButton>
                     </div>
                 </div>
             </div>
@@ -1150,16 +1170,40 @@ function FinalCTA({
     secondaryLabel,
     secondaryHref = 'mailto:hello@vireda.com',
 }) {
+    const useDefaultFinalTitle = text === "Let's build what matters to your business."
+        && highlight === 'matters to your business';
+    const useServicesFinalTitle = text === "Share a bit about your project, and we'll walk you through how we'd approach it."
+        && highlight === 'walk you through';
+
     return (
         <section className="final-cta section" id="start">
             <div className="container">
                 <p className="eyebrow">{eyebrow}</p>
-                <TextRevealByWord
-                    as="h2"
-                    className="section-heading-reveal"
-                    highlight={highlight}
-                    text={text}
-                />
+                {useDefaultFinalTitle ? (
+                    <h2 className="section-heading-reveal final-cta-title">
+                        <span className="final-cta-title-line">
+                            Let's build <span className="editorial-italic text-reveal-highlight final-cta-title-highlight">what</span>
+                        </span>
+                        <span className="final-cta-title-line">
+                            <span className="editorial-italic text-reveal-highlight final-cta-title-highlight">matters</span> to your business.
+                        </span>
+                    </h2>
+                ) : useServicesFinalTitle ? (
+                    <h2 className="section-heading-reveal final-cta-title final-cta-title-services">
+                        <span className="final-cta-title-line">Share a bit about your project,</span>
+                        <span className="final-cta-title-line">
+                            and we'll <span className="editorial-italic text-reveal-highlight final-cta-title-highlight final-cta-title-script">walk you through</span>
+                        </span>
+                        <span className="final-cta-title-line">how we'd approach it.</span>
+                    </h2>
+                ) : (
+                    <TextRevealByWord
+                        as="h2"
+                        className="section-heading-reveal"
+                        highlight={highlight}
+                        text={text}
+                    />
+                )}
                 <div className="final-cta-actions">
                     <GetStartedButton href={primaryHref}>{primaryLabel}</GetStartedButton>
                     {secondaryLabel && (
@@ -1223,7 +1267,7 @@ function Footer() {
             <div className="container footer-line">
                 <span>Strategy. Technology. Data. Creativity.</span>
                 <span className="footer-credit">
-                    <span>&copy; {new Date().getFullYear()} VIREDÁ.</span>
+                    <span>&copy; {new Date().getFullYear()} Viredá.</span>
                     <span>Management &amp; Technology Consulting.</span>
                 </span>
             </div>
@@ -1363,50 +1407,37 @@ const servicePageServices = [
     },
 ];
 
-const serviceFeatureIconPaths = [
-    ['circle:12,12,7', 'path:M12 7v5l3 2'],
-    ['path:M4 7h7v7H4z', 'path:M13 10h7v7h-7z', 'path:M11 11h2'],
-    ['path:M7 12h10', 'path:M8 9l-3 3 3 3', 'path:M16 9l3 3-3 3'],
-    ['path:M8 5h8', 'path:M6 9h12', 'path:M8 13h8', 'path:M10 17h4'],
-    ['path:M5 17c2-7 12-7 14 0', 'path:M8 17a4 4 0 0 1 8 0', 'path:M12 13v-4'],
-    ['path:M5 12h14', 'path:M12 5v14', 'circle:12,12,3'],
-    ['circle:10,10,5', 'path:M14 14l5 5', 'path:M8 10l1.5 1.5L12 8'],
-    ['path:M7 17l10-10', 'path:M8 8l8 8', 'path:M5 19h14'],
-    ['circle:9,9,3', 'circle:15,15,3', 'path:M11 11l2 2'],
-    ['path:M6 17h12', 'path:M8 17V7h8v10', 'path:M10 10h4'],
-    ['path:M5 16l5-5 3 3 6-7', 'path:M15 7h4v4'],
-    ['circle:12,12,7', 'circle:12,12,3', 'path:M12 2v3', 'path:M22 12h-3'],
-    ['path:M12 4l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V7z', 'path:M9 12l2 2 4-4'],
-    ['path:M5 8l7-4 7 4-7 4z', 'path:M5 12l7 4 7-4', 'path:M5 16l7 4 7-4'],
-    ['path:M6 8h8a4 4 0 0 1 0 8H8', 'path:M8 12l-3 4 3 4'],
-    ['path:M6 6h12v12H6z', 'path:M9 9h6v6H9z', 'path:M4 12h2', 'path:M18 12h2'],
-    ['path:M13 2L5 14h6l-1 8 8-12h-6z'],
-    ['path:M9 18h6', 'path:M10 22h4', 'path:M8 10a4 4 0 1 1 8 0c0 2-2 3-2 5h-4c0-2-2-3-2-5z'],
-    ['path:M7 8h10', 'path:M7 12h7', 'path:M7 16h10', 'path:M17 8l2 2-2 2'],
-    ['path:M5 19h14', 'path:M7 19V9l5-4 5 4v10', 'path:M10 13h4'],
-    ['path:M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z', 'circle:12,12,3'],
-    ['path:M12 3l2.4 4.8 5.3.8-3.8 3.7.9 5.2L12 15l-4.8 2.5.9-5.2-3.8-3.7 5.3-.8z'],
-    ['path:M5 9h4l7-4v14l-7-4H5z', 'path:M19 10a4 4 0 0 1 0 4'],
-    ['path:M4 20l5-1 10-10-4-4L5 15z', 'path:M13 7l4 4'],
+const serviceFeatureIcons = [
+    Timer,
+    Workflow,
+    MousePointerClick,
+    BadgeCheck,
+    Gauge,
+    Compass,
+    SearchCheck,
+    SlidersHorizontal,
+    Puzzle,
+    FlaskConical,
+    RefreshCcw,
+    Cpu,
+    BadgeCheck,
+    Network,
+    FileBarChart2,
+    LayoutDashboard,
+    Zap,
+    Lightbulb,
+    BarChart3,
+    GraduationCap,
+    Eye,
+    Sparkles,
+    PenTool,
+    Images,
 ];
 
 function ServiceFeatureIcon({ serviceIndex, cardIndex, ...props }) {
-    const paths = serviceFeatureIconPaths[(serviceIndex * 4) + cardIndex] ?? serviceFeatureIconPaths[0];
+    const Icon = serviceFeatureIcons[(serviceIndex * 4) + cardIndex] ?? Sparkles;
 
-    return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" {...props}>
-            {paths.map((shape) => {
-                const [type, value] = shape.split(':');
-
-                if (type === 'circle') {
-                    const [cx, cy, r] = value.split(',');
-                    return <circle key={shape} cx={cx} cy={cy} r={r} />;
-                }
-
-                return <path key={shape} d={value} />;
-            })}
-        </svg>
-    );
+    return <Icon {...props} />;
 }
 
 const servicePageResults = [
@@ -1619,8 +1650,7 @@ function WhatWeFixSection() {
                 const segmentEnd = segmentStart + (1 / itemCount);
                 const localProgress = Math.max(0, Math.min(1, (progress - segmentStart) / (segmentEnd - segmentStart)));
                 const startX = viewport.clientWidth - card.offsetLeft;
-                const endX = -(card.offsetLeft - (64 * index));
-                const x = startX + ((endX - startX) * localProgress);
+                const x = startX * (1 - localProgress);
 
                 card.style.setProperty('--issue-card-x', `${x.toFixed(2)}px`);
             });
@@ -1851,34 +1881,7 @@ function ClientResultsSlider({ results }) {
     );
 }
 
-function getInitialServiceIndex() {
-    const fallbackIndex = 0;
-
-    if (typeof window === 'undefined') {
-        return fallbackIndex;
-    }
-
-    const requestedService = new URLSearchParams(window.location.search).get('service');
-
-    if (!requestedService) {
-        return fallbackIndex;
-    }
-
-    const requestedIndex = servicePageServices.findIndex((service) => (
-        slugifyServiceTitle(service.title) === requestedService
-    ));
-
-    return requestedIndex >= 0 ? requestedIndex : fallbackIndex;
-}
-
 function ServicesPage() {
-    const [openServiceIndex, setOpenServiceIndex] = useState(getInitialServiceIndex);
-    const [hoveredServiceIndex, setHoveredServiceIndex] = useState(null);
-    const [servicePreviewVisible, setServicePreviewVisible] = useState(false);
-    const [servicePreviewPosition, setServicePreviewPosition] = useState({ x: 0, y: 0 });
-    const [smoothServicePreviewPosition, setSmoothServicePreviewPosition] = useState({ x: 0, y: 0 });
-    const serviceStackRef = useRef(null);
-
     useEffect(() => {
         const openRequestedService = (slug, scrollTarget = 'service') => {
             const requestedIndex = servicePageServices.findIndex((service) => (
@@ -1889,7 +1892,6 @@ function ServicesPage() {
                 return;
             }
 
-            setOpenServiceIndex(requestedIndex);
             window.requestAnimationFrame(() => {
                 const targetId = scrollTarget === 'services' ? 'services' : slug;
 
@@ -1918,40 +1920,6 @@ function ServicesPage() {
             window.removeEventListener('vireda:open-service', handleServiceNav);
         };
     }, []);
-
-    useEffect(() => {
-        let animationFrame;
-        const lerp = (start, end, factor) => start + ((end - start) * factor);
-
-        const animatePreview = () => {
-            setSmoothServicePreviewPosition((position) => ({
-                x: lerp(position.x, servicePreviewPosition.x, 0.16),
-                y: lerp(position.y, servicePreviewPosition.y, 0.16),
-            }));
-            animationFrame = window.requestAnimationFrame(animatePreview);
-        };
-
-        animationFrame = window.requestAnimationFrame(animatePreview);
-
-        return () => {
-            window.cancelAnimationFrame(animationFrame);
-        };
-    }, [servicePreviewPosition]);
-
-    const updateServicePreviewPosition = (event) => {
-        const stack = serviceStackRef.current;
-
-        if (!stack) {
-            return;
-        }
-
-        const rect = stack.getBoundingClientRect();
-
-        setServicePreviewPosition({
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top,
-        });
-    };
 
     return (
         <>
@@ -1986,95 +1954,48 @@ function ServicesPage() {
                             you need us most, or bring it all together.
                         </p>
                     </div>
-                    <div
-                        className="container service-detail-stack"
-                        onMouseMove={updateServicePreviewPosition}
-                        onMouseLeave={() => {
-                            setHoveredServiceIndex(null);
-                            setServicePreviewVisible(false);
-                        }}
-                        ref={serviceStackRef}
-                    >
-                        <div
-                            aria-hidden="true"
-                            className={`service-hover-preview ${servicePreviewVisible ? 'is-visible' : ''}`}
-                            style={{
-                                '--service-preview-x': `${smoothServicePreviewPosition.x}px`,
-                                '--service-preview-y': `${smoothServicePreviewPosition.y}px`,
-                            }}
-                        >
-                            {servicePageServices.map((service, index) => (
-                                <img
-                                    alt=""
-                                    className={hoveredServiceIndex === index ? 'is-active' : ''}
-                                    key={service.title}
-                                    src={service.image}
-                                />
-                            ))}
-                        </div>
+                    <div className="container service-detail-stack">
                         {servicePageServices.map((service, index) => {
-                            const expanded = openServiceIndex === index;
-
                             return (
                                 <article
-                                    className={`service-detail-card ${expanded ? 'is-open' : ''}`}
+                                    className="service-detail-card is-open"
                                     id={slugifyServiceTitle(service.title)}
                                     key={service.number}
                                 >
-                                    <button
-                                        aria-expanded={expanded}
-                                        className="service-detail-toggle"
-                                        onClick={() => setOpenServiceIndex(expanded ? null : index)}
-                                        onFocus={() => {
-                                            setHoveredServiceIndex(index);
-                                            setServicePreviewVisible(false);
-                                        }}
-                                        onMouseEnter={(event) => {
-                                            updateServicePreviewPosition(event);
-                                            setHoveredServiceIndex(index);
-                                            setServicePreviewVisible(true);
-                                        }}
-                                        type="button"
-                                    >
-                                        <span className="service-detail-title">{service.title}</span>
-                                        <span className="service-detail-icon" aria-hidden="true">
-                                            <Plus size={22} strokeWidth={1.8} />
-                                        </span>
-                                    </button>
                                     <div className="service-detail-content">
-                                        <div className="service-detail-rule" />
-                                        <div className="service-detail-copy">
-                                            <div className="service-detail-description">
-                                                <p>{service.intro}</p>
-                                                {service.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                                        <div className="service-detail-hero">
+                                            <div className="service-detail-copy">
+                                                <span className="service-detail-kicker">{service.number}</span>
+                                                <h3 className="service-detail-title">{service.title}</h3>
+                                                <div className="service-detail-description">
+                                                    <p>{service.intro}</p>
+                                                    {service.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                                                </div>
+                                                <div className="service-detail-tags" aria-label={`${service.title} capabilities`}>
+                                                    <div className="service-detail-tags-track">
+                                                        {service.tags.map((tag) => (
+                                                            <span key={tag}>{tag}</span>
+                                                        ))}
+                                                        <div className="service-detail-tags-copy" aria-hidden="true">
+                                                            {service.tags.map((tag) => (
+                                                                <span key={`copy-${tag}`}>{tag}</span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="service-detail-rule" />
-                                        <div className="service-detail-layout">
                                             <figure className="service-detail-media">
                                                 <img src={service.image} alt={service.imageAlt} loading="lazy" />
                                             </figure>
-                                            <div className="service-detail-body">
-                                                <div className="service-detail-points">
-                                                    {service.cards.map(([title, body], cardIndex) => (
-                                                        <div className="service-detail-point" key={title}>
-                                                            <ServiceFeatureIcon aria-hidden="true" serviceIndex={index} cardIndex={cardIndex} width="22" height="22" strokeWidth="1.25" />
-                                                            <h4>{title}</h4>
-                                                            <p>{body}</p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
                                         </div>
-                                        <div className="service-detail-tags" aria-label={`${service.title} capabilities`}>
-                                            <div className="service-detail-tags-track">
-                                                {[...service.tags, ...service.tags].map((tag, tagIndex) => (
-                                                    <React.Fragment key={`${tag}-${tagIndex}`}>
-                                                        <span>{tag}</span>
-                                                        <i className="service-detail-tags-divider" aria-hidden="true" />
-                                                    </React.Fragment>
-                                                ))}
-                                            </div>
+                                        <div className="service-detail-points">
+                                            {service.cards.map(([title, body], cardIndex) => (
+                                                <div className="service-detail-point" key={title}>
+                                                    <ServiceFeatureIcon aria-hidden="true" serviceIndex={index} cardIndex={cardIndex} width="24" height="24" strokeWidth="1" />
+                                                    <h4>{title}</h4>
+                                                    <p>{body}</p>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </article>

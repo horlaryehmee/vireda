@@ -50,7 +50,7 @@ function ProjectShowcase({ projects, autoplay = false }) {
                         >
                             <img src={item.image} alt={item.name} draggable="false" loading="lazy" decoding="async" />
                             <div className="project-image-label">
-                                <span>VIREDÁ / {String(index + 1).padStart(2, '0')}</span>
+                                <span>Viredá / {String(index + 1).padStart(2, '0')}</span>
                                 <span>{item.industry}</span>
                             </div>
                         </div>
