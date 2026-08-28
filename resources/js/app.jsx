@@ -7,11 +7,15 @@ import {
     BarChart3,
     Bot,
     Box,
+    Cable,
+    CalendarDays,
+    CircleCheck,
     ChevronLeft,
     ChevronRight,
     Cloud,
     ChevronDown,
     Compass,
+    Crosshair,
     Cpu,
     Database,
     Eye,
@@ -26,6 +30,7 @@ import {
     Lightbulb,
     Mail,
     Menu,
+    MessageSquare,
     Moon,
     MousePointerClick,
     Network,
@@ -33,11 +38,14 @@ import {
     PenTool,
     Puzzle,
     RefreshCcw,
+    Rocket,
+    Scale,
     SearchCheck,
     SlidersHorizontal,
     Smartphone,
     Sparkles,
     Settings,
+    Send,
     Sun,
     Tag,
     Timer,
@@ -48,12 +56,14 @@ import {
     Zap,
 } from 'lucide-react';
 import { GetStartedButton } from './Components/ui/GetStartedButton';
+import { GatewayFlow } from './Components/ui/GatewayFlow';
 import { HeroGridBackground } from './Components/ui/HeroGridBackground';
 import { HowItWorksBlock } from './Components/ui/HowItWorksBlock';
 import { IconStack } from './Components/ui/IconStack';
 import { KineticGridBackground } from './Components/ui/KineticGridBackground';
 import { NeonMesh } from './Components/ui/NeonMesh';
 import { ProjectShowcase } from './Components/ui/ProjectShowcase';
+import { ContactHeroArtwork } from './Components/ui/ContactHeroArtwork';
 import { TextRevealByWord } from './Components/ui/text-reveal';
 import { TubeLightNav } from './Components/ui/TubeLightNav';
 import '../css/app.css';
@@ -65,15 +75,16 @@ const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').the
 const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services' },
+    { label: 'Contact', href: '/contact' },
 ];
 
 const footerSections = [
     {
         title: 'Company',
         links: [
-            { label: 'About', href: '/#about' },
+            { label: 'About', href: '/about' },
             { label: 'Our Work', href: '/#our-work' },
-            { label: 'Insights', href: '/#insights' },
+            { label: 'Privacy Policy', href: '/privacy-policy' },
         ],
     },
     {
@@ -88,9 +99,9 @@ const footerSections = [
     {
         title: 'Start',
         links: [
-            { label: 'Contact', href: '#start' },
+            { label: 'Contact', href: '/contact' },
             { label: 'Email', href: 'mailto:hello@vireda.com' },
-            { label: 'Book a call', href: '#start' },
+            { label: 'Book a call', href: '/contact#book-a-call' },
         ],
     },
 ];
@@ -354,7 +365,8 @@ function FooterThemeControls() {
 }
 
 function Navbar() {
-    const isServicesPage = window.location.pathname === '/services';
+    const currentPath = window.location.pathname;
+    const isServicesPage = currentPath === '/services';
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [overDarkSection, setOverDarkSection] = useState(true);
@@ -463,7 +475,7 @@ function Navbar() {
                     },
                 ]} />
                 <div className="nav-actions">
-                    <GetStartedButton href="#start" size="sm" className="nav-cta">Start a Conversation</GetStartedButton>
+                    <GetStartedButton href="/contact" size="sm" className="nav-cta">Start a Conversation</GetStartedButton>
                     <ThemeToggle />
                     <button
                         className="icon-button menu-button"
@@ -516,7 +528,7 @@ function Navbar() {
                     </section>
                 </div>
                 <div className="mobile-menu-footer">
-                    <GetStartedButton href="#start" size="sm" onClick={closeNavigation}>Start a Conversation</GetStartedButton>
+                    <GetStartedButton href="/contact" size="sm" onClick={closeNavigation}>Start a Conversation</GetStartedButton>
                 </div>
             </div>
         </header>
@@ -1165,6 +1177,7 @@ function FinalCTA({
     eyebrow = 'Ready To Begin?',
     highlight = 'matters to your business',
     text = "Let's build what matters to your business.",
+    description,
     primaryLabel = 'Start a conversation',
     primaryHref = 'mailto:hello@vireda.com',
     secondaryLabel,
@@ -1174,6 +1187,7 @@ function FinalCTA({
         && highlight === 'matters to your business';
     const useServicesFinalTitle = text === "Share a bit about your project, and we'll walk you through how we'd approach it."
         && highlight === 'walk you through';
+    const useAboutFinalTitle = text === 'Something not working the way it should?';
 
     return (
         <section className="final-cta section" id="start">
@@ -1196,6 +1210,13 @@ function FinalCTA({
                         </span>
                         <span className="final-cta-title-line">how we'd approach it.</span>
                     </h2>
+                ) : useAboutFinalTitle ? (
+                    <h2 className="section-heading-reveal final-cta-title final-cta-title-about">
+                        <span className="final-cta-title-line">Something not working</span>
+                        <span className="editorial-italic final-cta-title-line final-cta-title-highlight">
+                            the way it should?
+                        </span>
+                    </h2>
                 ) : (
                     <TextRevealByWord
                         as="h2"
@@ -1204,6 +1225,7 @@ function FinalCTA({
                         text={text}
                     />
                 )}
+                {description && <p className="final-cta-description">{description}</p>}
                 <div className="final-cta-actions">
                     <GetStartedButton href={primaryHref}>{primaryLabel}</GetStartedButton>
                     {secondaryLabel && (
@@ -1615,6 +1637,10 @@ function WhatWeFixSection() {
                 return;
             }
 
+            cards.forEach((card) => {
+                card.style.setProperty('--issue-card-x', '0px');
+            });
+
             const rect = section.getBoundingClientRect();
             const viewportHeight = Math.max(1, window.innerHeight);
             const sectionTop = window.scrollY + rect.top;
@@ -1625,7 +1651,6 @@ function WhatWeFixSection() {
 
             cards.forEach((card, index) => {
                 if (index === 0) {
-                    card.style.setProperty('--issue-card-x', '0px');
                     return;
                 }
 
@@ -1709,6 +1734,291 @@ function PageSectionHeading({ eyebrow, highlight, text, children }) {
                 <div className="page-section-heading-copy">{children}</div>
             )}
         </div>
+    );
+}
+
+const aboutPagePatterns = [
+    {
+        number: '01',
+        title: 'Businesses outgrow the way they work.',
+        body: "What worked when the business was smaller can become a bottleneck as it grows. Processes that once took minutes start taking hours. Information gets duplicated. Responsibilities become unclear. Teams develop workarounds just to keep things moving. Growth doesn't always break a business. Sometimes it simply exposes the parts that were never built to scale.",
+        icon: Workflow,
+    },
+    {
+        number: '02',
+        title: 'Good ideas get stuck between knowing and doing.',
+        body: 'Businesses often know where they want to go. The difficult part is turning that ambition into something practical - a product, a new service, a better process, a digital experience, or a plan the team can actually execute. The gap between a good idea and a working solution is where too many opportunities disappear.',
+        icon: Lightbulb,
+    },
+    {
+        number: '03',
+        title: 'Technology gets chosen before the problem gets understood.',
+        body: "A new platform can look like the answer. A new tool can promise to fix everything. But technology introduced without understanding the underlying problem can create more complexity, not less. The best solution isn't necessarily the most sophisticated one. It's the one that solves the right problem.",
+        icon: Cpu,
+    },
+    {
+        number: '04',
+        title: "The experience outside doesn't always match the business inside.",
+        body: "A business can be excellent at what it does and still have a website that doesn't communicate it, a customer journey that feels disjointed, or a brand that no longer reflects where the company is today. What customers experience should feel like a true reflection of the business behind it.",
+        icon: Eye,
+    },
+    {
+        number: '05',
+        title: 'Businesses solve problems in silos.',
+        body: "Marketing sees one problem. Operations sees another. Technology gets asked to fix something else. But these things are often connected, and the answer to one problem can create another when you don't look at the business as a whole. That's exactly where bringing different capabilities together, around the problem, becomes meaningful.",
+        icon: Network,
+    },
+];
+
+const aboutPageBeliefs = [
+    [Crosshair, 'Start with the problem, not the solution.', "We don't recommend technology for the sake of technology. Understand the problem first, then decide what belongs in the solution."],
+    [Scale, "Better doesn't always mean more.", "More software, more features and more complexity don't automatically create better businesses. Sometimes the best solution is simpler."],
+    [Rocket, 'Strategy only matters when it moves into action.', "A good plan sitting in a document doesn't change a business. We care about what happens after the strategy is agreed."],
+    [Cable, 'Technology should serve the business.', "Your business shouldn't have to reshape itself around a tool. The right solution should fit how you work and where you're trying to go."],
+    [CircleCheck, 'Everything should have a reason.', 'Every system, design decision, feature, process and piece of technology should contribute to a meaningful outcome.'],
+];
+
+function AboutPage() {
+    return (
+        <>
+            <Navbar />
+            <main className="page-shell about-page">
+                <section className="page-hero about-page-hero" id="top" data-nav-theme="dark">
+                    <GatewayFlow />
+                    <div className="container page-hero-inner">
+                        <p className="eyebrow">About Viredá</p>
+                        <h1>
+                            We noticed businesses were solving the{' '}
+                            <span className="page-hero-title-highlight">wrong problems.</span>
+                        </h1>
+                        <p>
+                            Most businesses don't lack ideas, ambition or opportunities. What gets in the way is often
+                            everything in between: the processes, technology, information and experiences that haven't
+                            evolved with the business.
+                        </p>
+                        <GetStartedButton href="#start" className="about-page-hero-action">Work with us</GetStartedButton>
+                    </div>
+                </section>
+
+                <section className="page-section about-story-section">
+                    <div className="container about-story-layout">
+                        <div className="about-story-heading">
+                            <p className="eyebrow">Our Story</p>
+                            <h2>It started with a simple <span>observation.</span></h2>
+                        </div>
+                        <div className="about-story-copy">
+                            <p>
+                                Businesses are constantly being asked to do more, serve more customers, move faster,
+                                understand more data, adopt new technology, build better experiences, find new ways to
+                                grow. But somewhere along the way, the things supporting the business don't always keep up.
+                            </p>
+                            <p>
+                                A process that once worked becomes cumbersome. A website no longer reflects the business
+                                behind it. Data exists everywhere but tells you very little. Technology gets added without
+                                really solving the problem. Good ideas get stuck because there's no clear way to bring them to life.
+                            </p>
+                            <p>
+                                We kept seeing the same thing: businesses weren't necessarily lacking ambition or capability.
+                                They were often missing the right connection between the two.
+                            </p>
+                            <p>
+                                We created Viredá to bring thinking, technology and creativity together around the problems
+                                that actually matter, helping businesses improve what already exists, build what doesn't, and
+                                find better ways forward.
+                            </p>
+                            <p>
+                                We're a UK-based team, but our work isn't limited to UK businesses. We work with companies
+                                of any size, from growing SMEs to established enterprises, wherever they're based. Whatever
+                                the size or location, the way we approach the problem stays the same.
+                            </p>
+                            <p>
+                                Everything we do comes back to three things: <strong>create</strong> what's missing, <strong>evolve</strong>
+                                what already exists, and help the business <strong>thrive</strong> because of it.
+                            </p>
+                            <p className="about-story-closing">That's the idea at the heart of Viredá.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="page-section about-exists-section">
+                    <div className="about-exists-grid">
+                        <figure className="about-exists-media">
+                            <img src="/images/vireda-office-mockup.png" alt="A refined Viredá workspace with design plans, laptops and warm architectural lighting" loading="lazy" />
+                        </figure>
+                        <div className="about-exists-copy">
+                            <p className="eyebrow">Why Viredá Exists</p>
+                            <h2>The answer rarely lives in <span>one category.</span></h2>
+                            <p>
+                                A challenge that looks like a technology problem might start with a broken process. A
+                                growth problem might come down to a poor customer experience. A data problem might be
+                                caused by how information is collected in the first place. Sometimes, the solution isn't
+                                another tool at all.
+                            </p>
+                            <p>
+                                We start with the business, the challenge and what you're trying to achieve before
+                                deciding what needs to change. Sometimes we improve what's already there. Sometimes we
+                                connect what exists. Sometimes we build something completely new. The goal isn't to give
+                                you more. It's to make what you have work better, and build what you need next.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="page-section about-patterns-section">
+                    <PageSectionHeading
+                        eyebrow="What We Kept Seeing"
+                        highlight="behind the problems"
+                        text="The patterns behind the problems."
+                    >
+                        Across different businesses and different challenges, we keep seeing the same things. Not dramatic
+                        failures, not businesses doing everything wrong, just small gaps, compromises and workarounds
+                        that gradually become harder to ignore.
+                    </PageSectionHeading>
+                    <div className="container about-pattern-grid">
+                        {aboutPagePatterns.map((pattern) => {
+                            const Icon = pattern.icon;
+
+                            return (
+                                <article className="about-pattern-card" key={pattern.number}>
+                                    <div className="about-pattern-card-top">
+                                        <Icon size={22} strokeWidth={1.6} />
+                                    </div>
+                                    <h3>{pattern.title}</h3>
+                                    <p>{pattern.body}</p>
+                                </article>
+                            );
+                        })}
+                    </div>
+                    <div className="container about-patterns-closing">
+                        <p>
+                            None of these problems are unusual. That's the point. They're the kinds of things businesses
+                            learn to live with, because they're busy running the business, until eventually, the workaround
+                            becomes the problem.
+                        </p>
+                        <p className="about-patterns-closing-lead">That's usually where the conversation with Viredá starts.</p>
+                    </div>
+                </section>
+
+                <section className="page-section about-fit-section">
+                    <div className="about-fit-grid">
+                        <figure className="about-fit-media">
+                            <img src="/images/vireda-office-building.png" alt="The Viredá office building lit with warm architectural lighting" loading="lazy" />
+                        </figure>
+                        <div className="about-fit-panel">
+                            <p className="eyebrow">Is This You?</p>
+                            <h2>If any of this sounds familiar, that's usually <span>where we start.</span></h2>
+                            <p>
+                                You're growing faster than your systems can keep up with. You've got a good idea that's
+                                never quite made it off the ground. You've added technology that hasn't actually made things
+                                easier. Your business has moved on, but your website, brand or processes haven't caught up.
+                                Or you're simply not sure where to start, and want someone to help you figure that out.
+                            </p>
+                            <p>
+                                Whatever size your business is, a growing SME or an established enterprise, if something
+                                feels like it should be working better than it is, that's a conversation worth having.
+                            </p>
+                            <GetStartedButton href="#start">Talk to us about what's not working</GetStartedButton>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="page-section about-beliefs-section">
+                    <div className="container about-beliefs-layout">
+                        <div className="about-beliefs-heading">
+                            <p className="eyebrow">What We Believe</p>
+                            <h2>The ideas behind every <span>choice we make.</span></h2>
+                        </div>
+                        <div className="about-beliefs-list">
+                            {aboutPageBeliefs.map(([Icon, title, body]) => (
+                                <article key={title}>
+                                    <Icon size={26} strokeWidth={1.5} aria-hidden="true" />
+                                    <div>
+                                        <h3>{title}</h3>
+                                        <p>{body}</p>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="page-section about-founder-section">
+                    <div className="container about-founder-header">
+                        <p className="eyebrow">The People Behind It</p>
+                        <h2>A small team <span>by design.</span></h2>
+                        <p>
+                            Big enough to bring real depth across strategy, technology, data and creative, small enough
+                            that nothing gets lost between departments or handed off along the way.
+                        </p>
+                    </div>
+                    <div className="container about-founder-profile">
+                        <figure className="about-founder-photo">
+                            <img src="/images/vireda-ceo.jpg" alt="David Babatope, Founder and CEO of Viredá" loading="lazy" />
+                        </figure>
+                        <div className="about-founder-copy">
+                            <p className="eyebrow">David Babatope / Founder &amp; CEO</p>
+                            <h3>Building better ways forward.</h3>
+                            <p>
+                                David has spent several years working in management consulting across a range of
+                                industries, helping businesses fix their operations, understand their markets and work
+                                through strategic decisions. Alongside that, his technical background covers data
+                                analysis, data engineering and business intelligence.
+                            </p>
+                            <p>
+                                That combination gives him a close-up view of how a business actually runs, not just how
+                                it says it runs, and the technical ability to build what fixes it.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="page-section about-proof-section">
+                    <div className="container about-proof-inner">
+                        <p className="eyebrow">Proof, Not Just Philosophy</p>
+                        <h2>See what we've <span>actually built.</span></h2>
+                        <p>
+                            We'd rather you saw what we've actually built than take our word for how we think. Every
+                            project we take on ends with something real - a system that works, a brand that fits, numbers
+                            that moved in the right direction.
+                        </p>
+                        <GetStartedButton href="/#our-work">See the results for yourself</GetStartedButton>
+                    </div>
+                </section>
+
+                <section className="page-section about-how-work-section">
+                    <div className="container about-how-work-inner">
+                        <p className="eyebrow">How We Work</p>
+                        <h2>A clear path from challenge to <span>outcome.</span></h2>
+                        <p>
+                            Every project starts differently - a business problem, a new idea, a digital opportunity,
+                            or something that just isn't working as well as it should. What stays consistent is the
+                            approach: understand the challenge, find the right direction, build what matters, launch it
+                            properly, and keep improving it.
+                        </p>
+                        <div className="about-how-work-flow" aria-label="Discover, Define, Build, Launch, Evolve">
+                            {['Discover', 'Define', 'Build', 'Launch', 'Evolve'].map((step, index) => (
+                                <React.Fragment key={step}>
+                                    <span>{step}</span>
+                                    {index < 4 && <ArrowRight size={20} strokeWidth={1.5} aria-hidden="true" />}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                        <GetStartedButton href="/services">See how we work in detail</GetStartedButton>
+                    </div>
+                </section>
+
+                <FinalCTA
+                    eyebrow="Ready When You Are"
+                    highlight="the way it should?"
+                    text="Something not working the way it should?"
+                    description="That's usually where we start. One conversation is enough to find out what's holding your business back and whether we're the right people to fix it."
+                    primaryLabel="Book a conversation"
+                    secondaryLabel="See our services"
+                    secondaryHref="/services"
+                />
+            </main>
+            <Footer />
+        </>
     );
 }
 
@@ -2027,6 +2337,261 @@ function ServicesPage() {
     );
 }
 
+const contactServices = [
+    'Web Development and UX',
+    'Branding & Creative',
+    'AI & Automation',
+    'Software & Digital Products',
+    'Data and Analytics',
+    'Business Management Consulting',
+    'Multiple Services',
+    'Not Sure Yet',
+];
+
+const countryCodes = [
+    ['GB', '+44'], ['NG', '+234'], ['US / CA', '+1'], ['IE', '+353'], ['ZA', '+27'],
+    ['GH', '+233'], ['KE', '+254'], ['AE', '+971'], ['AU', '+61'], ['DE', '+49'],
+    ['FR', '+33'], ['ES', '+34'], ['IT', '+39'], ['NL', '+31'], ['IN', '+91'],
+    ['CN', '+86'], ['JP', '+81'], ['BR', '+55'], ['MX', '+52'], ['SG', '+65'],
+];
+
+const emptyContactForm = {
+    name: '',
+    email: '',
+    country_code: '+44',
+    phone: '',
+    service: '',
+    message: '',
+    privacy: false,
+    human_answer: '',
+    website: '',
+};
+
+function ContactForm() {
+    const [form, setForm] = useState(emptyContactForm);
+    const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState('idle');
+    const [feedback, setFeedback] = useState('');
+
+    const updateField = (event) => {
+        const { checked, name, type, value } = event.target;
+        setForm((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
+        setErrors((current) => ({ ...current, [name]: undefined }));
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setStatus('sending');
+        setFeedback('');
+        setErrors({});
+
+        try {
+            const response = await fetch('/contact', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                },
+                body: JSON.stringify(form),
+            });
+            const result = await response.json();
+
+            if (!response.ok) {
+                setErrors(result.errors || {});
+                throw new Error(result.message || 'Please check the form and try again.');
+            }
+
+            setStatus('success');
+            setFeedback(result.message);
+            setForm(emptyContactForm);
+        } catch (error) {
+            setStatus('error');
+            setFeedback(error.message || 'We could not send your message. Please try again or email us directly.');
+        }
+    };
+
+    const fieldError = (name) => errors[name]?.[0];
+
+    return (
+        <form className="contact-form" onSubmit={handleSubmit} noValidate>
+            <div className="contact-form-heading">
+                <p className="eyebrow">Send a message</p>
+                <h2>Tell us what you're working on.</h2>
+                <p>Fields marked with an asterisk are required.</p>
+            </div>
+
+            <div className="contact-form-grid">
+                <label className="contact-field">
+                    <span>Name <b aria-hidden="true">*</b></span>
+                    <input name="name" value={form.name} onChange={updateField} autoComplete="name" required aria-invalid={Boolean(fieldError('name'))} />
+                    {fieldError('name') && <small>{fieldError('name')}</small>}
+                </label>
+                <label className="contact-field">
+                    <span>Email <b aria-hidden="true">*</b></span>
+                    <input type="email" name="email" value={form.email} onChange={updateField} autoComplete="email" required aria-invalid={Boolean(fieldError('email'))} />
+                    {fieldError('email') && <small>{fieldError('email')}</small>}
+                </label>
+                <div className="contact-field contact-field-full">
+                    <span>Phone <b aria-hidden="true">*</b></span>
+                    <div className="contact-phone-row">
+                        <label>
+                            <span className="sr-only">Country code</span>
+                            <input name="country_code" value={form.country_code} onChange={updateField} list="country-code-options" autoComplete="tel-country-code" aria-label="Country code" />
+                            <datalist id="country-code-options">
+                                {countryCodes.map(([country, code]) => <option value={code} key={`${country}-${code}`}>{country}</option>)}
+                            </datalist>
+                        </label>
+                        <label>
+                            <span className="sr-only">Phone number</span>
+                            <input type="tel" name="phone" value={form.phone} onChange={updateField} autoComplete="tel-national" inputMode="tel" placeholder="Phone number" required aria-invalid={Boolean(fieldError('phone'))} />
+                        </label>
+                    </div>
+                    {(fieldError('country_code') || fieldError('phone')) && <small>{fieldError('country_code') || fieldError('phone')}</small>}
+                </div>
+                <label className="contact-field contact-field-full">
+                    <span>Service <b aria-hidden="true">*</b></span>
+                    <select name="service" value={form.service} onChange={updateField} required aria-invalid={Boolean(fieldError('service'))}>
+                        <option value="" disabled>Select a service</option>
+                        {contactServices.map((service) => <option value={service} key={service}>{service}</option>)}
+                    </select>
+                    {fieldError('service') && <small>{fieldError('service')}</small>}
+                </label>
+                <label className="contact-field contact-field-full">
+                    <span>Message <b aria-hidden="true">*</b></span>
+                    <textarea name="message" value={form.message} onChange={updateField} rows="7" required placeholder="Tell us about the idea, challenge or opportunity..." aria-invalid={Boolean(fieldError('message'))} />
+                    <span className="contact-character-count">{form.message.length} / 5,000</span>
+                    {fieldError('message') && <small>{fieldError('message')}</small>}
+                </label>
+                <label className="contact-field contact-human-field">
+                    <span>Verify you're human: 7 − 2 = <b aria-hidden="true">*</b></span>
+                    <input type="number" name="human_answer" value={form.human_answer} onChange={updateField} inputMode="numeric" required aria-invalid={Boolean(fieldError('human_answer'))} />
+                    {fieldError('human_answer') && <small>Please enter the correct answer.</small>}
+                </label>
+                <label className="contact-honeypot" aria-hidden="true">
+                    Website
+                    <input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" />
+                </label>
+            </div>
+
+            <label className="contact-consent">
+                <input type="checkbox" name="privacy" checked={form.privacy} onChange={updateField} required />
+                <span>I agree to the <a href="/privacy-policy" target="_blank" rel="noreferrer">privacy policy</a> and consent to my data being processed to respond to my enquiry.</span>
+            </label>
+            {fieldError('privacy') && <small className="contact-consent-error">Please confirm that you agree before continuing.</small>}
+
+            {feedback && <div className={`contact-feedback ${status}`} role="status">{feedback}</div>}
+
+            <button className="contact-submit" type="submit" disabled={status === 'sending'}>
+                <span>{status === 'sending' ? 'Sending…' : 'Send message'}</span>
+                <Send size={18} aria-hidden="true" />
+            </button>
+        </form>
+    );
+}
+
+function ContactPage() {
+    useEffect(() => {
+        document.title = 'Contact Viredá | Start a Conversation';
+    }, []);
+
+    return (
+        <>
+            <Navbar />
+            <main className="page-shell contact-page">
+                <section className="contact-hero" id="top">
+                    <div className="container contact-hero-artwork-wrap">
+                        <ContactHeroArtwork />
+                    </div>
+                    <div className="container contact-hero-inner">
+                        <div className="contact-hero-heading">
+                            <p className="eyebrow">Contact Viredá</p>
+                            <h1>Got something in mind? <span>Let's talk.</span></h1>
+                        </div>
+                        <div className="contact-hero-copy">
+                            <p>Whether you have a clear brief, a problem you're trying to solve, or simply an idea you're not sure how to bring to life, start with a conversation.</p>
+                            <p>We'll listen, ask the right questions and help you understand what makes sense for your business — even if you're not entirely sure where to begin.</p>
+                            <p className="contact-hero-note">No pressure. No hard sell. Just a useful conversation about what's possible.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="contact-main-section">
+                    <div className="container contact-main-grid">
+                        <div className="contact-main-intro">
+                            <p className="eyebrow">Start here</p>
+                            <h2>A good next step starts with a little context.</h2>
+                            <p>Fill in the form and we'll get back to you within 24 hours. Or skip the form and book a free discovery call below.</p>
+                            <a className="contact-email-link" href="mailto:hello@vireda.com">
+                                <Mail size={18} />
+                                hello@vireda.com
+                            </a>
+                        </div>
+                        <ContactForm />
+                    </div>
+                </section>
+
+                <section className="contact-book-section" id="book-a-call" data-nav-theme="dark">
+                    <div className="container contact-book-grid">
+                        <div>
+                            <p className="eyebrow">Book a time to talk</p>
+                            <h2>Prefer a <span>conversation?</span></h2>
+                            <p>Book a free 30-minute discovery call and tell us what you're working on, what you're trying to achieve, or what's not quite working. We'll talk through the challenge, explore what's possible, and leave you with a clearer idea of what to do next.</p>
+                            <a className="contact-book-button" href="mailto:hello@vireda.com?subject=Book%20a%20free%2030-minute%20discovery%20call">
+                                <CalendarDays size={19} />
+                                Book a discovery call
+                                <ArrowRight size={18} />
+                            </a>
+                        </div>
+                        <ul className="contact-book-benefits">
+                            <li><CircleCheck size={21} /><span>No obligation, no hard sell</span></li>
+                            <li><CircleCheck size={21} /><span>Discuss your project goals &amp; challenges</span></li>
+                            <li><CircleCheck size={21} /><span>Get an honest recommendation &amp; next steps</span></li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+            <Footer />
+        </>
+    );
+}
+
+function PrivacyPolicyPage() {
+    useEffect(() => {
+        document.title = 'Privacy Policy | Viredá';
+    }, []);
+
+    return (
+        <>
+            <Navbar />
+            <main className="page-shell privacy-page">
+                <section className="privacy-hero" data-nav-theme="dark">
+                    <div className="container">
+                        <p className="eyebrow">Privacy policy</p>
+                        <h1>How we handle <span>your information.</span></h1>
+                    </div>
+                </section>
+                <section className="privacy-content">
+                    <div className="container privacy-content-inner">
+                        <p className="privacy-updated">Last updated: 28 August 2026</p>
+                        <h2>Contact enquiries</h2>
+                        <p>When you contact Viredá, we collect the information you provide, such as your name, email address, phone number, service interest and message. We use it only to understand and respond to your enquiry, arrange a call, and keep a record of our conversation.</p>
+                        <h2>How we use and protect it</h2>
+                        <p>We process this information because you have asked us to respond and because it is in our legitimate interest to manage genuine business enquiries. We take reasonable steps to protect it and do not sell your personal information.</p>
+                        <h2>Sharing and retention</h2>
+                        <p>Information may be handled by trusted service providers that support our website, email and business operations. We keep enquiry information only for as long as it remains relevant to the conversation, our services, or applicable legal obligations.</p>
+                        <h2>Your choices</h2>
+                        <p>You can ask us to access, correct or delete the personal information we hold about you. You may also object to or restrict how it is used where applicable.</p>
+                        <h2>Contact us</h2>
+                        <p>For privacy questions or requests, email <a href="mailto:hello@vireda.com">hello@vireda.com</a>.</p>
+                    </div>
+                </section>
+            </main>
+            <Footer />
+        </>
+    );
+}
+
 function HomePage() {
     return (
         <>
@@ -2046,7 +2611,26 @@ function HomePage() {
 }
 
 function App() {
-    return window.location.pathname === '/services' ? <ServicesPage /> : <HomePage />;
+    if (window.location.pathname === '/services') {
+        return <ServicesPage />;
+    }
+
+    if (window.location.pathname === '/about') {
+        return <AboutPage />;
+    }
+
+    if (window.location.pathname === '/contact') {
+        return <ContactPage />;
+    }
+
+    if (window.location.pathname === '/privacy-policy') {
+        return <PrivacyPolicyPage />;
+    }
+
+    return <HomePage />;
 }
 
-createRoot(document.getElementById('root')).render(<App />);
+const rootElement = document.getElementById('root');
+const root = window.__viredaRoot || createRoot(rootElement);
+window.__viredaRoot = root;
+root.render(<App />);

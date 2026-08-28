@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Viredá | Management & Technology Consulting</title>
         <meta name="description" content="Viredá brings together strategy, technology and data to help businesses build better, work smarter and move forward with confidence.">
         <meta property="og:title" content="Viredá | Management & Technology Consulting">
