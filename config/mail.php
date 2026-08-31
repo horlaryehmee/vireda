@@ -115,6 +115,6 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
-    'contact_to' => env('CONTACT_TO_ADDRESS', 'hello@vireda.com'),
+    'contact_to' => env('CONTACT_TO_ADDRESS', 'info@vireda.co.uk'),
 
 ];

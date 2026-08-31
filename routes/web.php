@@ -1,9 +1,10 @@
 <?php
 
-use App\Mail\ContactEnquiry;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BookingAdminController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('app');
@@ -21,27 +22,44 @@ Route::get('/contact', function () {
     return view('app');
 });
 
+Route::get('/book', function () {
+    return view('app');
+});
+
+Route::get('/admin/login', function () {
+    return view('app');
+})->name('login');
+
+Route::get('/admin', function () {
+    return view('app');
+})->middleware(['auth', 'admin']);
+
 Route::get('/privacy-policy', function () {
     return view('app');
 });
 
-Route::post('/contact', function (Request $request) {
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:120'],
-        'email' => ['required', 'email:rfc', 'max:190'],
-        'country_code' => ['required', 'string', 'max:8', 'regex:/^\+[0-9]{1,4}$/'],
-        'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9()\s.\-]{6,30}$/'],
-        'service' => ['required', 'string', 'in:Web Development and UX,Branding & Creative,AI & Automation,Software & Digital Products,Data and Analytics,Business Management Consulting,Multiple Services,Not Sure Yet'],
-        'message' => ['required', 'string', 'min:10', 'max:5000'],
-        'privacy' => ['accepted'],
-        'human_answer' => ['required', 'integer', 'in:5'],
-        'website' => ['nullable', 'size:0'],
-    ]);
+Route::get('/contact/challenge', [ContactController::class, 'challenge'])->middleware('throttle:20,1');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1');
 
-    Mail::to(config('mail.contact_to', 'hello@vireda.com'))
-        ->send(new ContactEnquiry($validated));
+Route::get('/booking/settings', [BookingController::class, 'settings']);
+Route::get('/booking/calendar', [BookingController::class, 'calendar']);
+Route::get('/booking/availability', [BookingController::class, 'availability']);
+Route::post('/bookings', [BookingController::class, 'store'])->middleware('throttle:8,1');
 
-    return response()->json([
-        'message' => "Thanks, {$validated['name']}. We'll get back to you within 24 hours.",
-    ]);
-})->middleware('throttle:5,1');
+Route::prefix('admin/api')->group(function () {
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/user', [AuthController::class, 'user']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/dashboard', [BookingAdminController::class, 'dashboard']);
+        Route::get('/settings', [BookingAdminController::class, 'settings']);
+        Route::put('/booking-settings', [BookingAdminController::class, 'updateBookingSettings']);
+        Route::put('/schedule', [BookingAdminController::class, 'updateSchedule']);
+        Route::post('/overrides', [BookingAdminController::class, 'storeOverride']);
+        Route::delete('/overrides/{override}', [BookingAdminController::class, 'destroyOverride']);
+        Route::patch('/bookings/{booking}', [BookingAdminController::class, 'updateBooking']);
+        Route::put('/email-settings', [BookingAdminController::class, 'updateEmailSettings']);
+        Route::post('/email-settings/test', [BookingAdminController::class, 'testEmail']);
+    });
+});

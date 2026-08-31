@@ -30,6 +30,7 @@ export function KineticGridBackground({ className = '', tone = 'gold' }) {
     const ripplesRef = useRef([]);
     const animationRef = useRef(0);
     const sizeRef = useRef({ width: 0, height: 0 });
+    const visibleRef = useRef(false);
 
     const getTheme = useCallback(() => {
         if (tone === 'monochrome') {
@@ -228,6 +229,12 @@ export function KineticGridBackground({ className = '', tone = 'gold' }) {
     }, [getTheme, getWarpedPoint]);
 
     const animate = useCallback((now) => {
+        animationRef.current = 0;
+
+        if (!visibleRef.current) {
+            return;
+        }
+
         const mouse = mouseRef.current;
         const target = targetMouseRef.current;
 
@@ -247,7 +254,7 @@ export function KineticGridBackground({ className = '', tone = 'gold' }) {
 
         const setSize = () => {
             const rect = wrapper.getBoundingClientRect();
-            const ratio = window.devicePixelRatio || 1;
+            const ratio = Math.min(window.devicePixelRatio || 1, window.innerWidth <= 768 ? 1 : 1.5);
             const width = Math.max(1, Math.round(rect.width));
             const height = Math.max(1, Math.round(rect.height));
 
@@ -305,25 +312,50 @@ export function KineticGridBackground({ className = '', tone = 'gold' }) {
 
         const resizeObserver = new ResizeObserver(setSize);
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const intersectionObserver = new IntersectionObserver(([entry]) => {
+            visibleRef.current = entry.isIntersecting && !document.hidden;
+
+            if (visibleRef.current && !reduceMotion.matches && !animationRef.current) {
+                animationRef.current = window.requestAnimationFrame(animate);
+            } else if (!visibleRef.current && animationRef.current) {
+                window.cancelAnimationFrame(animationRef.current);
+                animationRef.current = 0;
+            }
+        }, { rootMargin: '120px 0px' });
+
+        const updateVisibility = () => {
+            visibleRef.current = !document.hidden && wrapper.getBoundingClientRect().bottom >= -120
+                && wrapper.getBoundingClientRect().top <= window.innerHeight + 120;
+
+            if (visibleRef.current && !reduceMotion.matches && !animationRef.current) {
+                animationRef.current = window.requestAnimationFrame(animate);
+            } else if (!visibleRef.current && animationRef.current) {
+                window.cancelAnimationFrame(animationRef.current);
+                animationRef.current = 0;
+            }
+        };
 
         setSize();
         resizeObserver.observe(wrapper);
+        intersectionObserver.observe(wrapper);
         window.addEventListener('mousemove', updateMouse);
         window.addEventListener('click', addRipple);
         window.addEventListener('scroll', leave, { passive: true });
+        document.addEventListener('visibilitychange', updateVisibility);
 
-        if (!reduceMotion.matches) {
-            animationRef.current = window.requestAnimationFrame(animate);
-        } else {
+        if (reduceMotion.matches) {
             draw(performance.now());
         }
 
         return () => {
             resizeObserver.disconnect();
+            intersectionObserver.disconnect();
             window.removeEventListener('mousemove', updateMouse);
             window.removeEventListener('click', addRipple);
             window.removeEventListener('scroll', leave);
+            document.removeEventListener('visibilitychange', updateVisibility);
             window.cancelAnimationFrame(animationRef.current);
+            animationRef.current = 0;
         };
     }, [animate, draw]);
 

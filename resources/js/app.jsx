@@ -56,16 +56,19 @@ import {
     Zap,
 } from 'lucide-react';
 import { GetStartedButton } from './Components/ui/GetStartedButton';
-import { GatewayFlow } from './Components/ui/GatewayFlow';
 import { HeroGridBackground } from './Components/ui/HeroGridBackground';
 import { HowItWorksBlock } from './Components/ui/HowItWorksBlock';
 import { IconStack } from './Components/ui/IconStack';
-import { KineticGridBackground } from './Components/ui/KineticGridBackground';
+import { ConstellationGrid } from './Components/ui/ConstellationGrid';
 import { NeonMesh } from './Components/ui/NeonMesh';
 import { ProjectShowcase } from './Components/ui/ProjectShowcase';
-import { ContactHeroArtwork } from './Components/ui/ContactHeroArtwork';
 import { TextRevealByWord } from './Components/ui/text-reveal';
 import { TubeLightNav } from './Components/ui/TubeLightNav';
+import BookingPage from './BookingPage';
+import { AdminDashboardPage, AdminLoginPage } from './AdminBooking';
+import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
+import Select from 'react-select';
+import 'flag-icons/css/flag-icons.min.css';
 import '../css/app.css';
 
 const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').then((module) => ({
@@ -74,6 +77,7 @@ const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').the
 
 const navItems = [
     { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
     { label: 'Contact', href: '/contact' },
 ];
@@ -100,14 +104,14 @@ const footerSections = [
         title: 'Start',
         links: [
             { label: 'Contact', href: '/contact' },
-            { label: 'Email', href: 'mailto:hello@vireda.com' },
-            { label: 'Book a call', href: '/contact#book-a-call' },
+            { label: 'Email', href: 'mailto:info@vireda.co.uk' },
+            { label: 'Book a call', href: '/book' },
         ],
     },
 ];
 
 const socialLinks = [
-    { label: 'Email', href: 'mailto:hello@vireda.com', icon: Mail },
+    { label: 'Email', href: 'mailto:info@vireda.co.uk', icon: Mail },
     { label: 'LinkedIn', href: 'https://www.linkedin.com', brand: 'linkedin' },
     { label: 'X', href: 'https://x.com', brand: 'x' },
     { label: 'Instagram', href: 'https://www.instagram.com', brand: 'instagram' },
@@ -367,6 +371,7 @@ function FooterThemeControls() {
 function Navbar() {
     const currentPath = window.location.pathname;
     const isServicesPage = currentPath === '/services';
+    const activeNavLabel = navItems.find((item) => item.href === currentPath)?.label;
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [overDarkSection, setOverDarkSection] = useState(true);
@@ -462,8 +467,9 @@ function Navbar() {
         <header className={`navbar ${scrolled ? 'is-scrolled' : ''} ${overDarkSection ? 'is-over-dark' : ''} ${open ? 'menu-open' : ''}`} ref={navRef}>
             <div className="container nav-inner nav-shell">
                 <Logo />
-                <TubeLightNav activeLabel={isServicesPage ? 'Services' : undefined} items={[
+                <TubeLightNav activeLabel={activeNavLabel} items={[
                     { label: 'Home', href: '/', icon: Compass },
+                    { label: 'About', href: '/about', icon: User },
                     {
                         label: 'Services',
                         href: '/services',
@@ -473,6 +479,7 @@ function Navbar() {
                             onClick: (event) => handleServiceNavClick(event, service),
                         })),
                     },
+                    { label: 'Contact', href: '/contact', icon: Mail },
                 ]} />
                 <div className="nav-actions">
                     <GetStartedButton href="/contact" size="sm" className="nav-cta">Start a Conversation</GetStartedButton>
@@ -496,6 +503,7 @@ function Navbar() {
                 </div>
                 <div className="mobile-menu-content">
                     <a className="mobile-primary-link" href="/" onClick={closeNavigation}>Home <ArrowRight size={17} /></a>
+                    <a className="mobile-primary-link" href="/about" onClick={closeNavigation}>About <ArrowRight size={17} /></a>
                     <section className={mobileSection === 'services' ? 'open' : ''}>
                         <div className="mobile-menu-section-header">
                             <a href="/services" onClick={closeNavigation}>Services</a>
@@ -526,6 +534,7 @@ function Navbar() {
                             ))}
                         </div>
                     </section>
+                    <a className="mobile-primary-link" href="/contact" onClick={closeNavigation}>Contact <ArrowRight size={17} /></a>
                 </div>
                 <div className="mobile-menu-footer">
                     <GetStartedButton href="/contact" size="sm" onClick={closeNavigation}>Start a Conversation</GetStartedButton>
@@ -907,6 +916,7 @@ function CapabilityCard({ capability, index, isPinned, onActivate }) {
                 '--card-scale': 1,
                 '--card-opacity': isPinned && index !== 0 ? 0 : 1,
                 '--card-pointer-events': isPinned && index !== 0 ? 'none' : 'auto',
+                '--card-visible-height': 'none',
             }}
             tabIndex={isPinned ? (index === 0 ? 0 : -1) : undefined}
         >
@@ -997,6 +1007,62 @@ function CoreCapabilities() {
                 card.style.setProperty('--card-pointer-events', visible ? 'auto' : 'none');
                 card.style.setProperty('--card-clip-bottom', `${clipBottom}px`);
             });
+
+            if (isMobileStack) {
+                const mobileCardLayouts = Array.from(cards).map((card) => {
+                    const index = Number(card.dataset.cardIndex || 0);
+                    const localProgress = index === 0
+                        ? 1
+                        : clampProgress((nextProgress - getCapabilityStart(index)) / 0.22);
+                    const naturalHeight = card.scrollHeight;
+                    const hiddenOffset = index === 0 ? 0 : 1.08 * naturalHeight * (1 - localProgress);
+
+                    return {
+                        card,
+                        visible: index === 0 || localProgress > 0.02,
+                        y: hiddenOffset + (index * 48 * localProgress),
+                    };
+                });
+
+                mobileCardLayouts.forEach((layout, index) => {
+                    const nextLayout = mobileCardLayouts[index + 1];
+                    const exposedHeight = nextLayout?.visible ? nextLayout.y - layout.y : Number.POSITIVE_INFINITY;
+
+                    layout.card.classList.toggle('is-covered', exposedHeight <= 56);
+                });
+            }
+
+            if (!isMobileStack) {
+                const cardLayouts = Array.from(cards).map((card) => {
+                    const index = Number(card.dataset.cardIndex || 0);
+                    const localProgress = index === 0
+                        ? 1
+                        : clampProgress((nextProgress - getCapabilityStart(index)) / 0.22);
+                    const naturalHeight = card.scrollHeight;
+                    const hiddenOffset = index === 0 ? 0 : 1.08 * naturalHeight * (1 - localProgress);
+                    const y = hiddenOffset + (index * 48 * localProgress);
+
+                    return {
+                        card,
+                        naturalHeight,
+                        visible: index === 0 || localProgress > 0.02,
+                        y,
+                    };
+                });
+
+                cardLayouts.forEach((layout, index) => {
+                    const nextLayout = cardLayouts[index + 1];
+                    const overlapsNextCard = nextLayout?.visible
+                        && nextLayout.y < layout.y + layout.naturalHeight;
+                    const visibleHeight = overlapsNextCard
+                        ? Math.max(48, nextLayout.y - layout.y)
+                        : layout.naturalHeight;
+
+                    layout.card.style.setProperty('--card-y', `${layout.y}px`);
+                    layout.card.style.setProperty('--card-visible-height', `${visibleHeight}px`);
+                    layout.card.classList.toggle('is-covered', visibleHeight <= 56);
+                });
+            }
         };
 
         const onScroll = () => {
@@ -1179,9 +1245,9 @@ function FinalCTA({
     text = "Let's build what matters to your business.",
     description,
     primaryLabel = 'Start a conversation',
-    primaryHref = 'mailto:hello@vireda.com',
+    primaryHref = '/book',
     secondaryLabel,
-    secondaryHref = 'mailto:hello@vireda.com',
+    secondaryHref = 'mailto:info@vireda.co.uk',
 }) {
     const useDefaultFinalTitle = text === "Let's build what matters to your business."
         && highlight === 'matters to your business';
@@ -1670,6 +1736,12 @@ function WhatWeFixSection() {
                 return;
             }
 
+            const sectionRect = section.getBoundingClientRect();
+
+            if (sectionRect.bottom < -120 || sectionRect.top > window.innerHeight + 120) {
+                return;
+            }
+
             frame = window.requestAnimationFrame(() => {
                 frame = null;
                 updateTrack();
@@ -1783,8 +1855,7 @@ function AboutPage() {
         <>
             <Navbar />
             <main className="page-shell about-page">
-                <section className="page-hero about-page-hero" id="top" data-nav-theme="dark">
-                    <GatewayFlow />
+                <section className="page-hero services-page-hero about-page-hero" id="top" data-nav-theme="dark">
                     <div className="container page-hero-inner">
                         <p className="eyebrow">About Viredá</p>
                         <h1>
@@ -1865,6 +1936,7 @@ function AboutPage() {
                 </section>
 
                 <section className="page-section about-patterns-section">
+                    <ConstellationGrid className="about-patterns-constellation" />
                     <PageSectionHeading
                         eyebrow="What We Kept Seeing"
                         highlight="behind the problems"
@@ -1874,15 +1946,18 @@ function AboutPage() {
                         failures, not businesses doing everything wrong, just small gaps, compromises and workarounds
                         that gradually become harder to ignore.
                     </PageSectionHeading>
+                    <div className="about-patterns-field">
                     <div className="container about-pattern-grid">
                         {aboutPagePatterns.map((pattern) => {
                             const Icon = pattern.icon;
 
                             return (
-                                <article className="about-pattern-card" key={pattern.number}>
-                                    <div className="about-pattern-card-top">
-                                        <Icon size={22} strokeWidth={1.6} />
-                                    </div>
+                                    <article className="about-pattern-card" key={pattern.number}>
+                                        <div className="about-pattern-card-top">
+                                            <span className="about-pattern-icon" aria-hidden="true">
+                                                <Icon size={20} strokeWidth={1.7} />
+                                            </span>
+                                        </div>
                                     <h3>{pattern.title}</h3>
                                     <p>{pattern.body}</p>
                                 </article>
@@ -1896,6 +1971,7 @@ function AboutPage() {
                             becomes the problem.
                         </p>
                         <p className="about-patterns-closing-lead">That's usually where the conversation with Viredá starts.</p>
+                    </div>
                     </div>
                 </section>
 
@@ -1996,12 +2072,22 @@ function AboutPage() {
                             properly, and keep improving it.
                         </p>
                         <div className="about-how-work-flow" aria-label="Discover, Define, Build, Launch, Evolve">
-                            {['Discover', 'Define', 'Build', 'Launch', 'Evolve'].map((step, index) => (
-                                <React.Fragment key={step}>
-                                    <span>{step}</span>
-                                    {index < 4 && <ArrowRight size={20} strokeWidth={1.5} aria-hidden="true" />}
-                                </React.Fragment>
-                            ))}
+                            <div className="about-how-work-track">
+                                {[
+                                    [SearchCheck, 'Discover'],
+                                    [Compass, 'Define'],
+                                    [Settings, 'Build'],
+                                    [Rocket, 'Launch'],
+                                    [RefreshCcw, 'Evolve'],
+                                ].map(([Icon, step]) => (
+                                    <div className="about-how-work-step" key={step}>
+                                        <span className="about-how-work-icon" aria-hidden="true">
+                                            <Icon size={20} strokeWidth={1.6} />
+                                        </span>
+                                        <strong>{step}</strong>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <GetStartedButton href="/services">See how we work in detail</GetStartedButton>
                     </div>
@@ -2237,7 +2323,6 @@ function ServicesPage() {
                 <WhatWeFixSection />
 
                 <section className="page-section page-services-list" id="services">
-                    <KineticGridBackground className="services-kinetic-background" />
                     <div className="container section-heading services-list-heading">
                         <p className="eyebrow">Our Services</p>
                         <h2 className="section-heading-reveal services-list-title">
@@ -2348,16 +2433,34 @@ const contactServices = [
     'Not Sure Yet',
 ];
 
-const countryCodes = [
-    ['GB', '+44'], ['NG', '+234'], ['US / CA', '+1'], ['IE', '+353'], ['ZA', '+27'],
-    ['GH', '+233'], ['KE', '+254'], ['AE', '+971'], ['AU', '+61'], ['DE', '+49'],
-    ['FR', '+33'], ['ES', '+34'], ['IT', '+39'], ['NL', '+31'], ['IN', '+91'],
-    ['CN', '+86'], ['JP', '+81'], ['BR', '+55'], ['MX', '+52'], ['SG', '+65'],
-];
+const regionNames = typeof Intl.DisplayNames === 'function'
+    ? new Intl.DisplayNames(['en'], { type: 'region' })
+    : null;
+
+const countryCodes = getCountries()
+    .map((country) => ({
+        country,
+        name: regionNames?.of(country) || country,
+        callingCode: `+${getCountryCallingCode(country)}`,
+        label: `${regionNames?.of(country) || country} +${getCountryCallingCode(country)}`,
+        value: country,
+    }))
+    .sort((first, second) => first.name.localeCompare(second.name));
+
+function CountryPickerLabel({ country, name, callingCode }) {
+    return (
+        <span className="country-picker-label">
+            <span className={`fi fi-${country.toLowerCase()}`} aria-hidden="true" />
+            <span className="country-picker-name">{name}</span>
+            <span className="country-picker-code">{callingCode}</span>
+        </span>
+    );
+}
 
 const emptyContactForm = {
     name: '',
     email: '',
+    country_iso: 'GB',
     country_code: '+44',
     phone: '',
     service: '',
@@ -2372,11 +2475,55 @@ function ContactForm() {
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState('idle');
     const [feedback, setFeedback] = useState('');
+    const [challenge, setChallenge] = useState('');
+    const [challengeLoading, setChallengeLoading] = useState(true);
+
+    const loadChallenge = async ({ clearError = true } = {}) => {
+        setChallengeLoading(true);
+
+        try {
+            const response = await fetch('/contact/challenge', {
+                headers: { Accept: 'application/json' },
+                cache: 'no-store',
+            });
+            const result = await response.json();
+
+            if (!response.ok || !result.challenge) {
+                throw new Error('Human verification is temporarily unavailable. Please try again.');
+            }
+
+            setChallenge(result.challenge);
+            setForm((current) => ({ ...current, human_answer: '' }));
+
+            if (clearError) {
+                setErrors((current) => ({ ...current, human_answer: undefined }));
+            }
+        } catch (error) {
+            setChallenge('');
+            setFeedback(error.message || 'Human verification is temporarily unavailable. Please try again.');
+        } finally {
+            setChallengeLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadChallenge();
+    }, []);
 
     const updateField = (event) => {
         const { checked, name, type, value } = event.target;
         setForm((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
         setErrors((current) => ({ ...current, [name]: undefined }));
+    };
+
+    const updateCountry = (option) => {
+        const country = option.country;
+        setForm((current) => ({
+            ...current,
+            country_iso: country,
+            country_code: `+${getCountryCallingCode(country)}`,
+        }));
+        setErrors((current) => ({ ...current, country_code: undefined }));
     };
 
     const handleSubmit = async (event) => {
@@ -2399,12 +2546,18 @@ function ContactForm() {
 
             if (!response.ok) {
                 setErrors(result.errors || {});
+
+                if (result.errors?.human_answer) {
+                    await loadChallenge({ clearError: false });
+                }
+
                 throw new Error(result.message || 'Please check the form and try again.');
             }
 
             setStatus('success');
             setFeedback(result.message);
             setForm(emptyContactForm);
+            await loadChallenge();
         } catch (error) {
             setStatus('error');
             setFeedback(error.message || 'We could not send your message. Please try again or email us directly.');
@@ -2417,7 +2570,7 @@ function ContactForm() {
         <form className="contact-form" onSubmit={handleSubmit} noValidate>
             <div className="contact-form-heading">
                 <p className="eyebrow">Send a message</p>
-                <h2>Tell us what you're working on.</h2>
+                <h2>Tell us what you're <span className="editorial-italic contact-heading-accent">working on.</span></h2>
                 <p>Fields marked with an asterisk are required.</p>
             </div>
 
@@ -2437,10 +2590,19 @@ function ContactForm() {
                     <div className="contact-phone-row">
                         <label>
                             <span className="sr-only">Country code</span>
-                            <input name="country_code" value={form.country_code} onChange={updateField} list="country-code-options" autoComplete="tel-country-code" aria-label="Country code" />
-                            <datalist id="country-code-options">
-                                {countryCodes.map(([country, code]) => <option value={code} key={`${country}-${code}`}>{country}</option>)}
-                            </datalist>
+                            <Select
+                                inputId="contact-country"
+                                name="country_iso"
+                                className="country-select"
+                                classNamePrefix="country-select"
+                                options={countryCodes}
+                                value={countryCodes.find(({ country }) => country === form.country_iso)}
+                                onChange={updateCountry}
+                                formatOptionLabel={(option) => <CountryPickerLabel {...option} />}
+                                aria-label="Country and calling code"
+                                placeholder="Select country"
+                                isSearchable
+                            />
                         </label>
                         <label>
                             <span className="sr-only">Phone number</span>
@@ -2463,11 +2625,13 @@ function ContactForm() {
                     <span className="contact-character-count">{form.message.length} / 5,000</span>
                     {fieldError('message') && <small>{fieldError('message')}</small>}
                 </label>
-                <label className="contact-field contact-human-field">
-                    <span>Verify you're human: 7 − 2 = <b aria-hidden="true">*</b></span>
-                    <input type="number" name="human_answer" value={form.human_answer} onChange={updateField} inputMode="numeric" required aria-invalid={Boolean(fieldError('human_answer'))} />
-                    {fieldError('human_answer') && <small>Please enter the correct answer.</small>}
-                </label>
+                <div className="contact-field contact-human-field">
+                    <label className="contact-human-label" htmlFor="contact-human-answer">
+                        Verify you're human: {challengeLoading ? 'Loading...' : challenge ? `${challenge} =` : 'Unavailable'} <b aria-hidden="true">*</b>
+                    </label>
+                    <input id="contact-human-answer" type="number" name="human_answer" value={form.human_answer} onChange={updateField} inputMode="numeric" required disabled={challengeLoading || !challenge} aria-invalid={Boolean(fieldError('human_answer'))} />
+                    {fieldError('human_answer') && <small>{fieldError('human_answer')}</small>}
+                </div>
                 <label className="contact-honeypot" aria-hidden="true">
                     Website
                     <input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" />
@@ -2482,7 +2646,7 @@ function ContactForm() {
 
             {feedback && <div className={`contact-feedback ${status}`} role="status">{feedback}</div>}
 
-            <button className="contact-submit" type="submit" disabled={status === 'sending'}>
+            <button className="contact-submit" type="submit" disabled={status === 'sending' || challengeLoading || !challenge}>
                 <span>{status === 'sending' ? 'Sending…' : 'Send message'}</span>
                 <Send size={18} aria-hidden="true" />
             </button>
@@ -2499,20 +2663,18 @@ function ContactPage() {
         <>
             <Navbar />
             <main className="page-shell contact-page">
-                <section className="contact-hero" id="top">
-                    <div className="container contact-hero-artwork-wrap">
-                        <ContactHeroArtwork />
-                    </div>
-                    <div className="container contact-hero-inner">
-                        <div className="contact-hero-heading">
-                            <p className="eyebrow">Contact Viredá</p>
-                            <h1>Got something in mind? <span>Let's talk.</span></h1>
-                        </div>
-                        <div className="contact-hero-copy">
-                            <p>Whether you have a clear brief, a problem you're trying to solve, or simply an idea you're not sure how to bring to life, start with a conversation.</p>
-                            <p>We'll listen, ask the right questions and help you understand what makes sense for your business — even if you're not entirely sure where to begin.</p>
-                            <p className="contact-hero-note">No pressure. No hard sell. Just a useful conversation about what's possible.</p>
-                        </div>
+                <section className="page-hero services-page-hero contact-page-hero" id="top" data-nav-theme="dark">
+                    <div className="container page-hero-inner">
+                        <p className="eyebrow">Contact Viredá</p>
+                        <h1>
+                            Got something in mind?{' '}
+                            <span className="page-hero-title-highlight">Let's talk.</span>
+                        </h1>
+                        <p>
+                            Whether you have a clear brief, a problem you're trying to solve, or an idea you're not
+                            sure how to bring to life, start with a conversation. No pressure. No hard sell. Just a
+                            useful conversation about what's possible.
+                        </p>
                     </div>
                 </section>
 
@@ -2520,11 +2682,11 @@ function ContactPage() {
                     <div className="container contact-main-grid">
                         <div className="contact-main-intro">
                             <p className="eyebrow">Start here</p>
-                            <h2>A good next step starts with a little context.</h2>
+                            <h2>A good next step starts with <span className="editorial-italic contact-heading-accent">a little context.</span></h2>
                             <p>Fill in the form and we'll get back to you within 24 hours. Or skip the form and book a free discovery call below.</p>
-                            <a className="contact-email-link" href="mailto:hello@vireda.com">
+                            <a className="contact-email-link" href="mailto:info@vireda.co.uk">
                                 <Mail size={18} />
-                                hello@vireda.com
+                                info@vireda.co.uk
                             </a>
                         </div>
                         <ContactForm />
@@ -2537,7 +2699,7 @@ function ContactPage() {
                             <p className="eyebrow">Book a time to talk</p>
                             <h2>Prefer a <span>conversation?</span></h2>
                             <p>Book a free 30-minute discovery call and tell us what you're working on, what you're trying to achieve, or what's not quite working. We'll talk through the challenge, explore what's possible, and leave you with a clearer idea of what to do next.</p>
-                            <a className="contact-book-button" href="mailto:hello@vireda.com?subject=Book%20a%20free%2030-minute%20discovery%20call">
+                            <a className="contact-book-button" href="/book">
                                 <CalendarDays size={19} />
                                 Book a discovery call
                                 <ArrowRight size={18} />
@@ -2576,6 +2738,8 @@ function PrivacyPolicyPage() {
                         <p className="privacy-updated">Last updated: 28 August 2026</p>
                         <h2>Contact enquiries</h2>
                         <p>When you contact Viredá, we collect the information you provide, such as your name, email address, phone number, service interest and message. We use it only to understand and respond to your enquiry, arrange a call, and keep a record of our conversation.</p>
+                        <h2>Discovery call bookings</h2>
+                        <p>When you book a call, we also process your selected date and time, company, discussion topic and booking reference. We use this information to reserve the appointment, prevent scheduling conflicts, send confirmations and manage the call.</p>
                         <h2>How we use and protect it</h2>
                         <p>We process this information because you have asked us to respond and because it is in our legitimate interest to manage genuine business enquiries. We take reasonable steps to protect it and do not sell your personal information.</p>
                         <h2>Sharing and retention</h2>
@@ -2583,7 +2747,7 @@ function PrivacyPolicyPage() {
                         <h2>Your choices</h2>
                         <p>You can ask us to access, correct or delete the personal information we hold about you. You may also object to or restrict how it is used where applicable.</p>
                         <h2>Contact us</h2>
-                        <p>For privacy questions or requests, email <a href="mailto:hello@vireda.com">hello@vireda.com</a>.</p>
+                        <p>For privacy questions or requests, email <a href="mailto:info@vireda.co.uk">info@vireda.co.uk</a>.</p>
                     </div>
                 </section>
             </main>
@@ -2611,6 +2775,18 @@ function HomePage() {
 }
 
 function App() {
+    if (window.location.pathname === '/admin/login') {
+        return <AdminLoginPage />;
+    }
+
+    if (window.location.pathname === '/admin') {
+        return <AdminDashboardPage />;
+    }
+
+    if (window.location.pathname === '/book') {
+        return <BookingPage Navbar={Navbar} Footer={Footer} services={contactServices} />;
+    }
+
     if (window.location.pathname === '/services') {
         return <ServicesPage />;
     }
