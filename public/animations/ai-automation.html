@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0b0f1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .outer { background: #0b0f1a; padding: 40px; border-radius: 32px; }
+  .canvas {
+    position: relative;
+    width: 1240px;
+    height: 720px;
+    background: linear-gradient(135deg, #2a2440 0%, #1b1830 100%);
+    border-radius: 40px;
+    overflow: visible;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06);
+  }
+
+  .panel { position: absolute; background: #171a28; border-radius: 22px; box-shadow: 0 30px 60px rgba(0,0,0,0.35); }
+
+  /* Chat panel */
+  .chat {
+    top: 60px; left: 50px; width: 480px; height: 260px;
+    overflow: hidden;
+  }
+  .chat-header {
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    padding: 18px 22px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .chat-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 18px;
+  }
+  .chat-title { color: #fff; font-size: 16px; font-weight: 600; }
+  .chat-status { color: rgba(255,255,255,0.8); font-size: 12px; }
+  .chat-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .bubble { max-width: 75%; padding: 10px 16px; border-radius: 16px; font-size: 14px; opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s ease; }
+  .bubble.user { align-self: flex-end; background: linear-gradient(90deg,#7c3aed,#a855f7); color: #fff; border-bottom-right-radius: 4px; }
+  .bubble.bot { align-self: flex-start; background: #2a2f42; color: #d4d8e8; border-bottom-left-radius: 4px; }
+
+  /* Terminal panel */
+  .terminal {
+    top: 280px; left: 20px; width: 560px; height: 400px;
+    overflow: hidden;
+  }
+  .term-bar { display: flex; align-items: center; gap: 16px; padding: 14px 20px; background: #10121c; }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+  .term-title { color: #8b93a7; font-size: 13px; }
+  .term-body { padding: 18px 22px; font-family: 'SF Mono', Menlo, monospace; font-size: 13.5px; line-height: 1.85; color: #c8cee0; }
+  .prompt { color: #a855f7; }
+  .ok { color: #4ade80; }
+  .cursor { display: inline-block; width: 7px; height: 15px; background: #a855f7; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Connected integrations panel */
+  .integrations {
+    top: 30px; right: 40px; width: 460px; height: 340px;
+    padding: 28px;
+  }
+  .int-title { color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 30px; }
+  .hub-wrap { position: relative; height: 220px; }
+  .hub {
+    position: absolute; top: 70px; left: 50%; transform: translateX(-50%);
+    width: 66px; height: 66px; border-radius: 20px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 24px;
+    box-shadow: 0 0 40px rgba(168,85,247,0.5);
+  }
+  .node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .node.reverse { flex-direction: column-reverse; }
+  .node-icon { width: 44px; height: 44px; border-radius: 12px; background: #232842; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .node-label { color: #8b93a7; font-size: 12px; }
+  .n1 { top: 0px; left: 180px; }
+  .n2 { top: 60px; left: 20px; }
+  .n3 { top: 60px; right: 20px; }
+  .connector { position: absolute; border-top: 1.5px dashed #4a3d78; opacity: 0; transition: opacity .5s ease; }
+  .c1 { top: 66px; left: 202px; width: 0; height: 4px; border-top: none; border-left: 1.5px dashed #4a3d78; }
+  .c2 { top: 88px; left: 65px; width: 90px; transform: rotate(6deg); }
+  .c3 { top: 88px; right: 65px; width: 90px; transform: rotate(-6deg); }
+
+  /* Tasks stat card */
+  .tasks-card {
+    top: 380px; right: 40px; width: 440px; height: 300px;
+    padding: 26px 32px;
+    display: flex; flex-direction: column; align-items: center;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .clock-badge { width: 60px; height: 60px; border-radius: 50%; background: #241c3d; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .tasks-num { color: #fff; font-size: 44px; font-weight: 700; }
+  .tasks-label { color: #8b93a7; font-size: 15px; margin-top: 4px; margin-bottom: 24px; }
+  .dotgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .grid-dot { width: 14px; height: 14px; border-radius: 4px; background: #2a2f42; transition: background .25s ease; }
+  .grid-dot.on { background: #a855f7; }
+
+  /* Faster workflow badge */
+  .speed-badge {
+    top: 460px; left: 615px; width: 150px;
+    padding: 18px 16px;
+    text-align: center;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .speed-num { color: #a855f7; font-size: 36px; font-weight: 700; }
+  .speed-label { color: #8b93a7; font-size: 13px; margin-top: 4px; letter-spacing: 0.5px; }
+</style>
+<style>
+  html, body { background: transparent !important; overflow: hidden; }
+  .outer { background: transparent !important; border-radius: 0 !important; padding: 40px !important; }
+</style>
+</head>
+<body>
+<div class="outer">
+  <div class="canvas">
+
+    <div class="panel chat">
+      <div class="chat-header">
+        <div class="chat-avatar">✦</div>
+        <div>
+          <div class="chat-title">AI Assistant</div>
+          <div class="chat-status">Online</div>
+        </div>
+      </div>
+      <div class="chat-body">
+        <div class="bubble user" id="b1">Hi, I need help with my order</div>
+        <div class="bubble bot" id="b2">Of course! Could you share your order number?</div>
+        <div class="bubble user" id="b3">It's #ORD-4821</div>
+      </div>
+    </div>
+
+    <div class="panel terminal">
+      <div class="term-bar">
+        <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+        <div class="term-title">AI Workflow</div>
+      </div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+
+    <div class="panel integrations">
+      <div class="int-title">Connected Integrations</div>
+      <div class="hub-wrap">
+        <div class="connector c1" id="c1"></div>
+        <div class="connector c2" id="c2"></div>
+        <div class="connector c3" id="c3"></div>
+        <div class="node reverse n1"><div class="node-icon">📌</div><div class="node-label">Slack</div></div>
+        <div class="node n2"><div class="node-icon">📊</div><div class="node-label">Excel</div></div>
+        <div class="node n3"><div class="node-icon">📄</div><div class="node-label">Sheets</div></div>
+        <div class="hub">✦</div>
+      </div>
+    </div>
+
+    <div class="panel tasks-card" id="tasksCard">
+      <div class="clock-badge">🕐</div>
+      <div class="tasks-num" id="tasksNum">0 Tasks</div>
+      <div class="tasks-label">Automated this month</div>
+      <div class="dotgrid" id="dotgrid"></div>
+    </div>
+
+    <div class="panel speed-badge" id="speedBadge">
+      <div class="speed-num">10x</div>
+      <div class="speed-label">FASTER WORKFLOWS</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const grid = document.getElementById('dotgrid');
+for (let i=0;i<24;i++){ const d=document.createElement('div'); d.className='grid-dot'; grid.appendChild(d); }
+const dots = grid.querySelectorAll('.grid-dot');
+
+const termLines = [
+  [['prompt','&gt; '],['','npx create-next-app@latest']],
+  [['','Creating a new Next.js app...']],
+  [['','Installing dependencies:']],
+  [['','  - react 19.0.0']],
+  [['','  - next 15.1.0']],
+  [['','  - tailwindcss 4.0']],
+  [['ok','✓ Project created successfully']],
+  [['prompt','&gt; '],['','npm run dev']],
+  [['ok','✓ Ready on localhost:3000']]
+];
+const termBody = document.getElementById('termBody');
+
+let timers = [];
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
+
+function renderTerm(n, showCursor){
+  let html = '';
+  for (let i=0;i<n;i++){
+    html += '<div>' + termLines[i].map(([c,t])=>c?'<span class="'+c+'">'+t+'</span>':t).join('') + '</div>';
+  }
+  if (showCursor) html += '<div><span class="prompt">&gt; </span><span class="cursor"></span></div>';
+  termBody.innerHTML = html;
+}
+
+function playAnimation(){
+  clearTimers();
+  document.querySelectorAll('.bubble').forEach(b=>{ b.style.opacity=0; b.style.transform='translateY(8px)'; });
+  renderTerm(0,false);
+  document.querySelectorAll('.connector').forEach(c=>c.style.opacity=0);
+  const tasksCard = document.getElementById('tasksCard');
+  const speedBadge = document.getElementById('speedBadge');
+  tasksCard.style.opacity=0; tasksCard.style.transform='translateY(14px)';
+  speedBadge.style.opacity=0; speedBadge.style.transform='translateY(14px)';
+  document.getElementById('tasksNum').textContent = '0 Tasks';
+  dots.forEach(d=>d.classList.remove('on'));
+
+  sched(()=>{ const b=document.getElementById('b1'); b.style.opacity=1; b.style.transform='translateY(0)'; }, 300);
+  sched(()=>{ const b=document.getElementById('b2'); b.style.opacity=1; b.style.transform='translateY(0)'; }, 750);
+  sched(()=>{ const b=document.getElementById('b3'); b.style.opacity=1; b.style.transform='translateY(0)'; }, 1200);
+
+  let n = 0;
+  function stepTerm(){
+    n++;
+    renderTerm(n, n===termLines.length);
+    if (n < termLines.length) sched(stepTerm, 260);
+  }
+  sched(stepTerm, 400);
+
+  sched(()=>document.getElementById('c1').style.opacity=1, 1800);
+  sched(()=>document.getElementById('c2').style.opacity=1, 2000);
+  sched(()=>document.getElementById('c3').style.opacity=1, 2200);
+
+  sched(()=>{
+    tasksCard.style.opacity=1; tasksCard.style.transform='translateY(0)';
+    let v=0;
+    const iv=setInterval(()=>{
+      v+=60;
+      if(v>=847){v=847;clearInterval(iv);}
+      document.getElementById('tasksNum').textContent = v+' Tasks';
+      const onCount = Math.round((v/847)*24);
+      dots.forEach((d,i)=>{ if(i<onCount) d.classList.add('on'); });
+    },35);
+  }, 2500);
+
+  sched(()=>{ speedBadge.style.opacity=1; speedBadge.style.transform='translateY(0)'; }, 3100);
+  sched(playAnimation, 5200);
+}
+playAnimation();
+</script>
+</body>
+</html>

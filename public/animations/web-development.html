@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0b0f1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .outer {
+    background: #0b0f1a;
+    padding: 40px;
+    border-radius: 32px;
+  }
+  .canvas {
+    position: relative;
+    width: 1160px;
+    height: 740px;
+    background: linear-gradient(135deg, #eef4ff 0%, #dbe6f7 100%);
+    border-radius: 28px;
+    overflow: visible;
+  }
+
+  /* Browser mockup */
+  .browser {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    width: 700px;
+    height: 340px;
+    background: #171e2e;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+  }
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px;
+  }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.red { background: #ff5f56; }
+  .dot.yellow { background: #ffbd2e; }
+  .dot.green { background: #27c93f; }
+  .urlbar {
+    flex: 1;
+    background: #232c40;
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #8b93a7;
+    font-size: 14px;
+  }
+  .browser-body { padding: 0 32px; }
+  .hero-bar {
+    width: 200px;
+    height: 20px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #4f9dff, #7fd4ff);
+    margin-bottom: 24px;
+  }
+  .placeholder-row { display: flex; gap: 12px; }
+  .placeholder-pill { width: 90px; height: 14px; border-radius: 7px; background: #2a3348; }
+
+  /* Phone mockup */
+  .phone {
+    position: absolute;
+    top: 60px;
+    right: 40px;
+    width: 260px;
+    height: 580px;
+    background: #171e2e;
+    border-radius: 36px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    padding: 24px 20px;
+  }
+  .phone-status {
+    display: flex;
+    justify-content: space-between;
+    color: #8b93a7;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .phone-bar { width: 60px; height: 8px; border-radius: 4px; background: linear-gradient(90deg,#4f9dff,#7fd4ff); margin-bottom: 20px; }
+  .phone-image { width: 100%; height: 130px; border-radius: 14px; background: #232c40; margin-bottom: 16px; }
+  .phone-line { height: 8px; border-radius: 4px; background: #2a3348; margin-bottom: 10px; }
+  .phone-line.short { width: 60%; }
+  .phone-btn { width: 100%; height: 34px; border-radius: 8px; background: linear-gradient(90deg,#4f9dff,#7fd4ff); margin: 16px 0; }
+  .phone-cards { display: flex; gap: 10px; }
+  .phone-card { flex: 1; height: 64px; border-radius: 10px; background: #232c40; }
+
+  /* Floating TypeScript badge */
+  .badge-ts {
+    position: absolute;
+    top: 500px;
+    right: 220px;
+    background: #fff;
+    border-radius: 30px;
+    padding: 10px 20px 10px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+  .ts-icon { width: 26px; height: 26px; border-radius: 6px; background: #3178c6; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+
+  /* Floating Next.js badge */
+  .badge-next {
+    position: absolute;
+    top: 568px;
+    right: 220px;
+    background: #fff;
+    border-radius: 30px;
+    padding: 10px 20px 10px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+  .next-icon { width: 26px; height: 26px; border-radius: 50%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+
+  /* Code editor floating card */
+  .editor {
+    position: absolute;
+    top: 260px;
+    left: 90px;
+    width: 620px;
+    background: #12161f;
+    border-radius: 16px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .editor-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+  .filetab {
+    background: #1c2330;
+    border-radius: 20px;
+    padding: 6px 16px;
+    color: #cfd6e6;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .editor-body { padding: 4px 24px 24px; font-family: 'SF Mono', Menlo, monospace; font-size: 15px; line-height: 1.9; }
+  .code-row { display: flex; gap: 20px; }
+  .lineno { color: #4a5468; width: 20px; text-align: right; user-select: none; }
+  .code-line { color: #d4d4d4; white-space: pre; }
+  .cursor { display: inline-block; width: 8px; height: 18px; background: #4fc1ff; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .kw { color: #c586c0; } .fn { color: #dcdcaa; } .va { color: #9cdcfe; }
+  .st { color: #ce9178; } .at { color: #9cdcfe; }
+
+  /* Lighthouse score floating card */
+  .score-card {
+    position: absolute;
+    top: 320px;
+    left: 600px;
+    background: #12161f;
+    border-radius: 20px;
+    padding: 24px 22px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+  .ring-wrap { position: relative; width: 90px; height: 90px; }
+  .score-num {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: #4ade80;
+  }
+  .score-label { color: #8b93a7; font-size: 13px; letter-spacing: 1px; margin-top: 4px; }
+</style>
+<style>
+  html, body { background: transparent !important; overflow: hidden; }
+  .outer { background: transparent !important; border-radius: 0 !important; padding: 40px !important; }
+</style>
+</head>
+<body>
+<div class="outer">
+  <div class="canvas">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="dots">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        </div>
+        <div class="urlbar">🔒 Vireda.co.uk</div>
+      </div>
+      <div class="browser-body">
+        <div class="hero-bar"></div>
+        <div class="placeholder-row">
+          <div class="placeholder-pill"></div>
+          <div class="placeholder-pill"></div>
+          <div class="placeholder-pill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-status"><span>9:41</span><span>••</span></div>
+      <div class="phone-bar"></div>
+      <div class="phone-image"></div>
+      <div class="phone-line"></div>
+      <div class="phone-line short"></div>
+      <div class="phone-btn"></div>
+      <div class="phone-cards"><div class="phone-card"></div><div class="phone-card"></div></div>
+    </div>
+
+    <div class="badge-ts" id="badgeTs"><div class="ts-icon">TS</div>TypeScript</div>
+    <div class="badge-next" id="badgeNext"><div class="next-icon">N</div>Next.js</div>
+
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+        <div class="filetab">✓ Hero.tsx</div>
+      </div>
+      <div class="editor-body" id="editorBody"></div>
+    </div>
+
+    <div class="score-card" id="scoreCard">
+      <div class="ring-wrap">
+        <svg width="90" height="90" viewBox="0 0 90 90" style="transform:rotate(-90deg)">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#2a3348" stroke-width="8"></circle>
+          <circle id="ring" cx="45" cy="45" r="38" fill="none" stroke="#4ade80" stroke-width="8" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="239"></circle>
+        </svg>
+        <div class="score-num" id="scoreNum">0</div>
+      </div>
+      <div class="score-label">LIGHTHOUSE</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const lines = [
+  [['kw','import '],['va',' { useState } '],['kw','from '],['st',"'react'"]],
+  [],
+  [['kw','export function '],['fn','Hero'],['va','() {']],
+  [['va','  const [count, setCount] = '],['fn','useState'],['va','(0)']],
+  [],
+  [['va','  return (']],
+  [['va','    <section '],['at','className'],['va','='],['st','"hero"'],['va','>']],
+  [['va','      <h1>Hello World</h1>']],
+  [['va','    </section>']],
+  [['va','  )']],
+  [['va','}']]
+];
+const editorBody = document.getElementById('editorBody');
+const scoreNum = document.getElementById('scoreNum');
+const ring = document.getElementById('ring');
+const badgeTs = document.getElementById('badgeTs');
+const badgeNext = document.getElementById('badgeNext');
+const scoreCard = document.getElementById('scoreCard');
+let timers = [];
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
+
+function renderLines(count, cursorOn){
+  let html = '';
+  for(let i=0;i<lines.length;i++){
+    const rowHtml = lines[i].map(([c,t])=>'<span class="'+c+'">'+t.replace(/</g,'&lt;')+'</span>').join('');
+    const visible = i < count;
+    html += '<div class="code-row"><span class="lineno">'+(i+1)+'</span><span class="code-line">'+(visible?rowHtml:'')+(visible && i===count-1 && cursorOn?'<span class="cursor"></span>':'')+'</span></div>';
+  }
+  editorBody.innerHTML = html;
+}
+
+function playAnimation(){
+  clearTimers();
+  renderLines(0,false);
+  scoreNum.textContent='0';
+  ring.setAttribute('stroke-dashoffset',239);
+  badgeTs.style.opacity=0; badgeTs.style.transform='translateY(10px)';
+  badgeNext.style.opacity=0; badgeNext.style.transform='translateY(10px)';
+  scoreCard.style.opacity=0; scoreCard.style.transform='translateY(10px) scale(0.95)';
+
+  let n = 0;
+  function step(){
+    n++;
+    renderLines(n,true);
+    if(n < lines.length){ sched(step, 220); }
+    else { sched(runScore, 400); }
+  }
+  sched(step, 400);
+
+  function runScore(){
+    let v=0;
+    const iv=setInterval(()=>{
+      v+=7;
+      if(v>=98){v=98;clearInterval(iv);showBadges();}
+      scoreNum.textContent=v;
+      ring.setAttribute('stroke-dashoffset', 239-(239*v/100));
+    },35);
+  }
+  function showBadges(){
+    scoreCard.style.opacity=1; scoreCard.style.transform='translateY(0) scale(1)';
+    sched(()=>{ badgeTs.style.opacity=1; badgeTs.style.transform='translateY(0)'; }, 150);
+    sched(()=>{ badgeNext.style.opacity=1; badgeNext.style.transform='translateY(0)'; }, 350);
+    sched(playAnimation, 3500);
+  }
+}
+playAnimation();
+</script>
+</body>
+</html>

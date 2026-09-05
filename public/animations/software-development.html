@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0b0f1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .outer { background: #0b0f1a; padding: 40px; border-radius: 32px; }
+  .canvas {
+    position: relative;
+    width: 1220px;
+    height: 700px;
+    background: linear-gradient(135deg, #eef0fb 0%, #e2e6f7 100%);
+    border-radius: 28px;
+    overflow: visible;
+  }
+
+  .panel { position: absolute; background: #12141f; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+
+  /* Git activity panel */
+  .git {
+    top: 40px; left: 50px; width: 600px; height: 300px;
+    padding: 26px 30px;
+  }
+  .git-title { color: #e8ebf2; font-size: 17px; font-weight: 600; margin-bottom: 20px; display:flex; align-items:center; gap:10px; }
+  .branch-badge { background: #1e2436; color: #a5b4fc; font-size: 11px; padding: 3px 10px; border-radius: 10px; font-weight: 500; }
+  .git-graph { position: relative; height: 190px; }
+  .branch-line { position: absolute; border-top: 2px solid #2a2f42; }
+  .main-line { top: 100px; left: 20px; width: 540px; border-top: 2px solid #3730a5; }
+  .feature-line { top: 40px; left: 130px; width: 260px; border-top: 2px solid #4f46e5; border-radius: 4px; }
+  .commit { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #4338ca; border: 3px solid #12141f; opacity: 0; transform: scale(0.4); transition: opacity .3s ease, transform .3s ease; }
+  .commit.merge { background: #22c55e; }
+  .commit-msg { position: absolute; color: #9aa3ba; font-size: 12px; white-space: nowrap; opacity: 0; transition: opacity .3s ease; }
+  .curve { position: absolute; width: 26px; height: 60px; border: 2px solid #4f46e5; border-right: none; border-bottom: none; border-top-left-radius: 20px; opacity: 0; transition: opacity .3s ease; }
+  .curve2 { position: absolute; width: 26px; height: 60px; border: 2px solid #4f46e5; border-left: none; border-top: none; border-bottom-right-radius: 20px; opacity: 0; transition: opacity .3s ease; }
+
+  /* CI/CD pipeline panel */
+  .pipeline {
+    top: 360px; left: 50px; width: 600px; height: 210px;
+    padding: 26px 34px;
+  }
+  .pipeline-title { color: #e8ebf2; font-size: 16px; font-weight: 600; margin-bottom: 26px; }
+  .steps-row { display: flex; align-items: center; justify-content: space-between; position: relative; }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 2; }
+  .step-circle { width: 46px; height: 46px; border-radius: 50%; background: #1e2436; border: 2px solid #2a3050; display: flex; align-items: center; justify-content: center; color: #565f7a; font-size: 18px; transition: all .3s ease; }
+  .step-circle.active { background: #16a34a; border-color: #16a34a; color: #fff; }
+  .step-label { color: #9aa3ba; font-size: 12px; }
+  .step-track { position: absolute; top: 23px; left: 46px; right: 46px; height: 3px; background: #1e2436; z-index: 1; }
+  .step-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#16a34a,#4ade80); transition: width 1s ease; }
+
+  /* Code review panel */
+  .review {
+    top: 60px; right: 40px; width: 460px; height: 400px;
+    padding: 0; overflow: hidden;
+  }
+  .review-bar { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: #0e0f18; }
+  .review-title { color: #cdd2e0; font-size: 13px; }
+  .review-badge { margin-left: auto; background: #1e2436; color: #a5b4fc; font-size: 11px; padding: 4px 10px; border-radius: 8px; }
+  .diff-body { font-family: 'SF Mono', Menlo, monospace; font-size: 12.5px; line-height: 1.9; padding: 14px 0; }
+  .diff-line { padding: 2px 20px; opacity: 0; transform: translateX(-6px); transition: opacity .3s ease, transform .3s ease; }
+  .diff-line.add { background: rgba(34,197,94,0.12); color: #86efac; }
+  .diff-line.rem { background: rgba(239,68,68,0.12); color: #fca5a5; }
+  .diff-line.ctx { color: #6b7385; }
+  .approve-row { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-top: 1px solid #1e2436; opacity: 0; transition: opacity .4s ease; }
+  .approve-icon { width: 22px; height: 22px; border-radius: 50%; background: #16a34a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .approve-text { color: #d8dee8; font-size: 12.5px; }
+
+  /* Stats badge */
+  .stats-badge {
+    top: 490px; right: 40px; width: 460px;
+    padding: 22px 28px;
+    display: flex; align-items: center; gap: 22px;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .ring-wrap { position: relative; width: 74px; height: 74px; flex-shrink: 0; }
+  .cov-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; color: #4ade80; }
+  .stats-lines .a { color: #fff; font-size: 20px; font-weight: 700; }
+  .stats-lines .b { color: #9aa3ba; font-size: 13px; margin-top: 4px; }
+
+  /* Deploy badge */
+  .deploy-badge {
+    top: 594px; left: 50px; width: 600px;
+    padding: 16px 24px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .deploy-dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 12px #4ade80; }
+  .deploy-text-a { color: #e8ebf2; font-size: 13px; font-weight: 600; }
+  .deploy-text-b { color: #7c8ba0; font-size: 11px; margin-top: 2px; }
+</style>
+<style>
+  html, body { background: transparent !important; overflow: hidden; }
+  .outer { background: transparent !important; border-radius: 0 !important; padding: 40px !important; }
+</style>
+</head>
+<body>
+<div class="outer">
+  <div class="canvas">
+
+    <div class="panel git">
+      <div class="git-title">Git activity <span class="branch-badge">main</span></div>
+      <div class="git-graph">
+        <div class="branch-line main-line"></div>
+        <div class="curve" style="top:40px; left:130px;" id="curveA"></div>
+        <div class="curve2" style="top:40px; left:364px;" id="curveB"></div>
+
+        <div class="commit" style="top:94px; left:30px;" id="c1"></div>
+        <div class="commit-msg" style="top:88px; left:52px;" id="m1">feat: init project</div>
+
+        <div class="commit" style="top:34px; left:124px;" id="c2"></div>
+        <div class="commit-msg" style="top:28px; left:146px;" id="m2">feat: add auth flow</div>
+
+        <div class="commit" style="top:34px; left:280px;" id="c3"></div>
+        <div class="commit-msg" style="top:28px; left:302px;" id="m3">fix: race condition</div>
+
+        <div class="commit merge" style="top:94px; left:394px;" id="c4"></div>
+        <div class="commit-msg" style="top:88px; left:416px;" id="m4">merge: PR #128</div>
+
+        <div class="commit" style="top:94px; left:520px;" id="c5"></div>
+        <div class="commit-msg" style="top:88px; left:70px; display:none;"></div>
+      </div>
+    </div>
+
+    <div class="panel pipeline">
+      <div class="pipeline-title">CI/CD pipeline</div>
+      <div class="steps-row">
+        <div class="step-track"><div class="step-fill" id="pfill"></div></div>
+        <div class="step"><div class="step-circle" id="s1">1</div><div class="step-label">Build</div></div>
+        <div class="step"><div class="step-circle" id="s2">2</div><div class="step-label">Test</div></div>
+        <div class="step"><div class="step-circle" id="s3">3</div><div class="step-label">Deploy</div></div>
+      </div>
+    </div>
+
+    <div class="panel review">
+      <div class="review-bar">
+        <span class="review-title">auth.service.ts</span>
+        <span class="review-badge">PR #128</span>
+      </div>
+      <div class="diff-body" id="diffBody">
+        <div class="diff-line ctx" id="d1">  async function validateToken(token) {</div>
+        <div class="diff-line rem" id="d2">-   if (token == null) return false;</div>
+        <div class="diff-line add" id="d3">+   if (!token || isExpired(token)) {</div>
+        <div class="diff-line add" id="d4">+     return false;</div>
+        <div class="diff-line add" id="d5">+   }</div>
+        <div class="diff-line ctx" id="d6">    return verify(token);</div>
+        <div class="diff-line ctx" id="d7">  }</div>
+      </div>
+      <div class="approve-row" id="approveRow">
+        <div class="approve-icon">✓</div>
+        <div class="approve-text">Approved — ready to merge</div>
+      </div>
+    </div>
+
+    <div class="panel stats-badge" id="statsBadge">
+      <div class="ring-wrap">
+        <svg width="74" height="74" viewBox="0 0 74 74" style="transform:rotate(-90deg)">
+          <circle cx="37" cy="37" r="31" fill="none" stroke="#1e2436" stroke-width="7"></circle>
+          <circle id="covRing" cx="37" cy="37" r="31" fill="none" stroke="#4ade80" stroke-width="7" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="195"></circle>
+        </svg>
+        <div class="cov-num" id="covNum">0%</div>
+      </div>
+      <div class="stats-lines">
+        <div class="a" id="testsNum">0 tests</div>
+        <div class="b">Passing · 94% coverage</div>
+      </div>
+    </div>
+
+    <div class="panel deploy-badge" id="deployBadge">
+      <div class="deploy-dot"></div>
+      <div>
+        <div class="deploy-text-a">Deployed to prod</div>
+        <div class="deploy-text-b">v2.4.1 · 12s ago</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let timers = [];
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
+function show(id){ const el=document.getElementById(id); el.style.opacity=1; el.style.transform = el.classList.contains('commit') ? 'scale(1)' : (el.classList.contains('diff-line') ? 'translateX(0)' : el.style.transform); }
+
+function countTo(el, target, suffix, duration){
+  let v = 0;
+  const step = Math.max(1, Math.round(target/(duration/30)));
+  const iv = setInterval(()=>{
+    v += step;
+    if (v >= target){ v = target; clearInterval(iv); }
+    el.textContent = v + suffix;
+  }, 30);
+}
+
+function playAnimation(){
+  clearTimers();
+  ['c1','c2','c3','c4','c5','m1','m2','m3','m4','curveA','curveB'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.style.opacity = 0;
+    if (el.classList.contains('commit')) el.style.transform = 'scale(0.4)';
+  });
+  ['d1','d2','d3','d4','d5','d6','d7'].forEach(id=>{ const el=document.getElementById(id); el.style.opacity=0; el.style.transform='translateX(-6px)'; });
+  document.getElementById('approveRow').style.opacity = 0;
+  ['s1','s2','s3'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('pfill').style.width = '0%';
+  document.getElementById('covRing').setAttribute('stroke-dashoffset', 195);
+  document.getElementById('covNum').textContent = '0%';
+  document.getElementById('testsNum').textContent = '0 tests';
+  const statsBadge = document.getElementById('statsBadge');
+  const deployBadge = document.getElementById('deployBadge');
+  statsBadge.style.opacity=0; statsBadge.style.transform='translateY(14px)';
+  deployBadge.style.opacity=0; deployBadge.style.transform='translateY(14px)';
+
+  sched(()=>show('c1'), 200);
+  sched(()=>show('m1'), 250);
+  sched(()=>show('curveA'), 500);
+  sched(()=>show('c2'), 650);
+  sched(()=>show('m2'), 700);
+  sched(()=>show('c3'), 950);
+  sched(()=>show('m3'), 1000);
+  sched(()=>show('curveB'), 1150);
+  sched(()=>show('c4'), 1350);
+  sched(()=>show('m4'), 1400);
+  sched(()=>show('c5'), 1650);
+
+  ['d1','d2','d3','d4','d5','d6','d7'].forEach((id,i)=>{
+    sched(()=>show(id), 1900 + i*140);
+  });
+  sched(()=>{ document.getElementById('approveRow').style.opacity = 1; }, 3000);
+
+  sched(()=>{ document.getElementById('s1').classList.add('active'); document.getElementById('pfill').style.width='16%'; }, 3300);
+  sched(()=>{ document.getElementById('s2').classList.add('active'); document.getElementById('pfill').style.width='50%'; }, 3700);
+  sched(()=>{ document.getElementById('s3').classList.add('active'); document.getElementById('pfill').style.width='100%'; }, 4100);
+
+  sched(()=>{
+    statsBadge.style.opacity=1; statsBadge.style.transform='translateY(0)';
+    document.getElementById('covRing').setAttribute('stroke-dashoffset', 195 - (195*94/100));
+    countTo(document.getElementById('covNum'), 94, '%', 700);
+    countTo(document.getElementById('testsNum'), 128, ' tests', 700);
+  }, 4400);
+
+  sched(()=>{ deployBadge.style.opacity=1; deployBadge.style.transform='translateY(0)'; }, 4800);
+
+  sched(playAnimation, 6600);
+}
+playAnimation();
+</script>
+</body>
+</html>

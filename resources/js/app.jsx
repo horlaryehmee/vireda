@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
     ArrowRight,
@@ -56,6 +56,7 @@ import {
     Zap,
 } from 'lucide-react';
 import { GetStartedButton } from './Components/ui/GetStartedButton';
+import { AboutFinancialHero } from './Components/ui/AboutFinancialHero';
 import { HeroGridBackground } from './Components/ui/HeroGridBackground';
 import { HowItWorksBlock } from './Components/ui/HowItWorksBlock';
 import { IconStack } from './Components/ui/IconStack';
@@ -77,7 +78,8 @@ const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').the
 
 const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
+    { label: 'About 1', href: '/about-1' },
+    { label: 'About 2', href: '/about-2' },
     { label: 'Services', href: '/services' },
     { label: 'Contact', href: '/contact' },
 ];
@@ -86,7 +88,8 @@ const footerSections = [
     {
         title: 'Company',
         links: [
-            { label: 'About', href: '/about' },
+            { label: 'About 1', href: '/about-1' },
+            { label: 'About 2', href: '/about-2' },
             { label: 'Our Work', href: '/#our-work' },
             { label: 'Privacy Policy', href: '/privacy-policy' },
         ],
@@ -412,10 +415,12 @@ function Navbar() {
         updateLogoContrast();
         window.addEventListener('scroll', updateLogoContrast, { passive: true });
         window.addEventListener('resize', updateLogoContrast);
+        window.addEventListener('vireda-theme-change', updateLogoContrast);
         return () => {
             cancelAnimationFrame(animationFrame);
             window.removeEventListener('scroll', updateLogoContrast);
             window.removeEventListener('resize', updateLogoContrast);
+            window.removeEventListener('vireda-theme-change', updateLogoContrast);
         };
     }, []);
 
@@ -469,7 +474,8 @@ function Navbar() {
                 <Logo />
                 <TubeLightNav activeLabel={activeNavLabel} items={[
                     { label: 'Home', href: '/', icon: Compass },
-                    { label: 'About', href: '/about', icon: User },
+                    { label: 'About 1', href: '/about-1', icon: User },
+                    { label: 'About 2', href: '/about-2', icon: User },
                     {
                         label: 'Services',
                         href: '/services',
@@ -503,7 +509,8 @@ function Navbar() {
                 </div>
                 <div className="mobile-menu-content">
                     <a className="mobile-primary-link" href="/" onClick={closeNavigation}>Home <ArrowRight size={17} /></a>
-                    <a className="mobile-primary-link" href="/about" onClick={closeNavigation}>About <ArrowRight size={17} /></a>
+                    <a className="mobile-primary-link" href="/about-1" onClick={closeNavigation}>About 1 <ArrowRight size={17} /></a>
+                    <a className="mobile-primary-link" href="/about-2" onClick={closeNavigation}>About 2 <ArrowRight size={17} /></a>
                     <section className={mobileSection === 'services' ? 'open' : ''}>
                         <div className="mobile-menu-section-header">
                             <a href="/services" onClick={closeNavigation}>Services</a>
@@ -638,7 +645,6 @@ function Hero() {
             <div className="radial-hero-glow" aria-hidden="true" />
             <div className="blackhole-copy">
                 <div className="blackhole-copy-inner">
-                    <p className="hero-kicker">Management &amp; Technology Consulting</p>
                     <h1>
                         Let&apos;s build
                         <br />
@@ -1130,51 +1136,53 @@ function ServicesSection() {
     return (
         <section className="section services-section" id="services" data-nav-theme="dark">
             <NeonMesh />
-            <div className="container section-heading">
-                <p className="eyebrow">What We Deliver</p>
-                <TextRevealByWord
-                    as="h2"
-                    className="section-heading-reveal"
-                    highlight="designed for impact"
-                    text="Purpose-built solutions, designed for impact."
-                />
-                <p>
-                    Every engagement is shaped around the challenge, the opportunity and the outcome. We focus on
-                    creating solutions that make a meaningful difference to your organisation.
-                </p>
-            </div>
-            <div className="container deliver-grid">
-                {services.map((service, index) => {
-                    const targetService = servicePageServices[index] || service;
+            <div className="container services-content">
+                <div className="section-heading">
+                    <p className="eyebrow">What We Deliver</p>
+                    <TextRevealByWord
+                        as="h2"
+                        className="section-heading-reveal"
+                        highlight="designed for impact"
+                        text="Purpose-built solutions, designed for impact."
+                    />
+                    <p>
+                        Every engagement is shaped around the challenge, the opportunity and the outcome. We focus on
+                        creating solutions that make a meaningful difference to your organisation.
+                    </p>
+                </div>
+                <div className="deliver-grid">
+                    {services.map((service, index) => {
+                        const targetService = servicePageServices[index] || service;
 
-                    return (
-                        <a
-                            aria-label={`View ${service.title} service details`}
-                            className={`deliver-card deliver-card-${index + 1}`}
-                            href={`/services?service=${slugifyServiceTitle(targetService.title)}#${slugifyServiceTitle(targetService.title)}`}
-                            key={service.title}
-                        >
-                            <div className="deliver-card-top">
-                                <IconStack aria-hidden="true">
-                                    {React.createElement(serviceIcons[index], { size: 17, strokeWidth: 1.7 })}
-                                </IconStack>
-                            </div>
-                            <div className="deliver-card-body">
-                                <h3>{service.title}</h3>
-                                <p className="service-statement">{service.statement}</p>
-                                <p>{service.description}</p>
-                            </div>
-                            <div className="tags">
-                                {service.tags.map((tag) => (
-                                    <span key={tag}>{tag}</span>
-                                ))}
-                            </div>
-                            <span className="deliver-card-link" aria-hidden="true">
-                                <ArrowRight size={17} strokeWidth={1.8} />
-                            </span>
-                        </a>
-                    );
-                })}
+                        return (
+                            <a
+                                aria-label={`View ${service.title} service details`}
+                                className={`deliver-card deliver-card-${index + 1}`}
+                                href={`/services?service=${slugifyServiceTitle(targetService.title)}#${slugifyServiceTitle(targetService.title)}`}
+                                key={service.title}
+                            >
+                                <div className="deliver-card-top">
+                                    <IconStack aria-hidden="true">
+                                        {React.createElement(serviceIcons[index], { size: 17, strokeWidth: 1.7 })}
+                                    </IconStack>
+                                </div>
+                                <div className="deliver-card-body">
+                                    <h3>{service.title}</h3>
+                                    <p className="service-statement">{service.statement}</p>
+                                    <p>{service.description}</p>
+                                </div>
+                                <div className="tags">
+                                    {service.tags.map((tag) => (
+                                        <span key={tag}>{tag}</span>
+                                    ))}
+                                </div>
+                                <span className="deliver-card-link" aria-hidden="true">
+                                    <ArrowRight size={17} strokeWidth={1.8} />
+                                </span>
+                            </a>
+                        );
+                    })}
+                </div>
             </div>
         </section>
     );
@@ -1222,8 +1230,8 @@ function AboutVireda() {
                             className="about-system-image"
                             loading="lazy"
                             decoding="async"
-                            src="/images/vireda-office-building.png"
-                            alt="A realistic Viredá office building with glass, stone and warm architectural lighting"
+                            src="/images/homepage-about-vireda-team.jpg"
+                            alt="The Viredá team collaborating in a modern office"
                         />
                     </div>
                     <div className="about-copy-grid">
@@ -1526,6 +1534,716 @@ function ServiceFeatureIcon({ serviceIndex, cardIndex, ...props }) {
     const Icon = serviceFeatureIcons[(serviceIndex * 4) + cardIndex] ?? Sparkles;
 
     return <Icon {...props} />;
+}
+
+const websiteAnimationLines = [
+    [['kw', 'import '], ['va', ' { useState } '], ['kw', 'from '], ['st', "'react'"]],
+    [],
+    [['kw', 'export function '], ['fn', 'Hero'], ['va', '() {']],
+    [['va', '  const [count, setCount] = '], ['fn', 'useState'], ['va', '(0)']],
+    [],
+    [['va', '  return (']],
+    [['va', '    <section '], ['at', 'className'], ['va', '='], ['st', '"hero"'], ['va', '>']],
+    [['va', '      <h1>Hello World</h1>']],
+    [['va', '    </section>']],
+    [['va', '  )']],
+    [['va', '}']],
+];
+
+const serviceAnimationAssets = [
+    { src: '/animations/operations.html', width: 1300, height: 810, label: 'Animated operations dashboard and workflow board' },
+    { src: '/animations/web-development.html', width: 1240, height: 820, label: 'Animated website design and development workspace' },
+    { src: '/animations/software-development.html', width: 1300, height: 780, label: 'Animated software development and deployment workflow' },
+    { src: '/animations/data-analytics.html', width: 1300, height: 1000, label: 'Animated data analytics dashboards and reporting workflow' },
+    { src: '/animations/ai-automation.html', width: 1320, height: 800, label: 'Animated AI assistant and automation workflow' },
+    { src: '/animations/branding.html', width: 1240, height: 900, label: 'Animated brand design and creative workspace' },
+];
+
+function CollapsibleServiceTags({ tags, serviceTitle }) {
+    const containerRef = useRef(null);
+    const measurementRef = useRef(null);
+    const [visibleCount, setVisibleCount] = useState(tags.length);
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    useLayoutEffect(() => {
+        const container = containerRef.current;
+        const measurement = measurementRef.current;
+        if (!container || !measurement) return undefined;
+
+        const calculateVisibleTags = () => {
+            const containerStyles = window.getComputedStyle(container);
+            const availableWidth = container.getBoundingClientRect().width
+                - (Number.parseFloat(containerStyles.paddingLeft) || 0)
+                - (Number.parseFloat(containerStyles.paddingRight) || 0);
+            const tagWidths = Array.from(measurement.querySelectorAll('[data-tag-measure]'))
+                .map((tag) => tag.getBoundingClientRect().width);
+            const moreButton = measurement.querySelector('[data-more-measure]');
+            const gap = Number.parseFloat(window.getComputedStyle(measurement).columnGap) || 8;
+
+            const rowCount = (widths) => {
+                let rows = 1;
+                let rowWidth = 0;
+
+                widths.forEach((width) => {
+                    if (rowWidth > 0 && rowWidth + gap + width > availableWidth) {
+                        rows += 1;
+                        rowWidth = width;
+                    } else {
+                        rowWidth += (rowWidth > 0 ? gap : 0) + width;
+                    }
+                });
+
+                return rows;
+            };
+
+            if (rowCount(tagWidths) <= 2) {
+                setVisibleCount(tags.length);
+                return;
+            }
+
+            for (let count = tags.length - 1; count >= 0; count -= 1) {
+                moreButton.textContent = `+${tags.length - count} More`;
+                const moreWidth = moreButton.getBoundingClientRect().width;
+                if (rowCount([...tagWidths.slice(0, count), moreWidth]) <= 2) {
+                    setVisibleCount(count);
+                    return;
+                }
+            }
+        };
+
+        calculateVisibleTags();
+        const resizeObserver = new ResizeObserver(calculateVisibleTags);
+        resizeObserver.observe(container);
+
+        return () => resizeObserver.disconnect();
+    }, [tags]);
+
+    const hiddenCount = tags.length - visibleCount;
+
+    return (
+        <div className="service-detail-tags" ref={containerRef} aria-label={`${serviceTitle} capabilities`}>
+            <div className="service-detail-tags-track">
+                {(isExpanded ? tags : tags.slice(0, visibleCount)).map((tag) => <span key={tag}>{tag}</span>)}
+                {!isExpanded && hiddenCount > 0 && (
+                    <button type="button" className="service-tags-more" onClick={() => setIsExpanded(true)} aria-expanded="false">
+                        +{hiddenCount} More
+                    </button>
+                )}
+                {isExpanded && hiddenCount > 0 && (
+                    <button type="button" className="service-tags-more" onClick={() => setIsExpanded(false)} aria-expanded="true">
+                        Show Less
+                    </button>
+                )}
+            </div>
+            <div className="service-detail-tags-track service-detail-tags-measure" ref={measurementRef} aria-hidden="true">
+                {tags.map((tag) => <span data-tag-measure key={`measure-${tag}`}>{tag}</span>)}
+                <button type="button" className="service-tags-more" data-more-measure tabIndex={-1}>+99 More</button>
+            </div>
+        </div>
+    );
+}
+
+function ServiceAnimation({ animation }) {
+    const frameRef = useRef(null);
+    const [layout, setLayout] = useState(null);
+
+    useEffect(() => {
+        const node = frameRef.current;
+        if (!node) return undefined;
+
+        const updateLayout = () => {
+            const { width, height } = node.getBoundingClientRect();
+            const scale = Math.min(width / animation.width, height / animation.height);
+            setLayout({
+                scale,
+                x: (width - animation.width * scale) / 2,
+                y: (height - animation.height * scale) / 2,
+            });
+        };
+
+        updateLayout();
+        const resizeObserver = new ResizeObserver(updateLayout);
+        resizeObserver.observe(node);
+
+        return () => resizeObserver.disconnect();
+    }, [animation]);
+
+    return (
+        <div className="service-animation-frame" ref={frameRef}>
+            <iframe
+                className="service-animation-embed"
+                src={animation.src}
+                title={animation.label}
+                loading="lazy"
+                sandbox="allow-scripts"
+                tabIndex={-1}
+                aria-label={animation.label}
+                style={layout ? {
+                    height: `${animation.height}px`,
+                    opacity: 1,
+                    transform: `translate(${layout.x}px, ${layout.y}px) scale(${layout.scale})`,
+                    width: `${animation.width}px`,
+                } : {
+                    height: `${animation.height}px`,
+                    width: `${animation.width}px`,
+                }}
+            />
+        </div>
+    );
+}
+
+function WebsiteExperienceAnimation() {
+    const animationRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+    const [visibleLines, setVisibleLines] = useState(0);
+    const [score, setScore] = useState(0);
+    const [showScore, setShowScore] = useState(false);
+    const [showTypeScript, setShowTypeScript] = useState(false);
+    const [showNext, setShowNext] = useState(false);
+    const [canvasLayout, setCanvasLayout] = useState(null);
+
+    useEffect(() => {
+        const node = animationRef.current;
+        if (!node || typeof IntersectionObserver === 'undefined') {
+            setIsVisible(true);
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.25 },
+        );
+        observer.observe(node);
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const node = animationRef.current;
+        if (!node) return undefined;
+
+        const updateCanvasLayout = () => {
+            const { width, height } = node.getBoundingClientRect();
+            const scale = Math.max(width / 1160, height / 860);
+            setCanvasLayout({
+                scale,
+                x: (width - (1160 * scale)) / 2,
+                y: (height - (860 * scale)) / 2,
+            });
+        };
+
+        updateCanvasLayout();
+        const resizeObserver = new ResizeObserver(updateCanvasLayout);
+        resizeObserver.observe(node);
+
+        return () => resizeObserver.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isVisible) return undefined;
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reducedMotion) {
+            setVisibleLines(websiteAnimationLines.length);
+            setScore(98);
+            setShowScore(true);
+            setShowTypeScript(true);
+            setShowNext(true);
+            return undefined;
+        }
+
+        let cancelled = false;
+        let scoreTimer;
+        const timers = [];
+        const schedule = (callback, delay) => {
+            const timer = window.setTimeout(callback, delay);
+            timers.push(timer);
+        };
+
+        const play = () => {
+            if (cancelled) return;
+            setVisibleLines(0);
+            setScore(0);
+            setShowScore(false);
+            setShowTypeScript(false);
+            setShowNext(false);
+
+            let line = 0;
+            const typeLine = () => {
+                if (cancelled) return;
+                line += 1;
+                setVisibleLines(line);
+                if (line < websiteAnimationLines.length) {
+                    schedule(typeLine, 220);
+                    return;
+                }
+
+                schedule(() => {
+                    let nextScore = 0;
+                    scoreTimer = window.setInterval(() => {
+                        nextScore = Math.min(98, nextScore + 7);
+                        setScore(nextScore);
+                        if (nextScore === 98) {
+                            window.clearInterval(scoreTimer);
+                            setShowScore(true);
+                            schedule(() => setShowTypeScript(true), 150);
+                            schedule(() => setShowNext(true), 350);
+                            schedule(play, 3500);
+                        }
+                    }, 35);
+                }, 400);
+            };
+
+            schedule(typeLine, 400);
+        };
+
+        play();
+
+        return () => {
+            cancelled = true;
+            timers.forEach((timer) => window.clearTimeout(timer));
+            window.clearInterval(scoreTimer);
+        };
+    }, [isVisible]);
+
+    const ringOffset = 239 - ((239 * score) / 100);
+
+    return (
+        <div
+            className="web-experience-animation"
+            ref={animationRef}
+            role="img"
+            aria-label="Animated responsive website, code editor and performance score"
+        >
+          <div
+            className="web-animation-canvas"
+            style={canvasLayout ? {
+                opacity: 1,
+                transform: `translate(${canvasLayout.x}px, ${canvasLayout.y}px) scale(${canvasLayout.scale})`,
+            } : undefined}
+          >
+            <div className="web-animation-browser" aria-hidden="true">
+                <div className="web-animation-window-bar">
+                    <div className="web-animation-dots"><span /><span /><span /></div>
+                    <div className="web-animation-urlbar">● Vireda.co.uk</div>
+                </div>
+                <div className="web-animation-browser-body">
+                    <div className="web-animation-hero-bar" />
+                    <div className="web-animation-placeholder-row"><span /><span /><span /></div>
+                </div>
+            </div>
+
+            <div className="web-animation-phone" aria-hidden="true">
+                <div className="web-animation-phone-status"><span>9:41</span><span>••</span></div>
+                <div className="web-animation-phone-bar" />
+                <div className="web-animation-phone-image" />
+                <div className="web-animation-phone-line" />
+                <div className="web-animation-phone-line is-short" />
+                <div className="web-animation-phone-button" />
+                <div className="web-animation-phone-cards"><span /><span /></div>
+            </div>
+
+            <div className={`web-animation-badge is-typescript${showTypeScript ? ' is-visible' : ''}`} aria-hidden="true">
+                <span className="web-animation-ts-icon">TS</span><span>TypeScript</span>
+            </div>
+            <div className={`web-animation-badge is-next${showNext ? ' is-visible' : ''}`} aria-hidden="true">
+                <span className="web-animation-next-icon">N</span><span>Next.js</span>
+            </div>
+
+            <div className="web-animation-editor" aria-hidden="true">
+                <div className="web-animation-editor-bar">
+                    <div className="web-animation-dots"><span /><span /><span /></div>
+                    <div className="web-animation-filetab">✓ Hero.tsx</div>
+                </div>
+                <div className="web-animation-editor-body">
+                    {websiteAnimationLines.map((parts, index) => (
+                        <div className="web-animation-code-row" key={`code-line-${index}`}>
+                            <span className="web-animation-lineno">{index + 1}</span>
+                            <span className="web-animation-code-line">
+                                {index < visibleLines && parts.map(([className, text], partIndex) => (
+                                    <span className={`web-code-${className}`} key={`${className}-${partIndex}`}>{text}</span>
+                                ))}
+                                {index === visibleLines - 1 && <span className="web-animation-cursor" />}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className={`web-animation-score-card${showScore ? ' is-visible' : ''}`} aria-hidden="true">
+                <div className="web-animation-ring-wrap">
+                    <svg viewBox="0 0 90 90">
+                        <circle cx="45" cy="45" r="38" />
+                        <circle className="web-animation-ring-value" cx="45" cy="45" r="38" style={{ strokeDashoffset: ringOffset }} />
+                    </svg>
+                    <span>{score}</span>
+                </div>
+                <div className="web-animation-score-label">LIGHTHOUSE</div>
+            </div>
+          </div>
+        </div>
+    );
+}
+
+const aiAnimationTerminalLines = [
+    [['prompt', '> '], ['', 'npx create-next-app@latest']],
+    [['', 'Creating a new Next.js app...']],
+    [['', 'Installing dependencies:']],
+    [['', '  - react 19.0.0']],
+    [['', '  - next 15.1.0']],
+    [['', '  - tailwindcss 4.0']],
+    [['ok', '✓ Project created successfully']],
+    [['prompt', '> '], ['', 'npm run dev']],
+    [['ok', '✓ Ready on localhost:3000']],
+];
+
+function AiAutomationAnimation() {
+    const animationRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+    const [visibleBubbles, setVisibleBubbles] = useState(0);
+    const [visibleTerminalLines, setVisibleTerminalLines] = useState(0);
+    const [visibleConnectors, setVisibleConnectors] = useState(0);
+    const [showTasks, setShowTasks] = useState(false);
+    const [tasks, setTasks] = useState(0);
+    const [showSpeed, setShowSpeed] = useState(false);
+    const [canvasLayout, setCanvasLayout] = useState(null);
+
+    useEffect(() => {
+        const node = animationRef.current;
+        if (!node || typeof IntersectionObserver === 'undefined') {
+            setIsVisible(true);
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.25 },
+        );
+        observer.observe(node);
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const node = animationRef.current;
+        if (!node) return undefined;
+
+        const updateCanvasLayout = () => {
+            const { width, height } = node.getBoundingClientRect();
+            const scale = Math.min(width / 1240, height / 940);
+            setCanvasLayout({
+                scale,
+                x: (width - (1240 * scale)) / 2,
+                y: (height - (940 * scale)) / 2,
+            });
+        };
+
+        updateCanvasLayout();
+        const resizeObserver = new ResizeObserver(updateCanvasLayout);
+        resizeObserver.observe(node);
+
+        return () => resizeObserver.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isVisible) return undefined;
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reducedMotion) {
+            setVisibleBubbles(3);
+            setVisibleTerminalLines(aiAnimationTerminalLines.length);
+            setVisibleConnectors(3);
+            setShowTasks(true);
+            setTasks(847);
+            setShowSpeed(true);
+            return undefined;
+        }
+
+        let cancelled = false;
+        const timers = [];
+        const intervals = [];
+        const schedule = (callback, delay) => {
+            const timer = window.setTimeout(callback, delay);
+            timers.push(timer);
+        };
+
+        const play = () => {
+            if (cancelled) return;
+            setVisibleBubbles(0);
+            setVisibleTerminalLines(0);
+            setVisibleConnectors(0);
+            setShowTasks(false);
+            setTasks(0);
+            setShowSpeed(false);
+
+            schedule(() => setVisibleBubbles(1), 300);
+            schedule(() => setVisibleBubbles(2), 750);
+            schedule(() => setVisibleBubbles(3), 1200);
+
+            let line = 0;
+            const typeTerminalLine = () => {
+                if (cancelled) return;
+                line += 1;
+                setVisibleTerminalLines(line);
+                if (line < aiAnimationTerminalLines.length) schedule(typeTerminalLine, 260);
+            };
+            schedule(typeTerminalLine, 400);
+
+            schedule(() => setVisibleConnectors(1), 1800);
+            schedule(() => setVisibleConnectors(2), 2000);
+            schedule(() => setVisibleConnectors(3), 2200);
+            schedule(() => {
+                setShowTasks(true);
+                let count = 0;
+                const interval = window.setInterval(() => {
+                    count = Math.min(847, count + 60);
+                    setTasks(count);
+                    if (count === 847) window.clearInterval(interval);
+                }, 35);
+                intervals.push(interval);
+            }, 2500);
+            schedule(() => setShowSpeed(true), 3100);
+            schedule(play, 5200);
+        };
+
+        play();
+
+        return () => {
+            cancelled = true;
+            timers.forEach((timer) => window.clearTimeout(timer));
+            intervals.forEach((interval) => window.clearInterval(interval));
+        };
+    }, [isVisible]);
+
+    const activeDots = Math.round((tasks / 847) * 24);
+    const bubbles = [
+        ['user', 'Hi, I need help with my order'],
+        ['bot', 'Of course! Could you share your order number?'],
+        ['user', "It's #ORD-4821"],
+    ];
+
+    return (
+        <div
+            className="ai-automation-animation"
+            ref={animationRef}
+            role="img"
+            aria-label="Animated AI assistant, connected integrations and automated workflow dashboard"
+        >
+          <div
+            className="ai-animation-canvas"
+            style={canvasLayout ? {
+                opacity: 1,
+                transform: `translate(${canvasLayout.x}px, ${canvasLayout.y}px) scale(${canvasLayout.scale})`,
+            } : undefined}
+          >
+            <div className="ai-animation-panel ai-animation-chat" aria-hidden="true">
+                <div className="ai-animation-chat-header">
+                    <div className="ai-animation-chat-avatar">✦</div>
+                    <div><div className="ai-animation-chat-title">AI Assistant</div><div className="ai-animation-chat-status">Online</div></div>
+                </div>
+                <div className="ai-animation-chat-body">
+                    {bubbles.map(([type, text], index) => (
+                        <div className={`ai-animation-bubble is-${type}${index < visibleBubbles ? ' is-visible' : ''}`} key={text}>{text}</div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="ai-animation-panel ai-animation-terminal" aria-hidden="true">
+                <div className="ai-animation-terminal-bar">
+                    <div className="ai-animation-dots"><span /><span /><span /></div>
+                    <div className="ai-animation-terminal-title">AI Workflow</div>
+                </div>
+                <div className="ai-animation-terminal-body">
+                    {aiAnimationTerminalLines.slice(0, visibleTerminalLines).map((parts, lineIndex) => (
+                        <div key={`terminal-${lineIndex}`}>
+                            {parts.map(([type, text], partIndex) => (
+                                <span className={type ? `ai-terminal-${type}` : undefined} key={`${type}-${partIndex}`}>{text}</span>
+                            ))}
+                        </div>
+                    ))}
+                    {visibleTerminalLines === aiAnimationTerminalLines.length && (
+                        <div><span className="ai-terminal-prompt">&gt; </span><span className="ai-animation-cursor" /></div>
+                    )}
+                </div>
+            </div>
+
+            <div className="ai-animation-panel ai-animation-integrations" aria-hidden="true">
+                <div className="ai-animation-integrations-title">Connected Integrations</div>
+                <div className="ai-animation-hub-wrap">
+                    {[1, 2, 3].map((connector) => <span className={`ai-animation-connector is-${connector}${visibleConnectors >= connector ? ' is-visible' : ''}`} key={connector} />)}
+                    <div className="ai-animation-node is-slack"><span>📌</span><small>Slack</small></div>
+                    <div className="ai-animation-node is-excel"><span>📊</span><small>Excel</small></div>
+                    <div className="ai-animation-node is-sheets"><span>📄</span><small>Sheets</small></div>
+                    <div className="ai-animation-hub">✦</div>
+                </div>
+            </div>
+
+            <div className={`ai-animation-panel ai-animation-tasks${showTasks ? ' is-visible' : ''}`} aria-hidden="true">
+                <div className="ai-animation-clock">◷</div>
+                <div className="ai-animation-tasks-number">{tasks} Tasks</div>
+                <div className="ai-animation-tasks-label">Automated this month</div>
+                <div className="ai-animation-dot-grid">
+                    {Array.from({ length: 24 }, (_, index) => <span className={index < activeDots ? 'is-active' : ''} key={index} />)}
+                </div>
+            </div>
+
+            <div className={`ai-animation-panel ai-animation-speed${showSpeed ? ' is-visible' : ''}`} aria-hidden="true">
+                <div>10x</div><small>FASTER WORKFLOWS</small>
+            </div>
+          </div>
+        </div>
+    );
+}
+
+function BrandCreativeAnimation() {
+    const animationRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+    const [visibleSwatches, setVisibleSwatches] = useState(0);
+    const [showType, setShowType] = useState(false);
+    const [showBrand, setShowBrand] = useState(false);
+    const [showPhotoshop, setShowPhotoshop] = useState(false);
+    const [canvasLayout, setCanvasLayout] = useState(null);
+
+    useEffect(() => {
+        const node = animationRef.current;
+        if (!node || typeof IntersectionObserver === 'undefined') {
+            setIsVisible(true);
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.25 },
+        );
+        observer.observe(node);
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const node = animationRef.current;
+        if (!node) return undefined;
+
+        const updateCanvasLayout = () => {
+            const { width, height } = node.getBoundingClientRect();
+            const scale = Math.max(width / 1160, height / 900);
+            setCanvasLayout({
+                scale,
+                x: (width - (1160 * scale)) / 2,
+                y: (height - (900 * scale)) / 2,
+            });
+        };
+
+        updateCanvasLayout();
+        const resizeObserver = new ResizeObserver(updateCanvasLayout);
+        resizeObserver.observe(node);
+
+        return () => resizeObserver.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isVisible) return undefined;
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reducedMotion) {
+            setVisibleSwatches(3);
+            setShowType(true);
+            setShowBrand(true);
+            setShowPhotoshop(true);
+            return undefined;
+        }
+
+        let cancelled = false;
+        const timers = [];
+        const schedule = (callback, delay) => {
+            const timer = window.setTimeout(callback, delay);
+            timers.push(timer);
+        };
+
+        const play = () => {
+            if (cancelled) return;
+            setVisibleSwatches(0);
+            setShowType(false);
+            setShowBrand(false);
+            setShowPhotoshop(false);
+            schedule(() => setVisibleSwatches(1), 200);
+            schedule(() => setVisibleSwatches(2), 400);
+            schedule(() => setVisibleSwatches(3), 600);
+            schedule(() => setShowType(true), 900);
+            schedule(() => setShowBrand(true), 1300);
+            schedule(() => setShowPhotoshop(true), 1650);
+            schedule(play, 4200);
+        };
+
+        play();
+
+        return () => {
+            cancelled = true;
+            timers.forEach((timer) => window.clearTimeout(timer));
+        };
+    }, [isVisible]);
+
+    return (
+        <div
+            className="brand-creative-animation"
+            ref={animationRef}
+            role="img"
+            aria-label="Animated brand design workspace with typography, colour swatches and creative tools"
+        >
+          <div
+            className="brand-animation-canvas"
+            style={canvasLayout ? {
+                opacity: 1,
+                transform: `translate(${canvasLayout.x}px, ${canvasLayout.y}px) scale(${canvasLayout.scale})`,
+            } : undefined}
+          >
+            <div className="brand-animation-panel brand-animation-figma" aria-hidden="true">
+                <div className="brand-animation-figma-header"><span /><strong>Website — Design</strong></div>
+                <div className="brand-animation-figma-body">
+                    <div className="brand-animation-layers">
+                        <small>LAYERS</small>
+                        {['Hero Section', 'Heading', 'CTA Button', 'Avatar', 'Hero Image'].map((layer, index) => <span className={index === 0 ? 'is-active' : ''} key={layer}>{layer}</span>)}
+                    </div>
+                    <div className="brand-animation-mini-canvas">
+                        <small>Hero Section — 1440x800</small><i /><b /><b className="is-short" /><b className="is-medium" />
+                    </div>
+                </div>
+            </div>
+
+            <div className="brand-animation-panel brand-animation-swatches" aria-hidden="true">
+                {[1, 2, 3].map((swatch) => <span className={`is-${swatch}${visibleSwatches >= swatch ? ' is-visible' : ''}`} key={swatch} />)}
+            </div>
+
+            <div className="brand-animation-panel brand-animation-app-icon" aria-hidden="true"><span>V</span></div>
+
+            <div className={`brand-animation-panel brand-animation-type${showType ? ' is-visible' : ''}`} aria-hidden="true">
+                <div className="brand-animation-aa">Aa</div>
+                <div className="brand-animation-type-dots">{Array.from({ length: 7 }, (_, index) => <span className={index === 0 ? 'is-active' : ''} key={index} />)}</div>
+                <div className="brand-animation-family">Plus Jakarta Sans</div>
+                {[
+                    ['Light 300', 300], ['Regular 400', 400], ['Medium 500', 500], ['SemiBold 600', 600], ['Bold 700', 700],
+                ].map(([label, weight]) => <div className="brand-animation-weight" key={label}><span style={{ fontWeight: weight }}>Aabcdefg</span><small>{label}</small></div>)}
+                <p>The quick brown fox jumps over the lazy dog.</p>
+            </div>
+
+            <div className={`brand-animation-panel brand-animation-name-card${showBrand ? ' is-visible' : ''}`} aria-hidden="true">
+                <strong>Vireda</strong><span>Digital Studio</span><i />
+            </div>
+
+            <div className={`brand-animation-panel brand-animation-photoshop${showPhotoshop ? ' is-visible' : ''}`} aria-hidden="true">
+                <div className="brand-animation-ps-bar"><span>File</span><span>Edit</span><span>Image</span><span>Layer</span><small>poster-design.psd</small></div>
+                <div className="brand-animation-ps-body">
+                    <div className="brand-animation-ps-tools">{Array.from({ length: 4 }, (_, index) => <span key={index} />)}</div>
+                    <div className="brand-animation-poster-wrap"><div className="brand-animation-poster"><strong>Creative<br />Design</strong><span /></div></div>
+                    <div className="brand-animation-ps-layers">
+                        <small>LAYERS</small>
+                        <span><i className="is-orange" />Text Layer</span><span><i className="is-gold" />Color Overlay</span><span><i />Subject</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    );
 }
 
 const servicePageResults = [
@@ -1855,21 +2573,14 @@ function AboutPage() {
         <>
             <Navbar />
             <main className="page-shell about-page">
-                <section className="page-hero services-page-hero about-page-hero" id="top" data-nav-theme="dark">
-                    <div className="container page-hero-inner">
-                        <p className="eyebrow">About Viredá</p>
-                        <h1>
-                            We noticed businesses were solving the{' '}
-                            <span className="page-hero-title-highlight">wrong problems.</span>
-                        </h1>
-                        <p>
-                            Most businesses don't lack ideas, ambition or opportunities. What gets in the way is often
-                            everything in between: the processes, technology, information and experiences that haven't
-                            evolved with the business.
-                        </p>
-                        <GetStartedButton href="#start" className="about-page-hero-action">Work with us</GetStartedButton>
-                    </div>
-                </section>
+                <AboutFinancialHero
+                    title={<>We noticed businesses were solving the <span>wrong problems.</span></>}
+                    description="Most businesses don't lack ideas, ambition or opportunities. What gets in the way is often everything in between: the processes, technology, information and experiences that haven't evolved with the business."
+                    buttonText="Work with us"
+                    buttonLink="#start"
+                    imageUrl1="/images/about-hero-team.jpg"
+                    imageUrl2="/images/about-hero-computer-right-v2.jpg"
+                />
 
                 <section className="page-section about-story-section">
                     <div className="container about-story-layout">
@@ -2350,21 +3061,13 @@ function ServicesPage() {
                                                     <p>{service.intro}</p>
                                                     {service.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                                                 </div>
-                                                <div className="service-detail-tags" aria-label={`${service.title} capabilities`}>
-                                                    <div className="service-detail-tags-track">
-                                                        {service.tags.map((tag) => (
-                                                            <span key={tag}>{tag}</span>
-                                                        ))}
-                                                        <div className="service-detail-tags-copy" aria-hidden="true">
-                                                            {service.tags.map((tag) => (
-                                                                <span key={`copy-${tag}`}>{tag}</span>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <CollapsibleServiceTags tags={service.tags} serviceTitle={service.title} />
                                             </div>
-                                            <figure className="service-detail-media">
-                                                <img src={service.image} alt={service.imageAlt} loading="lazy" />
+                                            <figure
+                                                className="service-detail-media has-service-animation"
+                                                style={{ '--service-animation-ratio': `${serviceAnimationAssets[index].width} / ${serviceAnimationAssets[index].height}` }}
+                                            >
+                                                <ServiceAnimation animation={serviceAnimationAssets[index]} />
                                             </figure>
                                         </div>
                                         <div className="service-detail-points">
@@ -2791,7 +3494,7 @@ function App() {
         return <ServicesPage />;
     }
 
-    if (window.location.pathname === '/about') {
+    if (['/about', '/about-1', '/about-2'].includes(window.location.pathname)) {
         return <AboutPage />;
     }
 

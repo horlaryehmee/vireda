@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0b0f1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .outer { background: #0b0f1a; padding: 40px; border-radius: 32px; }
+  .canvas {
+    position: relative;
+    width: 1160px;
+    height: 820px;
+    background: linear-gradient(135deg, #fdf3d7 0%, #f7e6b8 100%);
+    border-radius: 28px;
+    overflow: visible;
+  }
+
+  .panel { position: absolute; background: #171e2e; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+
+  /* Figma design panel */
+  .figma {
+    top: 30px; left: 60px; width: 620px; height: 300px;
+    padding: 20px 24px; overflow: hidden;
+  }
+  .figma-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .figma-logo { width: 26px; height: 26px; border-radius: 6px; background: conic-gradient(#f24e1e,#a259ff,#1abcfe,#0acf83,#ff7262); }
+  .figma-title { color: #e8ebf2; font-size: 16px; font-weight: 500; }
+  .figma-body { display: flex; gap: 20px; }
+  .layers-col { width: 150px; }
+  .layers-label { color: #6b7488; font-size: 11px; letter-spacing: 1px; margin-bottom: 10px; }
+  .layer-row { color: #a8b0c3; font-size: 13px; padding: 6px 0; }
+  .layer-row.active { color: #ffb454; }
+  .canvas-col { flex: 1; background: #10141f; border-radius: 10px; padding: 16px; }
+  .canvas-label { color: #ffb454; font-size: 11px; margin-bottom: 12px; }
+  .hero-pill { width: 60px; height: 20px; border-radius: 10px; background: #ffb454; margin-bottom: 12px; }
+  .hero-line { height: 8px; border-radius: 4px; background: #3a4258; margin-bottom: 8px; }
+  .hero-line.w1 { width: 90%; } .hero-line.w2 { width: 60%; } .hero-line.w3 { width: 75%; }
+
+  /* Color swatch panel */
+  .swatches {
+    top: 60px; right: 40px; width: 380px; height: 200px;
+    display: flex; overflow: hidden;
+  }
+  .swatch { flex: 1; opacity: 0; transition: opacity .4s ease; }
+  .swatch.s1 { background: #f0a63a; }
+  .swatch.s2 { background: #e8632c; }
+  .swatch.s3 { background: #fafafa; }
+
+  /* App icon badge */
+  .appicon {
+    top: 270px; left: 400px; width: 280px; height: 220px;
+    background: #10141f;
+    background-image:
+      linear-gradient(#1a2032 1px, transparent 1px),
+      linear-gradient(90deg, #1a2032 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-square {
+    width: 76px; height: 76px; border-radius: 20px;
+    background: linear-gradient(135deg, #ffb454, #e8632c);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 34px; font-weight: 700;
+    box-shadow: 0 10px 30px rgba(232,99,44,0.4);
+  }
+
+  /* Typography specimen card */
+  .type-card {
+    top: 350px; left: 60px; width: 500px;
+    padding: 32px 36px;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .type-aa { font-size: 64px; font-weight: 700; color: #ffb454; margin-bottom: 8px; }
+  .type-dots { display: flex; gap: 6px; margin-bottom: 20px; }
+  .type-dot { width: 6px; height: 6px; border-radius: 50%; background: #3a4258; }
+  .type-dot.active { background: #ffb454; }
+  .type-family { color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 18px; }
+  .weight-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #232c40; }
+  .weight-sample { color: #e8ebf2; font-size: 18px; }
+  .weight-label { color: #6b7488; font-size: 13px; }
+  .type-footer { color: #6b7488; font-size: 13px; margin-top: 16px; }
+
+  /* Brand name card */
+  .brand-card {
+    top: 600px; right: 40px; width: 300px;
+    padding: 24px 28px;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .brand-name { color: #fff; font-size: 26px; font-weight: 700; }
+  .brand-tag { color: #ffb454; font-size: 15px; margin-top: 4px; }
+  .brand-rule { width: 60px; height: 3px; background: #ffb454; margin-top: 14px; border-radius: 2px; }
+
+  /* Photoshop poster panel */
+  .photoshop {
+    top: 280px; right: 40px; width: 480px; height: 300px;
+    padding: 0; overflow: hidden;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .ps-topbar { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: #10141f; color: #8b93a7; font-size: 12px; }
+  .ps-menu { color: #8b93a7; }
+  .ps-file { margin-left: auto; color: #6b7488; }
+  .ps-body { display: flex; height: calc(100% - 36px); }
+  .ps-tools { width: 40px; background: #12161f; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 16px; }
+  .ps-tool { width: 20px; height: 20px; border-radius: 4px; background: #2a3348; }
+  .ps-canvas { flex: 1; padding: 16px; position: relative; }
+  .ps-poster { width: 100%; height: 100%; border-radius: 8px; background: linear-gradient(135deg,#1c2340,#2a2450); position: relative; overflow: hidden; padding: 18px; }
+  .ps-poster-text { color: #fff; font-size: 22px; font-weight: 700; line-height: 1.2; }
+  .ps-circle { position: absolute; bottom: 14px; right: 14px; width: 70px; height: 70px; border-radius: 50%; background: #e8632c; border: 2px dashed rgba(255,255,255,0.4); }
+  .ps-layers { width: 90px; background: #10141f; padding: 10px; }
+  .ps-layers-label { color: #6b7488; font-size: 10px; margin-bottom: 8px; }
+  .ps-layer { display: flex; align-items: center; gap: 6px; color: #a8b0c3; font-size: 10px; padding: 5px 0; }
+  .ps-layer-dot { width: 10px; height: 10px; border-radius: 3px; }
+</style>
+<style>
+  html, body { background: transparent !important; overflow: hidden; }
+  .outer { background: transparent !important; border-radius: 0 !important; padding: 40px !important; }
+</style>
+</head>
+<body>
+<div class="outer">
+  <div class="canvas">
+
+    <div class="panel figma">
+      <div class="figma-header">
+        <div class="figma-logo"></div>
+        <div class="figma-title">Website — Design</div>
+      </div>
+      <div class="figma-body">
+        <div class="layers-col">
+          <div class="layers-label">LAYERS</div>
+          <div class="layer-row active">Hero Section</div>
+          <div class="layer-row">Heading</div>
+          <div class="layer-row">CTA Button</div>
+          <div class="layer-row">Avatar</div>
+          <div class="layer-row">Hero Image</div>
+        </div>
+        <div class="canvas-col">
+          <div class="canvas-label">Hero Section — 1440x800</div>
+          <div class="hero-pill"></div>
+          <div class="hero-line w1"></div>
+          <div class="hero-line w2"></div>
+          <div class="hero-line w3"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel swatches" id="swatches">
+      <div class="swatch s1" id="sw1"></div>
+      <div class="swatch s2" id="sw2"></div>
+      <div class="swatch s3" id="sw3"></div>
+    </div>
+
+    <div class="panel appicon">
+      <div class="icon-square" id="iconS">V</div>
+    </div>
+
+    <div class="panel type-card" id="typeCard">
+      <div class="type-aa">Aa</div>
+      <div class="type-dots">
+        <span class="type-dot active"></span><span class="type-dot"></span><span class="type-dot"></span>
+        <span class="type-dot"></span><span class="type-dot"></span><span class="type-dot"></span><span class="type-dot"></span>
+      </div>
+      <div class="type-family">Plus Jakarta Sans</div>
+      <div class="weight-row"><span class="weight-sample" style="font-weight:300">Aabcdefg</span><span class="weight-label">Light 300</span></div>
+      <div class="weight-row"><span class="weight-sample" style="font-weight:400">Aabcdefg</span><span class="weight-label">Regular 400</span></div>
+      <div class="weight-row"><span class="weight-sample" style="font-weight:500">Aabcdefg</span><span class="weight-label">Medium 500</span></div>
+      <div class="weight-row"><span class="weight-sample" style="font-weight:600">Aabcdefg</span><span class="weight-label">SemiBold 600</span></div>
+      <div class="weight-row"><span class="weight-sample" style="font-weight:700">Aabcdefg</span><span class="weight-label">Bold 700</span></div>
+      <div class="type-footer">The quick brown fox jumps over the lazy dog.</div>
+    </div>
+
+    <div class="panel brand-card" id="brandCard">
+      <div class="brand-name">Vireda</div>
+      <div class="brand-tag">Digital Studio</div>
+      <div class="brand-rule"></div>
+    </div>
+
+    <div class="panel photoshop" id="photoshop">
+      <div class="ps-topbar">
+        <span class="ps-menu">File</span><span class="ps-menu">Edit</span><span class="ps-menu">Image</span><span class="ps-menu">Layer</span>
+        <span class="ps-file">poster-design.psd</span>
+      </div>
+      <div class="ps-body">
+        <div class="ps-tools">
+          <div class="ps-tool"></div><div class="ps-tool"></div><div class="ps-tool"></div><div class="ps-tool"></div>
+        </div>
+        <div class="ps-canvas">
+          <div class="ps-poster">
+            <div class="ps-poster-text">Creative<br>Design</div>
+            <div class="ps-circle"></div>
+          </div>
+        </div>
+        <div class="ps-layers">
+          <div class="ps-layers-label">LAYERS</div>
+          <div class="ps-layer"><span class="ps-layer-dot" style="background:#e8632c"></span>Text Layer</div>
+          <div class="ps-layer"><span class="ps-layer-dot" style="background:#ffb454"></span>Color Overlay</div>
+          <div class="ps-layer"><span class="ps-layer-dot" style="background:#3a4258"></span>Subject</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let timers = [];
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
+
+function playAnimation(){
+  clearTimers();
+  document.getElementById('sw1').style.opacity = 0;
+  document.getElementById('sw2').style.opacity = 0;
+  document.getElementById('sw3').style.opacity = 0;
+  const typeCard = document.getElementById('typeCard');
+  const brandCard = document.getElementById('brandCard');
+  const photoshop = document.getElementById('photoshop');
+  typeCard.style.opacity = 0; typeCard.style.transform = 'translateY(14px)';
+  brandCard.style.opacity = 0; brandCard.style.transform = 'translateY(14px)';
+  photoshop.style.opacity = 0; photoshop.style.transform = 'translateY(14px)';
+
+  sched(()=>{ document.getElementById('sw1').style.opacity = 1; }, 200);
+  sched(()=>{ document.getElementById('sw2').style.opacity = 1; }, 400);
+  sched(()=>{ document.getElementById('sw3').style.opacity = 1; }, 600);
+  sched(()=>{ typeCard.style.opacity = 1; typeCard.style.transform = 'translateY(0)'; }, 900);
+  sched(()=>{ brandCard.style.opacity = 1; brandCard.style.transform = 'translateY(0)'; }, 1300);
+  sched(()=>{ photoshop.style.opacity = 1; photoshop.style.transform = 'translateY(0)'; }, 1650);
+  sched(playAnimation, 4200);
+}
+playAnimation();
+</script>
+</body>
+</html>

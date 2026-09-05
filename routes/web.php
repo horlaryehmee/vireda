@@ -18,6 +18,14 @@ Route::get('/about', function () {
     return view('app');
 });
 
+Route::get('/about-1', function () {
+    return view('app');
+});
+
+Route::get('/about-2', function () {
+    return view('app');
+});
+
 Route::get('/contact', function () {
     return view('app');
 });

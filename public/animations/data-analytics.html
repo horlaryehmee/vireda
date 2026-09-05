@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0b0f1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .outer { background: #0b0f1a; padding: 40px; border-radius: 32px; }
+  .canvas {
+    position: relative;
+    width: 1220px;
+    height: 920px;
+    background: linear-gradient(135deg, #e3f6fb 0%, #dbeafe 100%);
+    border-radius: 28px;
+    overflow: visible;
+  }
+
+  .panel { position: absolute; background: #101724; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+
+  /* Trend chart panel */
+  .trend {
+    top: 40px; left: 50px; width: 620px; height: 300px;
+    padding: 26px 30px;
+  }
+  .trend-title { color: #e8ebf2; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .trend-sub { color: #6b7794; font-size: 12px; margin-bottom: 16px; }
+  .trend-value-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+  .trend-value { color: #fff; font-size: 30px; font-weight: 700; }
+  .trend-delta { color: #34d399; font-size: 13px; font-weight: 600; background: rgba(52,211,153,0.12); padding: 3px 9px; border-radius: 8px; }
+  .chart-path { fill: none; stroke: #22d3ee; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 620; stroke-dashoffset: 620; transition: stroke-dashoffset 1.6s ease; }
+  .chart-area { fill: url(#areaGrad); opacity: 0; transition: opacity .6s ease; }
+  .chart-dot { opacity: 0; transition: opacity .3s ease; }
+
+  /* Query panel */
+  .query {
+    top: 360px; left: 50px; width: 620px; height: 300px;
+    padding: 0; overflow: hidden;
+  }
+  .query-bar { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: #0c1119; }
+  .query-title { color: #8b93a7; font-size: 12px; }
+  .query-body { font-family: 'SF Mono', Menlo, monospace; font-size: 13px; line-height: 1.85; padding: 16px 22px; color: #d4d8e8; }
+  .kw { color: #22d3ee; } .fn { color: #fbbf24; } .st { color: #86efac; } .cm { color: #5b6478; }
+  .cursor { display: inline-block; width: 7px; height: 15px; background: #22d3ee; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .result-table { margin-top: 14px; padding: 0 22px; opacity: 0; transition: opacity .4s ease; }
+  .result-row { display: flex; gap: 20px; padding: 6px 0; border-bottom: 1px solid #1c2333; font-size: 12px; color: #a8b0c3; }
+  .result-row.head { color: #6b7794; font-weight: 600; }
+  .rc { width: 110px; }
+
+  /* KPI cards panel */
+  .kpis {
+    position: absolute;
+    top: 30px; right: 40px; width: 460px; height: 200px;
+    display: flex; gap: 16px; background: none; box-shadow: none;
+  }
+  .kpi-card { flex: 1; background: #101724; border-radius: 18px; padding: 20px 18px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+  .kpi-label { color: #6b7794; font-size: 11px; margin-bottom: 10px; }
+  .kpi-value { color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .spark { display: flex; align-items: flex-end; gap: 3px; height: 28px; }
+  .spark-bar { width: 6px; border-radius: 2px; background: #22d3ee; height: 0%; transition: height .8s ease; }
+  .kpi-card.b .spark-bar { background: #f59e0b; }
+  .kpi-card.c .spark-bar { background: #a78bfa; }
+
+  /* Funnel panel */
+  .funnel {
+    top: 260px; right: 40px; width: 460px; height: 400px;
+    padding: 26px 30px;
+  }
+  .funnel-title { color: #e8ebf2; font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+  .funnel-row { margin-bottom: 16px; }
+  .funnel-labels { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .funnel-name { color: #a8b0c3; font-size: 12px; }
+  .funnel-pct { color: #6b7794; font-size: 12px; }
+  .funnel-track { height: 10px; border-radius: 5px; background: #1c2333; overflow: hidden; }
+  .funnel-fill { height: 100%; border-radius: 5px; width: 0%; transition: width 1s ease; background: linear-gradient(90deg,#22d3ee,#0ea5e9); }
+
+  /* Insight badge */
+  .insight-badge {
+    bottom: 40px; left: 460px; width: 300px;
+    padding: 22px 26px;
+    display: flex; align-items: center; gap: 16px;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .insight-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(245,158,11,0.15); color: #f59e0b; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .insight-a { color: #e8ebf2; font-size: 14px; font-weight: 600; }
+  .insight-b { color: #7c8ba0; font-size: 12px; margin-top: 2px; }
+</style>
+<style>
+  html, body { background: transparent !important; overflow: hidden; }
+  .outer { background: transparent !important; border-radius: 0 !important; padding: 40px !important; }
+</style>
+</head>
+<body>
+<div class="outer">
+  <div class="canvas">
+
+    <div class="panel trend">
+      <div class="trend-title">Weekly active users</div>
+      <div class="trend-sub">Last 7 days</div>
+      <div class="trend-value-row">
+        <div class="trend-value" id="trendValue">0</div>
+        <div class="trend-delta">+24%</div>
+      </div>
+      <svg width="560" height="140" viewBox="0 0 560 140">
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="chart-area" id="chartArea" d="M0,110 L80,95 L160,100 L240,70 L320,75 L400,45 L480,50 L560,20 L560,140 L0,140 Z"/>
+        <path class="chart-path" id="chartPath" d="M0,110 L80,95 L160,100 L240,70 L320,75 L400,45 L480,50 L560,20"/>
+        <circle class="chart-dot" cx="560" cy="20" r="5" fill="#22d3ee" id="chartDot"/>
+      </svg>
+    </div>
+
+    <div class="panel query">
+      <div class="query-bar">
+        <div class="query-title">query.sql</div>
+      </div>
+      <div class="query-body" id="queryBody"></div>
+      <div class="result-table" id="resultTable">
+        <div class="result-row head"><span class="rc">country</span><span class="rc">users</span><span class="rc">revenue</span></div>
+        <div class="result-row"><span class="rc">United Kingdom</span><span class="rc">18,204</span><span class="rc">£84,210</span></div>
+        <div class="result-row"><span class="rc">United States</span><span class="rc">12,873</span><span class="rc">£61,540</span></div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi-card a">
+        <div class="kpi-label">Revenue</div>
+        <div class="kpi-value" id="kv1">£0</div>
+        <div class="spark" id="sp1"></div>
+      </div>
+      <div class="kpi-card b">
+        <div class="kpi-label">Conversion</div>
+        <div class="kpi-value" id="kv2">0%</div>
+        <div class="spark" id="sp2"></div>
+      </div>
+      <div class="kpi-card c">
+        <div class="kpi-label">Sessions</div>
+        <div class="kpi-value" id="kv3">0</div>
+        <div class="spark" id="sp3"></div>
+      </div>
+    </div>
+
+    <div class="panel funnel">
+      <div class="funnel-title">Conversion funnel</div>
+      <div class="funnel-row">
+        <div class="funnel-labels"><span class="funnel-name">Visited site</span><span class="funnel-pct" id="fp1">0%</span></div>
+        <div class="funnel-track"><div class="funnel-fill" id="ff1"></div></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-labels"><span class="funnel-name">Viewed pricing</span><span class="funnel-pct" id="fp2">0%</span></div>
+        <div class="funnel-track"><div class="funnel-fill" id="ff2"></div></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-labels"><span class="funnel-name">Started signup</span><span class="funnel-pct" id="fp3">0%</span></div>
+        <div class="funnel-track"><div class="funnel-fill" id="ff3"></div></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-labels"><span class="funnel-name">Completed</span><span class="funnel-pct" id="fp4">0%</span></div>
+        <div class="funnel-track"><div class="funnel-fill" id="ff4"></div></div>
+      </div>
+    </div>
+
+    <div class="panel insight-badge" id="insightBadge">
+      <div class="insight-icon">⚡</div>
+      <div>
+        <div class="insight-a">Traffic spike detected</div>
+        <div class="insight-b">Tuesday, +38% vs baseline</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let timers = [];
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
+function countTo(el, target, prefix, suffix, duration){
+  let v = 0;
+  const step = Math.max(1, Math.round(target/(duration/30)));
+  const iv = setInterval(()=>{
+    v += step;
+    if (v >= target){ v = target; clearInterval(iv); }
+    el.textContent = prefix + v.toLocaleString() + suffix;
+  }, 30);
+}
+
+const sparkVals = { sp1:[40,55,45,70,60,80,95], sp2:[30,45,40,55,50,65,72], sp3:[50,40,60,55,75,68,88] };
+Object.keys(sparkVals).forEach(id=>{
+  const el = document.getElementById(id);
+  sparkVals[id].forEach(()=>{ const b=document.createElement('div'); b.className='spark-bar'; el.appendChild(b); });
+});
+
+const queryLines = [
+  [['kw','SELECT'],['','  country, COUNT(*) '],['kw','AS'],['','  users,']],
+  [['','       SUM(revenue) '],['kw','AS'],['','  revenue']],
+  [['kw','FROM'],['','  sessions']],
+  [['kw','WHERE'],['','  created_at >= '],['st',"'2026-08-28'"]],
+  [['kw','GROUP BY'],['','  country']],
+  [['kw','ORDER BY'],['','  revenue '],['kw','DESC']]
+];
+const queryBody = document.getElementById('queryBody');
+function renderQuery(n, cursor){
+  let html = '';
+  for (let i=0;i<n;i++){
+    html += '<div>' + queryLines[i].map(([c,t])=>c?'<span class="'+c+'">'+t+'</span>':t).join('') + (i===n-1 && cursor ? '<span class="cursor"></span>' : '') + '</div>';
+  }
+  queryBody.innerHTML = html;
+}
+
+function playAnimation(){
+  clearTimers();
+  document.getElementById('chartPath').style.strokeDashoffset = 620;
+  document.getElementById('chartArea').style.opacity = 0;
+  document.getElementById('chartDot').style.opacity = 0;
+  document.getElementById('trendValue').textContent = '0';
+  renderQuery(0,false);
+  document.getElementById('resultTable').style.opacity = 0;
+  ['kv1','kv2','kv3'].forEach(id=>document.getElementById(id).textContent = id==='kv2' ? '0%' : (id==='kv1'?'£0':'0'));
+  document.querySelectorAll('.spark-bar').forEach(b=>b.style.height='0%');
+  ['ff1','ff2','ff3','ff4'].forEach(id=>document.getElementById(id).style.width='0%');
+  ['fp1','fp2','fp3','fp4'].forEach(id=>document.getElementById(id).textContent='0%');
+  const insight = document.getElementById('insightBadge');
+  insight.style.opacity=0; insight.style.transform='translateY(14px)';
+
+  sched(()=>{
+    document.getElementById('chartPath').style.strokeDashoffset = 0;
+    countTo(document.getElementById('trendValue'), 48210, '', '', 1400);
+  }, 300);
+  sched(()=>{ document.getElementById('chartArea').style.opacity = 1; }, 1700);
+  sched(()=>{ document.getElementById('chartDot').style.opacity = 1; }, 1900);
+
+  let n = 0;
+  function stepQuery(){ n++; renderQuery(n, n===queryLines.length); if(n<queryLines.length) sched(stepQuery,180); }
+  sched(stepQuery, 2100);
+  sched(()=>{ document.getElementById('resultTable').style.opacity = 1; }, 2100 + queryLines.length*180 + 300);
+
+  const kpiStart = 3400;
+  sched(()=>countTo(document.getElementById('kv1'), 84210, '£', '', 700), kpiStart);
+  sched(()=>countTo(document.getElementById('kv2'), 6, '', '%', 700), kpiStart+150);
+  sched(()=>countTo(document.getElementById('kv3'), 32480, '', '', 700), kpiStart+300);
+  ['sp1','sp2','sp3'].forEach((id,gi)=>{
+    document.querySelectorAll('#'+id+' .spark-bar').forEach((b,i)=>{
+      sched(()=>{ b.style.height = sparkVals[id][i] + '%'; }, kpiStart + gi*150 + i*40);
+    });
+  });
+
+  const funnelData = [['ff1','fp1',100],['ff2','fp2',68],['ff3','fp3',34],['ff4','fp4',19]];
+  funnelData.forEach(([fid,pid,val],i)=>{
+    sched(()=>{
+      document.getElementById(fid).style.width = val+'%';
+      countTo(document.getElementById(pid), val, '', '%', 600);
+    }, 4300 + i*220);
+  });
+
+  sched(()=>{ insight.style.opacity=1; insight.style.transform='translateY(0)'; }, 5500);
+
+  sched(playAnimation, 7200);
+}
+playAnimation();
+</script>
+</body>
+</html>
