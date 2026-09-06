@@ -2248,7 +2248,7 @@
     ]
   },
   "resources/js/Components/ui/WovenHeroObject.jsx": {
-    "file": "assets/WovenHeroObject-Z8xrtjex.js",
+    "file": "assets/WovenHeroObject--S8A2Bar.js",
     "name": "WovenHeroObject",
     "src": "resources/js/Components/ui/WovenHeroObject.jsx",
     "isDynamicEntry": true,
@@ -2257,7 +2257,7 @@
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-C6sK-zNI.js",
+    "file": "assets/app-k36JT4za.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,

@@ -1551,12 +1551,12 @@ const websiteAnimationLines = [
 ];
 
 const serviceAnimationAssets = [
-    { src: '/animations/operations.html', width: 1300, height: 810, label: 'Animated operations dashboard and workflow board' },
-    { src: '/animations/web-development.html', width: 1240, height: 820, label: 'Animated website design and development workspace' },
-    { src: '/animations/software-development.html', width: 1300, height: 780, label: 'Animated software development and deployment workflow' },
-    { src: '/animations/data-analytics.html', width: 1300, height: 1000, label: 'Animated data analytics dashboards and reporting workflow' },
-    { src: '/animations/ai-automation.html', width: 1320, height: 800, label: 'Animated AI assistant and automation workflow' },
-    { src: '/animations/branding.html', width: 1240, height: 900, label: 'Animated brand design and creative workspace' },
+    { src: '/animations/operations.html', width: 1300, height: 810, inset: 40, label: 'Animated operations dashboard and workflow board' },
+    { src: '/animations/web-development.html', width: 1240, height: 820, inset: 40, label: 'Animated website design and development workspace' },
+    { src: '/animations/software-development.html', width: 1300, height: 780, inset: 40, label: 'Animated software development and deployment workflow' },
+    { src: '/animations/data-analytics.html', width: 1300, height: 1000, inset: 40, label: 'Animated data analytics dashboards and reporting workflow' },
+    { src: '/animations/ai-automation.html', width: 1320, height: 800, inset: 40, label: 'Animated AI assistant and automation workflow' },
+    { src: '/animations/branding.html', width: 1240, height: 900, inset: 40, label: 'Animated brand design and creative workspace' },
 ];
 
 function CollapsibleServiceTags({ tags, serviceTitle }) {
@@ -1653,11 +1653,14 @@ function ServiceAnimation({ animation }) {
 
         const updateLayout = () => {
             const { width, height } = node.getBoundingClientRect();
-            const scale = Math.min(width / animation.width, height / animation.height);
+            const inset = animation.inset ?? 0;
+            const artworkWidth = animation.width - (inset * 2);
+            const artworkHeight = animation.height - (inset * 2);
+            const scale = Math.min(width / artworkWidth, height / artworkHeight);
             setLayout({
                 scale,
-                x: (width - animation.width * scale) / 2,
-                y: (height - animation.height * scale) / 2,
+                x: ((width - artworkWidth * scale) / 2) - (inset * scale),
+                y: ((height - artworkHeight * scale) / 2) - (inset * scale),
             });
         };
 
@@ -3065,7 +3068,9 @@ function ServicesPage() {
                                             </div>
                                             <figure
                                                 className="service-detail-media has-service-animation"
-                                                style={{ '--service-animation-ratio': `${serviceAnimationAssets[index].width} / ${serviceAnimationAssets[index].height}` }}
+                                                style={{
+                                                    '--service-animation-ratio': `${serviceAnimationAssets[index].width - (serviceAnimationAssets[index].inset * 2)} / ${serviceAnimationAssets[index].height - (serviceAnimationAssets[index].inset * 2)}`,
+                                                }}
                                             >
                                                 <ServiceAnimation animation={serviceAnimationAssets[index]} />
                                             </figure>
