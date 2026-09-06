@@ -13540,7 +13540,10 @@ main .capability-tags span {
 
     .service-detail-media {
         aspect-ratio: 16 / 9;
+        max-width: 100%;
         min-height: 0;
+        min-width: 0;
+        width: 100%;
     }
 
     .problem-section {
@@ -13641,6 +13644,13 @@ main .capability-tags span {
 
     .service-detail-points {
         grid-template-columns: 1fr;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .service-detail-point {
+        min-width: 0;
+        width: 100%;
     }
 
     .service-detail-point p {

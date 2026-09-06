@@ -2224,7 +2224,7 @@
     "src": "node_modules/flag-icons/flags/4x3/zw.svg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Ht24ZbJ2.css",
+    "file": "assets/app-kjuyATNa.css",
     "name": "app",
     "names": [
       "app.css"
@@ -2248,7 +2248,7 @@
     ]
   },
   "resources/js/Components/ui/WovenHeroObject.jsx": {
-    "file": "assets/WovenHeroObject-U4mBAZeE.js",
+    "file": "assets/WovenHeroObject-Z8xrtjex.js",
     "name": "WovenHeroObject",
     "src": "resources/js/Components/ui/WovenHeroObject.jsx",
     "isDynamicEntry": true,
@@ -2257,7 +2257,7 @@
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-nPEHS3rY.js",
+    "file": "assets/app-C6sK-zNI.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -2266,7 +2266,7 @@
     ],
     "css": [
       "assets/app-Du69Hw4v.css",
-      "assets/app-Ht24ZbJ2.css"
+      "assets/app-kjuyATNa.css"
     ],
     "assets": [
       "assets/xx-zm_JmrXl.svg",
