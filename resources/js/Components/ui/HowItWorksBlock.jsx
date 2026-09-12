@@ -41,8 +41,8 @@ export function HowItWorksBlock({
                 <div className="how-it-works-heading">
                     <span className="how-it-works-badge">{eyebrow}</span>
                     <h2 id="how-it-works-title">{title}</h2>
-                    <p>{intro}</p>
-                    <p>{secondaryIntro}</p>
+                    {intro && <p>{intro}</p>}
+                    {secondaryIntro && <p>{secondaryIntro}</p>}
                 </div>
 
                 <ol className="how-it-works-steps">

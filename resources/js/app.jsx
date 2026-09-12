@@ -63,8 +63,20 @@ import { IconStack } from './Components/ui/IconStack';
 import { ConstellationGrid } from './Components/ui/ConstellationGrid';
 import { NeonMesh } from './Components/ui/NeonMesh';
 import { ProjectShowcase } from './Components/ui/ProjectShowcase';
+import { ProjectMarquee } from './Components/ui/ProjectMarquee';
+import { ClientMarquee } from './Components/ui/ClientMarquee';
 import { TextRevealByWord } from './Components/ui/text-reveal';
 import { TubeLightNav } from './Components/ui/TubeLightNav';
+import { FaqTabbedExplorer } from './Components/ui/FaqTabbedExplorer';
+import { TestimonialsSection } from './Components/ui/TestimonialsSection';
+import { ServicesCollageHero } from './Components/ui/ServicesCollageHero';
+import { ContactCollageHero } from './Components/ui/ContactCollageHero';
+import WebDevelopmentUxPage from './Components/ui/WebDevelopmentUxPage';
+import BrandCreativePage from './Components/ui/BrandCreativePage';
+import AiAutomationPage from './Components/ui/AiAutomationPage';
+import StrategyOperationsPage from './Components/ui/StrategyOperationsPage';
+import SoftwareDigitalProductsPage from './Components/ui/SoftwareDigitalProductsPage';
+import DataAnalyticsPage from './Components/ui/DataAnalyticsPage';
 import BookingPage from './BookingPage';
 import { AdminDashboardPage, AdminLoginPage } from './AdminBooking';
 import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
@@ -78,8 +90,7 @@ const WovenHeroObject = lazy(() => import('./Components/ui/WovenHeroObject').the
 
 const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'About 1', href: '/about-1' },
-    { label: 'About 2', href: '/about-2' },
+    { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
     { label: 'Contact', href: '/contact' },
 ];
@@ -88,8 +99,7 @@ const footerSections = [
     {
         title: 'Company',
         links: [
-            { label: 'About 1', href: '/about-1' },
-            { label: 'About 2', href: '/about-2' },
+            { label: 'About', href: '/about' },
             { label: 'Our Work', href: '/#our-work' },
             { label: 'Privacy Policy', href: '/privacy-policy' },
         ],
@@ -230,6 +240,23 @@ const projects = [
             'A sharper market position, identity system and product-facing web experience built to make the offer easier to understand.',
         services: ['Brand Strategy', 'UX/UI', 'Development'],
     },
+];
+
+// Client / partner marks. Each brand ships a dark-ink file for the light theme
+// and a white-ink file for the dark theme; `width`/`height` are the optically
+// balanced display sizes (equal ink area across marks of very different aspect).
+const clientLogos = [
+    { name: 'FOOTASYUM', light: '/images/clients/footasyum-light.png', dark: '/images/clients/footasyum-dark.png', width: 148, height: 18 },
+    { name: 'Westbrook Property', light: '/images/clients/westbrook-property-light.png', dark: '/images/clients/westbrook-property-dark.png', width: 75, height: 43 },
+    { name: 'NHS', light: '/images/clients/nhs-light.png', dark: '/images/clients/nhs-dark.png', width: 99, height: 32 },
+    { name: 'Altura Consulting', light: '/images/clients/altura-consulting-light.png', dark: '/images/clients/altura-consulting-dark.png', width: 75, height: 43 },
+    { name: 'Peakfuel Nutrition', light: '/images/clients/peakfuel-nutrition-light.png', dark: '/images/clients/peakfuel-nutrition-dark.png', width: 134, height: 24 },
+    { name: 'CareBridge', light: '/images/clients/carebridge-light.png', dark: '/images/clients/carebridge-dark.png', width: 81, height: 40 },
+    { name: 'The Collective', light: '/images/clients/the-collective-light.png', dark: '/images/clients/the-collective-dark.png', width: 105, height: 31 },
+    { name: 'New Balance', light: '/images/clients/new-balance-light.png', dark: '/images/clients/new-balance-dark.png', width: 81, height: 40 },
+    { name: 'Alan Shearer Foundation', light: '/images/clients/alan-shearer-foundation-light.png', dark: '/images/clients/alan-shearer-foundation-dark.png', width: 93, height: 34 },
+    { name: 'Pivot-Up Consult', light: '/images/clients/pivot-up-consult-light.png', dark: '/images/clients/pivot-up-consult-dark.png', width: 96, height: 33 },
+    { name: 'North Studio', light: '/images/clients/north-studio-light.png', dark: '/images/clients/north-studio-dark.png', width: 94, height: 34 },
 ];
 
 const getInitialTheme = () => (
@@ -374,7 +401,9 @@ function FooterThemeControls() {
 function Navbar() {
     const currentPath = window.location.pathname;
     const isServicesPage = currentPath === '/services';
-    const activeNavLabel = navItems.find((item) => item.href === currentPath)?.label;
+    const activeNavLabel = currentPath.startsWith('/services')
+        ? 'Services'
+        : navItems.find((item) => item.href === currentPath)?.label;
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [overDarkSection, setOverDarkSection] = useState(true);
@@ -385,7 +414,7 @@ function Navbar() {
 
         return {
             label: service.title,
-            href: `/services?service=${slug}#${slug}`,
+            href: service.href,
             slug,
         };
     });
@@ -449,41 +478,18 @@ function Navbar() {
         setOpen(false);
     };
 
-    const handleServiceNavClick = (event, service, options = {}) => {
-        if (!isServicesPage) {
-            closeNavigation();
-            return;
-        }
-
-        const href = options.href || service.href;
-
-        event.preventDefault();
-        window.history.pushState({}, '', href);
-        window.dispatchEvent(new CustomEvent('vireda:open-service', {
-            detail: {
-                scrollTarget: options.scrollTarget,
-                slug: service.slug,
-            },
-        }));
-        closeNavigation();
-    };
-
     return (
         <header className={`navbar ${scrolled ? 'is-scrolled' : ''} ${overDarkSection ? 'is-over-dark' : ''} ${open ? 'menu-open' : ''}`} ref={navRef}>
             <div className="container nav-inner nav-shell">
                 <Logo />
                 <TubeLightNav activeLabel={activeNavLabel} items={[
                     { label: 'Home', href: '/', icon: Compass },
-                    { label: 'About 1', href: '/about-1', icon: User },
-                    { label: 'About 2', href: '/about-2', icon: User },
+                    { label: 'About', href: '/about', icon: User },
                     {
                         label: 'Services',
                         href: '/services',
                         icon: Box,
-                        submenu: serviceNavItems.map((service) => ({
-                            ...service,
-                            onClick: (event) => handleServiceNavClick(event, service),
-                        })),
+                        submenu: serviceNavItems,
                     },
                     { label: 'Contact', href: '/contact', icon: Mail },
                 ]} />
@@ -509,8 +515,7 @@ function Navbar() {
                 </div>
                 <div className="mobile-menu-content">
                     <a className="mobile-primary-link" href="/" onClick={closeNavigation}>Home <ArrowRight size={17} /></a>
-                    <a className="mobile-primary-link" href="/about-1" onClick={closeNavigation}>About 1 <ArrowRight size={17} /></a>
-                    <a className="mobile-primary-link" href="/about-2" onClick={closeNavigation}>About 2 <ArrowRight size={17} /></a>
+                    <a className="mobile-primary-link" href="/about" onClick={closeNavigation}>About <ArrowRight size={17} /></a>
                     <section className={mobileSection === 'services' ? 'open' : ''}>
                         <div className="mobile-menu-section-header">
                             <a href="/services" onClick={closeNavigation}>Services</a>
@@ -526,12 +531,9 @@ function Navbar() {
                         <div className="mobile-submenu">
                             {serviceNavItems.map((service) => (
                                 <a
-                                    href={`/services?service=${service.slug}#services`}
+                                    href={service.href}
                                     key={service.label}
-                                    onClick={(event) => handleServiceNavClick(event, service, {
-                                        href: `/services?service=${service.slug}#services`,
-                                        scrollTarget: 'services',
-                                    })}
+                                    onClick={closeNavigation}
                                 >
                                     <Box size={18} />
                                     <span>
@@ -1207,8 +1209,17 @@ function OurWork() {
                         organisations forward.
                     </p>
                 </header>
-                <ProjectShowcase projects={projects} />
             </div>
+            <ProjectMarquee projects={projects} />
+        </section>
+    );
+}
+
+function ClientsStrip() {
+    return (
+        <section className="client-strip" id="clients" aria-label="Clients and partners">
+            <p className="client-strip-label">Clients &amp; partners</p>
+            <ClientMarquee logos={clientLogos} />
         </section>
     );
 }
@@ -1262,11 +1273,12 @@ function FinalCTA({
     const useServicesFinalTitle = text === "Share a bit about your project, and we'll walk you through how we'd approach it."
         && highlight === 'walk you through';
     const useAboutFinalTitle = text === 'Something not working the way it should?';
+    const useMovingFinalTitle = text === "Let's Get This Moving";
 
     return (
         <section className="final-cta section" id="start">
             <div className="container">
-                <p className="eyebrow">{eyebrow}</p>
+                {eyebrow && <p className="eyebrow">{eyebrow}</p>}
                 {useDefaultFinalTitle ? (
                     <h2 className="section-heading-reveal final-cta-title">
                         <span className="final-cta-title-line">
@@ -1290,6 +1302,10 @@ function FinalCTA({
                         <span className="editorial-italic final-cta-title-line final-cta-title-highlight">
                             the way it should?
                         </span>
+                    </h2>
+                ) : useMovingFinalTitle ? (
+                    <h2 className="section-heading-reveal final-cta-title final-cta-title-moving">
+                        <span>Let's Get This&nbsp;</span><span className="editorial-italic final-cta-title-highlight">Moving</span>
                     </h2>
                 ) : (
                     <TextRevealByWord
@@ -1398,6 +1414,7 @@ const servicePageServices = [
     {
         number: '01',
         title: 'Business & Management Consulting',
+        href: '/services/strategy-operations',
         intro: "Growth can expose problems that weren't obvious before: inefficient processes, unnecessary admin, inconsistent sales activity, disconnected systems and too much time spent on work that doesn't move the business forward.",
         paragraphs: [
             'We assess how your business operates, identify where time, resources and opportunities are being lost, and help redesign the processes and systems that matter.',
@@ -1416,6 +1433,7 @@ const servicePageServices = [
     {
         number: '02',
         title: 'Websites & Digital Experiences',
+        href: '/services/web-development-ux',
         intro: 'Build a digital presence that works as hard as your business does. Your website should do more than look good. It should be fast, easy to use, discoverable and designed to turn attention into action.',
         image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1600&q=85',
         imageAlt: 'A designer working on a website interface across desktop screens',
@@ -1431,6 +1449,7 @@ const servicePageServices = [
     {
         number: '03',
         title: 'Software & Products Development',
+        href: '/services/software-digital-products',
         intro: 'Most ideas never make it past the whiteboard. We build the ones that should.',
         paragraphs: [
             "We design and build the software, digital products and platforms those ideas actually need, from early thinking and validation through to something real, built to last.",
@@ -1450,6 +1469,7 @@ const servicePageServices = [
     {
         number: '04',
         title: 'Data & Analytics',
+        href: '/services/data-analytics',
         intro: 'Your business already has data. The challenge is making it accessible, understandable and useful. We help organisations bring data together, build reporting people trust, uncover meaningful insights and create tools that make information easier to use across the business.',
         paragraphs: ['From dashboards and management reporting to custom internal systems, we turn data into something your people can actually see, understand and act on.'],
         image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85',
@@ -1466,6 +1486,7 @@ const servicePageServices = [
     {
         number: '05',
         title: 'AI & Automation',
+        href: '/services/ai-automation',
         intro: "AI isn't just for technology companies. It's for any business looking to save time, improve efficiency and create new ways of working.",
         paragraphs: [
             'We help businesses identify where AI and automation can make a genuine difference: from intelligent assistants and automated workflows to AI-powered analytics and customer experiences.',
@@ -1485,6 +1506,7 @@ const servicePageServices = [
     {
         number: '06',
         title: 'Brand & Creative',
+        href: '/services/brand-creative',
         intro: 'Make people understand why you matter. A strong brand should do more than look good. It should communicate who you are, differentiate you from competitors and create a consistent experience wherever people encounter your business.',
         paragraphs: [
             "Your brand is more than a logo. It's how people recognise your business, understand what you stand for and decide whether to trust you.",
@@ -2555,12 +2577,6 @@ const aboutPagePatterns = [
         body: "A business can be excellent at what it does and still have a website that doesn't communicate it, a customer journey that feels disjointed, or a brand that no longer reflects where the company is today. What customers experience should feel like a true reflection of the business behind it.",
         icon: Eye,
     },
-    {
-        number: '05',
-        title: 'Businesses solve problems in silos.',
-        body: "Marketing sees one problem. Operations sees another. Technology gets asked to fix something else. But these things are often connected, and the answer to one problem can create another when you don't look at the business as a whole. That's exactly where bringing different capabilities together, around the problem, becomes meaningful.",
-        icon: Network,
-    },
 ];
 
 const aboutPageBeliefs = [
@@ -2628,7 +2644,7 @@ function AboutPage() {
                 <section className="page-section about-exists-section">
                     <div className="about-exists-grid">
                         <figure className="about-exists-media">
-                            <img src="/images/vireda-office-mockup.png" alt="A refined Viredá workspace with design plans, laptops and warm architectural lighting" loading="lazy" />
+                            <img src="/images/about-why-vireda-exists-v2.png" alt="A consulting team connecting strategy, process, technology and customer experience around a shared workflow" loading="lazy" decoding="async" />
                         </figure>
                         <div className="about-exists-copy">
                             <p className="eyebrow">Why Viredá Exists</p>
@@ -2677,8 +2693,7 @@ function AboutPage() {
                                 </article>
                             );
                         })}
-                    </div>
-                    <div className="container about-patterns-closing">
+                    <div className="about-patterns-closing">
                         <p>
                             None of these problems are unusual. That's the point. They're the kinds of things businesses
                             learn to live with, because they're busy running the business, until eventually, the workaround
@@ -2687,12 +2702,13 @@ function AboutPage() {
                         <p className="about-patterns-closing-lead">That's usually where the conversation with Viredá starts.</p>
                     </div>
                     </div>
+                    </div>
                 </section>
 
                 <section className="page-section about-fit-section">
                     <div className="about-fit-grid">
                         <figure className="about-fit-media">
-                            <img src="/images/vireda-office-building.png" alt="The Viredá office building lit with warm architectural lighting" loading="lazy" />
+                            <img src="/images/about-is-this-you-v2.png" alt="A growing business team reviewing its systems and identifying a clearer way forward" loading="lazy" decoding="async" />
                         </figure>
                         <div className="about-fit-panel">
                             <p className="eyebrow">Is This You?</p>
@@ -3019,20 +3035,15 @@ function ServicesPage() {
         <>
             <Navbar />
             <main className="page-shell services-page">
-                <section className="page-hero services-page-hero" id="top" data-nav-theme="dark">
-                    <div className="container page-hero-inner">
-                        <p className="eyebrow">Services</p>
-                        <h1>
-                            We build what your business needs to{' '}
-                            <span className="page-hero-title-highlight">work better.</span>
-                        </h1>
-                        <p>
-                            There's always room to improve, from the systems behind your business to the experiences
-                            your customers see. We bring thinking, technology and creativity together to find what's
-                            getting in the way, and build better ways of working, connecting and growing.
-                        </p>
-                    </div>
-                </section>
+                <ServicesCollageHero
+                    title={<>We build what your business needs to <span>work better.</span></>}
+                    subtitle="There's always room to improve, from the systems behind your business to the experiences your customers see. We bring thinking, technology and creativity together to find what's getting in the way, and build better ways of working, connecting and growing."
+                    images={[
+                        { src: '/images/homepage-about-vireda-team.jpg', alt: 'The Viredá team collaborating around a table' },
+                        { src: '/images/about-strategy-workshop.jpg', alt: 'A team working through a strategy session' },
+                        { src: '/images/vireda-office-mockup.png', alt: 'A modern workspace prepared for collaborative work' },
+                    ]}
+                />
 
                 <WhatWeFixSection />
 
@@ -3065,6 +3076,14 @@ function ServicesPage() {
                                                     {service.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                                                 </div>
                                                 <CollapsibleServiceTags tags={service.tags} serviceTitle={service.title} />
+                                                <a
+                                                    className="service-detail-explore"
+                                                    href={service.href}
+                                                    aria-label={`Explore ${service.title}`}
+                                                >
+                                                    Explore
+                                                    <ArrowRight size={17} strokeWidth={1.8} aria-hidden="true" />
+                                                </a>
                                             </div>
                                             <figure
                                                 className="service-detail-media has-service-animation"
@@ -3275,7 +3294,7 @@ function ContactForm() {
     const fieldError = (name) => errors[name]?.[0];
 
     return (
-        <form className="contact-form" onSubmit={handleSubmit} noValidate>
+        <form className="contact-form" id="contact-form" onSubmit={handleSubmit} noValidate>
             <div className="contact-form-heading">
                 <p className="eyebrow">Send a message</p>
                 <h2>Tell us what you're <span className="editorial-italic contact-heading-accent">working on.</span></h2>
@@ -3371,20 +3390,7 @@ function ContactPage() {
         <>
             <Navbar />
             <main className="page-shell contact-page">
-                <section className="page-hero services-page-hero contact-page-hero" id="top" data-nav-theme="dark">
-                    <div className="container page-hero-inner">
-                        <p className="eyebrow">Contact Viredá</p>
-                        <h1>
-                            Got something in mind?{' '}
-                            <span className="page-hero-title-highlight">Let's talk.</span>
-                        </h1>
-                        <p>
-                            Whether you have a clear brief, a problem you're trying to solve, or an idea you're not
-                            sure how to bring to life, start with a conversation. No pressure. No hard sell. Just a
-                            useful conversation about what's possible.
-                        </p>
-                    </div>
-                </section>
+                <ContactCollageHero />
 
                 <section className="contact-main-section">
                     <div className="container contact-main-grid">
@@ -3474,7 +3480,10 @@ function HomePage() {
                 <CoreCapabilities />
                 <ServicesSection />
                 <OurWork />
+                <ClientsStrip />
                 <AboutVireda />
+                <TestimonialsSection />
+                <FaqTabbedExplorer />
                 <FinalCTA />
             </main>
             <Footer />
@@ -3499,7 +3508,31 @@ function App() {
         return <ServicesPage />;
     }
 
-    if (['/about', '/about-1', '/about-2'].includes(window.location.pathname)) {
+    if (window.location.pathname === '/services/web-development-ux') {
+        return <WebDevelopmentUxPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+    }
+
+    if (window.location.pathname === '/services/brand-creative') {
+        return <BrandCreativePage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+    }
+
+    if (window.location.pathname === '/services/ai-automation') {
+        return <AiAutomationPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+    }
+
+    if (window.location.pathname === '/services/strategy-operations') {
+        return <StrategyOperationsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+    }
+
+    if (window.location.pathname === '/services/software-digital-products') {
+        return <SoftwareDigitalProductsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+    }
+
+    if (window.location.pathname === '/services/data-analytics') {
+        return <DataAnalyticsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+    }
+
+    if (window.location.pathname === '/about') {
         return <AboutPage />;
     }
 

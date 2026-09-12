@@ -14,17 +14,35 @@ Route::get('/services', function () {
     return view('app');
 });
 
+Route::get('/services/web-development-ux', function () {
+    return view('app');
+});
+
+Route::get('/services/brand-creative', function () {
+    return view('app');
+});
+
+Route::get('/services/ai-automation', function () {
+    return view('app');
+});
+
+Route::get('/services/strategy-operations', function () {
+    return view('app');
+});
+
+Route::get('/services/software-digital-products', function () {
+    return view('app');
+});
+
+Route::get('/services/data-analytics', function () {
+    return view('app');
+});
+
 Route::get('/about', function () {
     return view('app');
 });
 
-Route::get('/about-1', function () {
-    return view('app');
-});
-
-Route::get('/about-2', function () {
-    return view('app');
-});
+Route::redirect('/about-1', '/about');
 
 Route::get('/contact', function () {
     return view('app');
