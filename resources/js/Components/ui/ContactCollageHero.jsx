@@ -37,7 +37,7 @@ export function ContactCollageHero() {
                         Whether you have a clear brief, a problem you're trying to solve, or an idea you're not sure how to bring to life, start with a useful conversation about what's possible.
                     </p>
                     <div className="contact-collage-actions">
-                        <GetStartedButton href="#contact-form">Start a conversation</GetStartedButton>
+                        <GetStartedButton href="/book">Book a conversation</GetStartedButton>
                         <a className="contact-collage-secondary" href="/book">Book a discovery call</a>
                     </div>
                 </motion.div>

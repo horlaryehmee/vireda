@@ -16243,34 +16243,41 @@ main .capability-tags span {
 
     .contact-collage-actions {
         align-items: stretch;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
         width: 100%;
     }
 
     .contact-collage-actions .get-started-button,
     .contact-collage-secondary {
+        flex: 1 1 0;
+        min-width: 0;
         width: 100%;
     }
 
     .contact-collage-actions .get-started-button {
-        font-size: .86rem;
+        font-size: .67rem;
         justify-content: center;
-        min-height: 54px;
-        padding-left: 64px;
-        padding-right: 20px;
+        min-height: 48px;
+        padding-left: 43px;
+        padding-right: 7px;
     }
 
     .contact-collage-actions .get-started-button .anti-metal-accent {
-        bottom: 6px;
-        left: 6px;
-        top: 6px;
-        width: 42px;
+        bottom: 4px;
+        left: 4px;
+        padding-inline: 7px;
+        top: 4px;
+        width: 31px;
     }
 
     .contact-collage-secondary {
         border-bottom-width: 1px;
-        font-size: .86rem;
+        font-size: .7rem;
         min-height: 48px;
+        padding-inline: 7px;
+        text-align: center;
     }
 
     .contact-art-collage {
