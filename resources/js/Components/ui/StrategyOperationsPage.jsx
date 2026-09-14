@@ -50,7 +50,7 @@ const whyChooseReasons = [
     { icon: Network, title: 'Whole-Business View', copy: 'We consider how a fix in one area affects everything connected to it.' },
 ];
 
-export default function StrategyOperationsPage({ Navbar, Footer, FinalCTA }) {
+export default function StrategyOperationsPage({ Navbar, Footer, FinalCTA, workProjects = [] }) {
     const animationFrameRef = useRef(null);
     const [animationScale, setAnimationScale] = useState(1);
 
@@ -89,11 +89,7 @@ export default function StrategyOperationsPage({ Navbar, Footer, FinalCTA }) {
                 <ServiceWorkSection
                     title={<>Strategy &amp;<br />Operations <span>Projects</span></>}
                     intro="A look at some of the businesses we've helped run leaner, real problems, real fixes, real results."
-                    items={[
-                        { image: '/images/about-strategy-workshop.jpg', name: 'Business strategy workshop', description: 'A focused strategy session that turned competing priorities into a practical plan.' },
-                        { image: '/images/homepage-about-vireda-team.jpg', name: 'Operations team collaboration', description: 'Clearer roles and leaner workflows that helped the team move work forward faster.' },
-                        { image: '/images/strategy-transformation-visual.jpeg', name: 'Strategy transformation project', description: 'An operating model redesigned to support growth without adding unnecessary complexity.' },
-                    ]}
+                    items={workProjects}
                 />
 
                 <FaqSplitSection items={strategyFaqs} />

@@ -217,28 +217,132 @@ function slugifyServiceTitle(title) {
 
 const projects = [
     {
-        name: 'Operating Model Redesign',
-        industry: 'Professional services',
-        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=85',
-        description:
-            'A working blueprint for clearer decision-making, leaner processes and a digital roadmap that teams could actually adopt.',
-        services: ['Strategy', 'Process Design', 'Systems Planning'],
+        name: 'Altura Consulting',
+        industry: 'Brand identity',
+        image: '/images/work/altura.png',
+        description: 'A complete consulting brand identity and digital direction built around clarity, progress and credibility.',
+        services: ['Brand Strategy', 'Identity', 'Web Design'],
     },
     {
-        name: 'Intelligence Dashboard Suite',
-        industry: 'Distribution',
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85',
-        description:
-            'A consolidated reporting experience that turned fragmented spreadsheets into usable visibility across commercial operations.',
-        services: ['Data', 'Dashboards', 'Automation'],
+        name: 'Kalm',
+        industry: 'Wellness app',
+        image: '/images/work/kalm.png',
+        description: 'A calm, nature-led mobile experience designed around meditation, sleep and mindful daily routines.',
+        services: ['Product Design', 'Mobile App', 'UX/UI'],
     },
     {
-        name: 'Brand-Led Digital Platform',
-        industry: 'Emerging venture',
-        image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1600&q=85',
-        description:
-            'A sharper market position, identity system and product-facing web experience built to make the offer easier to understand.',
-        services: ['Brand Strategy', 'UX/UI', 'Development'],
+        name: 'Luxe Beauty',
+        industry: 'Beauty website',
+        image: '/images/work/luxe-beauty.png',
+        description: 'A premium beauty studio website designed to turn services into a polished, appointment-focused experience.',
+        services: ['Web Design', 'UX/UI', 'Booking'],
+    },
+    {
+        name: 'Luxe Beauty',
+        industry: 'Mobile experience',
+        image: '/images/work/luxe-mobile.png',
+        scrollOnHover: true,
+        description: 'The responsive mobile experience for Luxe Beauty, shaped for fast service discovery and booking.',
+        services: ['Responsive Design', 'Mobile UX', 'Booking'],
+    },
+    {
+        name: 'Peak Fuel Nutrition',
+        industry: 'E-commerce website',
+        image: '/images/work/peakfuel.png',
+        description: 'A conversion-led nutrition storefront with clear product discovery, offers and trust signals.',
+        services: ['E-commerce', 'Web Design', 'Conversion'],
+    },
+    {
+        name: 'Peak Fuel Nutrition',
+        industry: 'Mobile commerce',
+        image: '/images/work/peakfuel-mobile.png',
+        scrollOnHover: true,
+        description: 'A compact mobile shopping experience that keeps products, categories and purchasing within easy reach.',
+        services: ['Mobile Commerce', 'UX/UI', 'Conversion'],
+    },
+    {
+        name: 'Westbrook Property',
+        industry: 'Property platform',
+        image: '/images/work/westbrook.png',
+        description: 'A property operations dashboard bringing tenants, payments, maintenance and reporting into one view.',
+        services: ['Software', 'Dashboard', 'Data'],
+    },
+    {
+        name: 'Westbrook Property',
+        industry: 'Digital platform',
+        image: '/images/work/westbrook-2.png',
+        description: 'A refined sign-in experience supporting a coherent, premium property-management platform.',
+        services: ['Product Design', 'UX/UI', 'Brand'],
+    },
+    {
+        name: 'North Studio',
+        industry: 'Agency website',
+        image: '/images/work/north-studio.png',
+        description: 'A bold digital marketing presence designed to make the studio’s work, energy and results immediately clear.',
+        services: ['Web Design', 'Brand', 'Responsive UX'],
+    },
+    {
+        name: 'North Studio',
+        industry: 'Brand identity',
+        image: '/images/work/north-studio-2.png',
+        description: 'A cohesive visual system spanning print, digital, typography and brand applications.',
+        services: ['Identity', 'Creative Direction', 'Collateral'],
+    },
+    {
+        name: 'Pivot-Up Consult',
+        industry: 'Education website',
+        image: '/images/work/pivot-up.png',
+        description: 'A responsive education consultancy experience guiding students from exploration to application support.',
+        services: ['Web Design', 'UX/UI', 'Content'],
+    },
+    {
+        name: 'CareBridge',
+        industry: 'Care management app',
+        image: '/images/work/carebridge.png',
+        description: 'A focused care-management workflow for tasks, medication and incident reporting.',
+        services: ['Mobile App', 'Product Design', 'UX/UI'],
+    },
+    {
+        name: 'CareBridge',
+        industry: 'Care platform',
+        image: '/images/work/carebridge-2.png',
+        description: 'A connected interface for managing people, care plans, medication, documents and team communication.',
+        services: ['Software', 'Mobile UX', 'Design System'],
+    },
+    {
+        name: 'Flowt',
+        industry: 'Productivity app',
+        image: '/images/work/flowt.png',
+        description: 'A polished mobile workspace for planning projects, tracking tasks and understanding team performance.',
+        services: ['Mobile App', 'Product Design', 'Analytics'],
+    },
+    {
+        name: 'Flowt',
+        industry: 'Project dashboard',
+        image: '/images/work/flowt-2.png',
+        description: 'A dark-mode operations dashboard that makes projects, progress, workload and activity easy to scan.',
+        services: ['Dashboard', 'UX/UI', 'Data Visualisation'],
+    },
+    {
+        name: 'Pivot-Up Consult',
+        industry: 'Student app',
+        image: '/images/work/pivot-up-2.png',
+        description: 'A student journey app for discovering courses, tracking applications and accessing support.',
+        services: ['Mobile App', 'Product Design', 'Education'],
+    },
+    {
+        name: 'The Collective',
+        industry: 'Brand identity',
+        image: '/images/work/the-collective.png',
+        description: 'A warm, community-led identity system for a more connected approach to shared living.',
+        services: ['Brand Strategy', 'Identity', 'Digital'],
+    },
+    {
+        name: 'The Collective',
+        industry: 'Community app',
+        image: '/images/work/the-collective-2.png',
+        description: 'A resident app bringing homes, spaces, events, community and support into one experience.',
+        services: ['Mobile App', 'Community', 'UX/UI'],
     },
 ];
 
@@ -3131,7 +3235,7 @@ function ServicesPage() {
                             <p>A look at recent work across web builds, e-commerce, software, CRM solutions and digital presence—no two projects are the same, but the standard behind them never changes.</p>
                         </header>
                     </div>
-                    <ProjectMarquee projects={serviceSelectedWorkProjects} />
+                    <ProjectMarquee projects={projects} />
                 </section>
 
                 <HowItWorksBlock />
@@ -3511,27 +3615,27 @@ function App() {
     }
 
     if (window.location.pathname === '/services/web-development-ux') {
-        return <WebDevelopmentUxPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+        return <WebDevelopmentUxPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} workProjects={projects} />;
     }
 
     if (window.location.pathname === '/services/brand-creative') {
-        return <BrandCreativePage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+        return <BrandCreativePage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} workProjects={projects} />;
     }
 
     if (window.location.pathname === '/services/ai-automation') {
-        return <AiAutomationPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+        return <AiAutomationPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} workProjects={projects} />;
     }
 
     if (window.location.pathname === '/services/strategy-operations') {
-        return <StrategyOperationsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+        return <StrategyOperationsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} workProjects={projects} />;
     }
 
     if (window.location.pathname === '/services/software-digital-products') {
-        return <SoftwareDigitalProductsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+        return <SoftwareDigitalProductsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} workProjects={projects} />;
     }
 
     if (window.location.pathname === '/services/data-analytics') {
-        return <DataAnalyticsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} />;
+        return <DataAnalyticsPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} workProjects={projects} />;
     }
 
     if (window.location.pathname === '/about') {

@@ -4948,6 +4948,16 @@ h3 {
     transform: scale(1.05);
 }
 
+.work-marquee-card.is-vertical-scroll img {
+    object-position: center top;
+    transition: object-position 3.5s cubic-bezier(.22, .61, .36, 1), transform 600ms ease;
+}
+
+.work-marquee-card.is-vertical-scroll:hover img,
+.work-marquee-card.is-vertical-scroll:focus-visible img {
+    object-position: center bottom;
+}
+
 .work-marquee-overlay {
     align-items: flex-start;
     background: transparent;
@@ -5008,6 +5018,10 @@ h3 {
 
     .work-marquee-track {
         animation: none;
+    }
+
+    .work-marquee-card.is-vertical-scroll img {
+        transition: none;
     }
 }
 

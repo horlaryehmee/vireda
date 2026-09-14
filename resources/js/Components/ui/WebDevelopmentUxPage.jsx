@@ -86,7 +86,7 @@ export function SatisfactionScore({ value }) {
     );
 }
 
-function WebDevelopmentUxPage({ Navbar, Footer, FinalCTA }) {
+function WebDevelopmentUxPage({ Navbar, Footer, FinalCTA, workProjects = [] }) {
     const animationFrameRef = useRef(null);
     const [animationScale, setAnimationScale] = useState(1);
 
@@ -148,11 +148,7 @@ function WebDevelopmentUxPage({ Navbar, Footer, FinalCTA }) {
                 <ServiceWorkSection
                     title={<>Web Development &amp;<br />UX <span>Projects</span></>}
                     intro="A look at some of the digital experiences we've built, real businesses, real users, real results."
-                    items={[
-                        { image: '/images/vireda-office-mockup.png', name: 'Conversion-focused website', description: 'A faster, clearer website shaped around the questions customers ask before they buy.' },
-                        { image: '/images/homepage-about-vireda-team.jpg', name: 'User experience redesign', description: 'A simplified customer journey that removed friction from the most important actions.' },
-                        { image: '/images/strategy-transformation-visual.jpeg', name: 'Connected digital platform', description: 'A responsive experience connected properly to the tools behind the business.' },
-                    ]}
+                    items={workProjects}
                 />
                 <FaqSplitSection items={faqs} />
                 <ExploreRelatedServicesSection intro="A strong website rarely works in isolation. Here's where else we might fit in." items={relatedServices} />

@@ -40,7 +40,7 @@ const relatedServices = [
     ['Strategy & Operations', 'Fixing the operations, processes, and systems behind the business.', '/services/strategy-operations'],
 ];
 
-export default function DataAnalyticsPage({ Navbar, Footer, FinalCTA }) {
+export default function DataAnalyticsPage({ Navbar, Footer, FinalCTA, workProjects = [] }) {
     const animationFrameRef = useRef(null);
     const [animationScale, setAnimationScale] = useState(1);
 
@@ -84,11 +84,7 @@ export default function DataAnalyticsPage({ Navbar, Footer, FinalCTA }) {
                 <ServiceWorkSection
                     title={<>Data &amp;<br />Analytics <span>Projects</span></>}
                     intro="A look at some of the dashboards and systems we've built, real data, real businesses, real clarity."
-                    items={[
-                        { image: '/images/strategy-transformation-visual.jpeg', name: 'Business intelligence dashboard', description: 'A decision-ready dashboard that brought the most important measures into one trusted view.' },
-                        { image: '/images/vireda-office-mockup.png', name: 'Data reporting workspace', description: 'Automated reporting that replaced repetitive manual updates and conflicting spreadsheets.' },
-                        { image: '/images/about-strategy-workshop.jpg', name: 'Data strategy workshop', description: 'A focused workshop that clarified what to measure, where it lives, and how it should be used.' },
-                    ]}
+                    items={workProjects}
                 />
 
                 <FaqSplitSection items={dataFaqs} />

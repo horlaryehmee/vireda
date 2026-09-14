@@ -22,7 +22,7 @@ function ProjectMarquee({ projects = [], className = '' }) {
     // The track translates by exactly -50%, so it must contain two identical halves.
     // One half has to be at least as wide as the viewport, otherwise the loop
     // reveals a gap. Repeat the source list until one half clears ~1800px.
-    const repeats = Math.max(2, Math.ceil(1800 / Math.max(1, projects.length * CARD_APPROX_WIDTH)));
+    const repeats = Math.max(1, Math.ceil(1800 / Math.max(1, projects.length * CARD_APPROX_WIDTH)));
     const half = Array.from({ length: repeats }, () => projects).flat();
     const cards = [...half, ...half];
 
@@ -44,7 +44,7 @@ function ProjectMarquee({ projects = [], className = '' }) {
             >
                 {cards.map((project, index) => (
                     <li
-                        className="work-marquee-card"
+                        className={`work-marquee-card ${project.scrollOnHover ? 'is-vertical-scroll' : ''}`.trim()}
                         key={`${project.name}-${index}`}
                         // The second half is a visual duplicate of the first, so hide it
                         // from assistive tech instead of announcing every project twice.

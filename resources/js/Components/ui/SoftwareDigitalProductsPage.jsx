@@ -34,7 +34,7 @@ const relatedServices = [
     ['Data & Analytics', 'Turning scattered information into dashboards and insight the team can actually use.', '/services/data-analytics'],
 ];
 
-export default function SoftwareDigitalProductsPage({ Navbar, Footer, FinalCTA }) {
+export default function SoftwareDigitalProductsPage({ Navbar, Footer, FinalCTA, workProjects = [] }) {
     const animationFrameRef = useRef(null);
     const [animationScale, setAnimationScale] = useState(1);
 
@@ -78,11 +78,7 @@ export default function SoftwareDigitalProductsPage({ Navbar, Footer, FinalCTA }
                 <ServiceWorkSection
                     title={<>Software &amp; Digital<br />Products <span>Projects</span></>}
                     intro="A look at some of the products and platforms we've built, real ideas, real businesses, real outcomes."
-                    items={[
-                        { image: '/images/vireda-office-mockup.png', name: 'Digital product interface', description: 'A focused interface designed around the tasks users need to complete most often.' },
-                        { image: '/images/strategy-transformation-visual.jpeg', name: 'Software platform strategy', description: 'A phased product roadmap that balanced launch priorities with long-term scalability.' },
-                        { image: '/images/about-strategy-workshop.jpg', name: 'Product discovery workshop', description: 'A collaborative session that tested assumptions before committing to a full build.' },
-                    ]}
+                    items={workProjects}
                 />
 
                 <FaqSplitSection items={softwareFaqs} />

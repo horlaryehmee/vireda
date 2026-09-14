@@ -41,7 +41,7 @@ const relatedServices = [
     ['Data & Analytics', 'Turning scattered information into dashboards and insight the team can actually use.', '/services/data-analytics'],
 ];
 
-export default function AiAutomationPage({ Navbar, Footer, FinalCTA }) {
+export default function AiAutomationPage({ Navbar, Footer, FinalCTA, workProjects = [] }) {
     const animationFrameRef = useRef(null);
     const [animationScale, setAnimationScale] = useState(1);
 
@@ -88,11 +88,7 @@ export default function AiAutomationPage({ Navbar, Footer, FinalCTA }) {
                 <ServiceWorkSection
                     title={<>AI &amp;<br />Automation <span>Projects</span></>}
                     intro="A look at some of the systems we've built, real time saved, real businesses, real results."
-                    items={[
-                        { image: '/images/strategy-transformation-visual.jpeg', name: 'AI strategy and automation system', description: 'A practical automation roadmap focused on the work consuming the most team time.' },
-                        { image: '/images/vireda-office-mockup.png', name: 'Automated digital workspace', description: 'Connected workflows that reduced repetitive admin and made handoffs easier to track.' },
-                        { image: '/images/blackhole-hero-fallback.png', name: 'AI technology interface', description: 'A focused AI experience designed around real customer questions and team workflows.' },
-                    ]}
+                    items={workProjects}
                 />
 
                 <FaqSplitSection items={aiFaqs} />

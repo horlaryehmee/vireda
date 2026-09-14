@@ -38,7 +38,7 @@ const relatedServices = [
     ['Data & Analytics', 'Turning scattered information into dashboards and insight the team can actually use.', '/services/data-analytics'],
 ];
 
-export default function BrandCreativePage({ Navbar, Footer, FinalCTA }) {
+export default function BrandCreativePage({ Navbar, Footer, FinalCTA, workProjects = [] }) {
     const animationFrameRef = useRef(null);
     const [animationScale, setAnimationScale] = useState(1);
 
@@ -90,11 +90,7 @@ export default function BrandCreativePage({ Navbar, Footer, FinalCTA }) {
                 <ServiceWorkSection
                     title={<>Branding &amp;<br />Creative <span>Projects</span></>}
                     intro="A look at some of the identities we've built, real problems, real businesses, real recognition."
-                    items={[
-                        { image: '/images/about-strategy-workshop.jpg', name: 'Brand strategy workshop', description: 'A strategy-led session that clarified the audience, position, and message before design began.' },
-                        { image: '/images/vireda-office-mockup.png', name: 'Creative identity presentation', description: 'A flexible identity system designed to stay consistent across digital and print touchpoints.' },
-                        { image: '/images/homepage-about-vireda-team.jpg', name: 'Collaborative branding project', description: 'A collaborative rebrand that retained what customers recognised while sharpening the overall direction.' },
-                    ]}
+                    items={workProjects}
                 />
 
                 <FaqSplitSection items={brandFaqs} />
