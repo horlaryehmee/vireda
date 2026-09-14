@@ -7271,6 +7271,44 @@ h3 {
     color: #d8a73a;
 }
 
+@media (max-width: 640px) {
+    .final-cta-actions {
+        align-items: stretch;
+        flex-wrap: nowrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .final-cta-actions > .get-started-button,
+    .final-cta-actions > .final-cta-secondary {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .final-cta-actions > .get-started-button {
+        font-size: .68rem;
+        min-height: 48px;
+        padding-left: 45px;
+        padding-right: 8px;
+    }
+
+    .final-cta-actions > .get-started-button .anti-metal-accent {
+        bottom: 4px;
+        left: 4px;
+        padding-inline: 8px;
+        top: 4px;
+        width: 32px;
+    }
+
+    .final-cta-actions > .final-cta-secondary {
+        font-size: .72rem;
+        justify-content: center;
+        min-height: 48px;
+        padding-inline: 8px;
+        text-align: center;
+    }
+}
+
 .footer {
     --accent: #d8a73a;
     --accent-2: #f2d27b;
