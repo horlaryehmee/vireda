@@ -62,12 +62,12 @@ import { HowItWorksBlock } from './Components/ui/HowItWorksBlock';
 import { IconStack } from './Components/ui/IconStack';
 import { ConstellationGrid } from './Components/ui/ConstellationGrid';
 import { NeonMesh } from './Components/ui/NeonMesh';
-import { ProjectShowcase } from './Components/ui/ProjectShowcase';
 import { ProjectMarquee } from './Components/ui/ProjectMarquee';
 import { ClientMarquee } from './Components/ui/ClientMarquee';
 import { TextRevealByWord } from './Components/ui/text-reveal';
 import { TubeLightNav } from './Components/ui/TubeLightNav';
 import { FaqTabbedExplorer } from './Components/ui/FaqTabbedExplorer';
+import { CookiePanel } from './Components/ui/CookiePanel';
 import { TestimonialsSection } from './Components/ui/TestimonialsSection';
 import { ServicesCollageHero } from './Components/ui/ServicesCollageHero';
 import { ContactCollageHero } from './Components/ui/ContactCollageHero';
@@ -3121,17 +3121,17 @@ function ServicesPage() {
                     <ClientResultsSlider results={servicePageResults} />
                 </section>
 
-                <section className="page-section selected-work-section">
-                    <PageSectionHeading
-                        eyebrow="Selected Work"
-                        highlight="things we've built"
-                        text="A few of the things we've built."
-                    >
-                        A look at recent work across web builds, e-commerce, software, CRM solutions and digital presence - no two projects are the same, but the standard behind them never changes.
-                    </PageSectionHeading>
-                    <div className="container selected-work-showcase">
-                        <ProjectShowcase projects={serviceSelectedWorkProjects} />
+                <section className="section work-section services-selected-work" id="selected-work">
+                    <div className="container">
+                        <header className="work-heading">
+                            <div>
+                                <p className="eyebrow">Selected Work</p>
+                                <h2 className="services-selected-work-title">A few of the <span>things we've built.</span></h2>
+                            </div>
+                            <p>A look at recent work across web builds, e-commerce, software, CRM solutions and digital presence—no two projects are the same, but the standard behind them never changes.</p>
+                        </header>
                     </div>
+                    <ProjectMarquee projects={serviceSelectedWorkProjects} />
                 </section>
 
                 <HowItWorksBlock />
@@ -3449,15 +3449,17 @@ function PrivacyPolicyPage() {
                 </section>
                 <section className="privacy-content">
                     <div className="container privacy-content-inner">
-                        <p className="privacy-updated">Last updated: 28 August 2026</p>
+                        <p className="privacy-updated">Last updated: 13 September 2026</p>
                         <h2>Contact enquiries</h2>
                         <p>When you contact Viredá, we collect the information you provide, such as your name, email address, phone number, service interest and message. We use it only to understand and respond to your enquiry, arrange a call, and keep a record of our conversation.</p>
                         <h2>Discovery call bookings</h2>
                         <p>When you book a call, we also process your selected date and time, company, discussion topic and booking reference. We use this information to reserve the appointment, prevent scheduling conflicts, send confirmations and manage the call.</p>
+                        <h2>Cookies and local storage</h2>
+                        <p>We do not currently use advertising, marketing or third-party analytics cookies. The site may use a necessary session cookie for security, form protection and contact-form verification. The site also uses browser local storage—not a tracking cookie—to remember your light or dark theme and your cookie-consent choice. You can clear these items through your browser settings.</p>
                         <h2>How we use and protect it</h2>
                         <p>We process this information because you have asked us to respond and because it is in our legitimate interest to manage genuine business enquiries. We take reasonable steps to protect it and do not sell your personal information.</p>
                         <h2>Sharing and retention</h2>
-                        <p>Information may be handled by trusted service providers that support our website, email and business operations. We keep enquiry information only for as long as it remains relevant to the conversation, our services, or applicable legal obligations.</p>
+                        <p>Information may be handled by trusted service providers that support our website, email and business operations. Contact enquiries are sent to our configured business email provider, while booking records are stored in our business database and used to send booking confirmations and internal notifications. We keep enquiry information only for as long as it remains relevant to the conversation, our services, or applicable legal obligations.</p>
                         <h2>Your choices</h2>
                         <p>You can ask us to access, correct or delete the personal information we hold about you. You may also object to or restrict how it is used where applicable.</p>
                         <h2>Contact us</h2>
@@ -3550,4 +3552,4 @@ function App() {
 const rootElement = document.getElementById('root');
 const root = window.__viredaRoot || createRoot(rootElement);
 window.__viredaRoot = root;
-root.render(<App />);
+root.render(<><App /><CookiePanel /></>);

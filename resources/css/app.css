@@ -4826,6 +4826,34 @@ h3 {
     max-width: 620px;
 }
 
+.services-selected-work .work-heading {
+    justify-items: center;
+    text-align: center;
+}
+
+.services-selected-work .work-heading > div,
+.services-selected-work .work-heading > p {
+    margin-inline: auto;
+}
+
+.services-selected-work-title {
+    color: var(--work-text);
+    font-size: var(--section-title-size);
+    font-weight: 600;
+    letter-spacing: -.035em;
+    line-height: 1.02;
+    margin: 0;
+    max-width: 850px;
+}
+
+.services-selected-work-title span {
+    color: var(--work-gold);
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: normal;
+}
+
 /* Project marquee */
 .work-marquee {
     /* Resolve colours from the work section's own tokens when they exist (home page)
@@ -6270,6 +6298,7 @@ h3 {
 .stats-bento-primary-meta > span + span { border-left: 1px solid rgba(255,255,255,.32); margin-left: 20px; padding-left: 20px; }
 .stats-bento-primary-meta .stats-bento-meta-value { align-items: center; color: #fff; display: flex; font-family: var(--font-display); font-size: 1.35rem; font-weight: 400; gap: 6px; letter-spacing: 0; line-height: 1; margin-bottom: 4px; text-transform: none; }
 .stats-bento-primary-meta .stats-bento-meta-value > span { font-weight: 400; }
+.stats-bento-primary-meta .stats-bento-meta-item-time .stats-bento-meta-value { font-size: clamp(1.1rem, 1.8vw, 1.6rem); white-space: nowrap; }
 .ai-automation-page .stats-bento-primary-meta .stats-bento-meta-value { font-size: clamp(1.65rem, 2.4vw, 2.15rem); }
 .stats-bento-growth { align-items: center; background: var(--page-panel); display: flex; grid-column: span 3; justify-content: space-between; }
 .stats-bento-growth span { color: var(--page-muted); display: block; }
@@ -6313,7 +6342,8 @@ h3 {
 .stats-bento-small strong,
 .stats-bento-rating strong,
 .stats-bento-rating-wide strong {
-    font-size: clamp(2.25rem, 3vw, 3rem);
+    font-size: clamp(1.85rem, 2.65vw, 2.65rem);
+    min-width: 0;
 }
 
 @keyframes web-service-reveal { from { opacity: 0; filter: blur(8px); transform: translateY(10px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
@@ -6645,7 +6675,7 @@ h3 {
     .stats-bento-growth strong,
     .stats-bento-small strong,
     .stats-bento-rating strong,
-    .stats-bento-rating-wide strong { font-size: clamp(2.15rem, 9vw, 3rem); }
+    .stats-bento-rating-wide strong { font-size: clamp(1.8rem, 8vw, 2.4rem); }
 }
 
 @media (min-width: 701px) and (max-width: 1050px) {
@@ -6655,6 +6685,77 @@ h3 {
 
 @media (prefers-reduced-motion: reduce) {
     .web-development-service-grid article { animation: none; transition: none; }
+}
+
+/* Site-wide cookie consent panel */
+.cookie-panel {
+    --cookie-bg: #18191c;
+    --cookie-text: #fff8e6;
+    --cookie-muted: rgba(255,248,230,.68);
+    --cookie-line: rgba(255,248,230,.18);
+    background: var(--cookie-bg);
+    border: 1px solid rgba(242,201,92,.32);
+    border-radius: 16px;
+    bottom: 20px;
+    box-shadow: 0 22px 60px rgba(0,0,0,.28);
+    color: var(--cookie-text);
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    max-width: min(380px, calc(100vw - 32px));
+    opacity: 0;
+    padding: 18px;
+    position: fixed;
+    right: 20px;
+    transform: translateY(22px);
+    transition: opacity 280ms ease, transform 280ms ease;
+    width: 380px;
+    z-index: 1000;
+}
+.cookie-panel::before {
+    background: repeating-linear-gradient(45deg, rgba(255,255,255,.16) 0 1px, transparent 1px 10px);
+    content: '';
+    inset: 0;
+    mask-image: radial-gradient(ellipse 90% 65% at 100% 0%, #000 45%, transparent 110%);
+    opacity: .45;
+    pointer-events: none;
+    position: absolute;
+}
+.cookie-panel > * { position: relative; z-index: 1; }
+.cookie-panel.is-visible { opacity: 1; transform: translateY(0); }
+.cookie-panel-heading { align-items: center; display: flex; gap: 10px; }
+.cookie-panel-icon { align-items: center; background: rgba(242,201,92,.12); border: 1px solid rgba(242,201,92,.32); border-radius: 9px; color: #f2c95c; display: inline-flex; height: 34px; justify-content: center; width: 34px; }
+.cookie-panel h2 { color: var(--cookie-text); font-family: var(--font-display); font-size: 1rem; font-weight: 600; line-height: 1.2; margin: 0; }
+.cookie-panel-close { align-items: center; background: transparent; border: 0; border-radius: 6px; color: var(--cookie-muted); cursor: pointer; display: inline-flex; height: 28px; justify-content: center; margin-left: auto; padding: 0; width: 28px; }
+.cookie-panel-close:hover { background: rgba(255,255,255,.08); color: var(--cookie-text); }
+.cookie-panel-message { color: var(--cookie-muted); font-size: .75rem; line-height: 1.55; margin: 0; }
+.cookie-panel-message a { color: #f2c95c; text-underline-offset: 3px; }
+.cookie-panel-actions { display: flex; gap: 8px; }
+.cookie-button, .cookie-save { align-items: center; border-radius: 7px; cursor: pointer; display: inline-flex; font-family: inherit; font-size: .72rem; font-weight: 700; gap: 5px; justify-content: center; min-height: 34px; padding: 0 12px; transition: background 180ms ease, border-color 180ms ease, transform 180ms ease; }
+.cookie-button:hover, .cookie-save:hover { transform: translateY(-1px); }
+.cookie-button-muted { background: rgba(255,255,255,.06); border: 1px solid var(--cookie-line); color: var(--cookie-muted); }
+.cookie-button-muted:hover { background: rgba(255,255,255,.11); color: var(--cookie-text); }
+.cookie-button-primary, .cookie-save { background: #f2c95c; border: 1px solid #f2c95c; color: #18191c; }
+.cookie-button-primary:hover, .cookie-save:hover { background: #ffe08a; border-color: #ffe08a; }
+.cookie-preferences { overflow: hidden; transition: height 280ms ease; }
+.cookie-preferences-inner { border-top: 1px solid var(--cookie-line); display: flex; flex-direction: column; gap: 7px; padding-top: 12px; }
+.cookie-preference-row { align-items: flex-start; border: 1px solid var(--cookie-line); border-radius: 8px; display: flex; gap: 8px; padding: 8px; }
+.cookie-check { align-items: center; background: transparent; border: 1px solid rgba(255,248,230,.45); border-radius: 4px; color: #18191c; display: inline-flex; flex: 0 0 auto; height: 18px; justify-content: center; margin-top: 1px; padding: 0; width: 18px; }
+.cookie-check[aria-pressed="true"] { background: #f2c95c; border-color: #f2c95c; }
+.cookie-check.is-locked { cursor: not-allowed; opacity: .72; }
+.cookie-preference-row > span { display: flex; flex: 1; flex-wrap: wrap; gap: 4px 7px; min-width: 0; }
+.cookie-preference-row strong { color: var(--cookie-text); font-size: .68rem; font-weight: 700; }
+.cookie-preference-row small { color: #f2c95c; font-size: .58rem; text-transform: uppercase; }
+.cookie-preference-row em { color: var(--cookie-muted); flex-basis: 100%; font-size: .62rem; font-style: normal; line-height: 1.35; }
+.cookie-save { align-self: flex-end; min-height: 30px; }
+
+@media (max-width: 520px) {
+    .cookie-panel { bottom: 12px; left: 12px; max-width: none; right: 12px; width: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cookie-panel, .cookie-preferences { transition: none; }
+    .cookie-button:hover, .cookie-save:hover { transform: none; }
 }
 
 .faq-section {
@@ -10478,7 +10579,21 @@ h3 {
     }
 
     .mobile-menu-footer .get-started-button {
+        border-color: rgba(255, 248, 230, 0.2);
+        font-size: 0.82rem;
+        justify-content: center;
+        min-height: 50px;
+        padding-left: 58px;
+        padding-right: 18px;
         width: 100%;
+    }
+
+    .mobile-menu-footer .get-started-button .anti-metal-accent {
+        bottom: 5px;
+        left: 5px;
+        padding-inline: 10px;
+        top: 5px;
+        width: 38px;
     }
 }
 
@@ -16097,6 +16212,27 @@ main .capability-tags span {
     .contact-collage-actions .get-started-button,
     .contact-collage-secondary {
         width: 100%;
+    }
+
+    .contact-collage-actions .get-started-button {
+        font-size: .86rem;
+        justify-content: center;
+        min-height: 54px;
+        padding-left: 64px;
+        padding-right: 20px;
+    }
+
+    .contact-collage-actions .get-started-button .anti-metal-accent {
+        bottom: 6px;
+        left: 6px;
+        top: 6px;
+        width: 42px;
+    }
+
+    .contact-collage-secondary {
+        border-bottom-width: 1px;
+        font-size: .86rem;
+        min-height: 48px;
     }
 
     .contact-art-collage {
