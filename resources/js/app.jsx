@@ -77,6 +77,7 @@ import AiAutomationPage from './Components/ui/AiAutomationPage';
 import StrategyOperationsPage from './Components/ui/StrategyOperationsPage';
 import SoftwareDigitalProductsPage from './Components/ui/SoftwareDigitalProductsPage';
 import DataAnalyticsPage from './Components/ui/DataAnalyticsPage';
+import PortfolioPage from './Components/ui/PortfolioPage';
 import BookingPage from './BookingPage';
 import { AdminDashboardPage, AdminLoginPage } from './AdminBooking';
 import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
@@ -92,6 +93,7 @@ const navItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
+    { label: 'Portfolio', href: '/portfolio' },
     { label: 'Contact', href: '/contact' },
 ];
 
@@ -100,7 +102,7 @@ const footerSections = [
         title: 'Company',
         links: [
             { label: 'About', href: '/about' },
-            { label: 'Our Work', href: '/#our-work' },
+            { label: 'Portfolio', href: '/portfolio' },
             { label: 'Privacy Policy', href: '/privacy-policy' },
         ],
     },
@@ -222,6 +224,7 @@ const projects = [
         image: '/images/work/altura.png',
         description: 'A complete consulting brand identity and digital direction built around clarity, progress and credibility.',
         services: ['Brand Strategy', 'Identity', 'Web Design'],
+        category: 'Brand & Creative',
     },
     {
         name: 'Kalm',
@@ -229,6 +232,7 @@ const projects = [
         image: '/images/work/kalm.png',
         description: 'A calm, nature-led mobile experience designed around meditation, sleep and mindful daily routines.',
         services: ['Product Design', 'Mobile App', 'UX/UI'],
+        category: 'Products & Apps',
     },
     {
         name: 'Luxe Beauty',
@@ -236,6 +240,7 @@ const projects = [
         image: '/images/work/luxe-beauty.png',
         description: 'A premium beauty studio website designed to turn services into a polished, appointment-focused experience.',
         services: ['Web Design', 'UX/UI', 'Booking'],
+        category: 'Websites',
     },
     {
         name: 'Luxe Beauty',
@@ -244,6 +249,7 @@ const projects = [
         scrollOnHover: true,
         description: 'The responsive mobile experience for Luxe Beauty, shaped for fast service discovery and booking.',
         services: ['Responsive Design', 'Mobile UX', 'Booking'],
+        category: 'Websites',
     },
     {
         name: 'Peak Fuel Nutrition',
@@ -251,6 +257,7 @@ const projects = [
         image: '/images/work/peakfuel.png',
         description: 'A conversion-led nutrition storefront with clear product discovery, offers and trust signals.',
         services: ['E-commerce', 'Web Design', 'Conversion'],
+        category: 'Websites',
     },
     {
         name: 'Peak Fuel Nutrition',
@@ -259,6 +266,7 @@ const projects = [
         scrollOnHover: true,
         description: 'A compact mobile shopping experience that keeps products, categories and purchasing within easy reach.',
         services: ['Mobile Commerce', 'UX/UI', 'Conversion'],
+        category: 'Websites',
     },
     {
         name: 'Westbrook Property',
@@ -266,6 +274,7 @@ const projects = [
         image: '/images/work/westbrook.png',
         description: 'A property operations dashboard bringing tenants, payments, maintenance and reporting into one view.',
         services: ['Software', 'Dashboard', 'Data'],
+        category: 'Platforms & Data',
     },
     {
         name: 'Westbrook Property',
@@ -273,6 +282,7 @@ const projects = [
         image: '/images/work/westbrook-2.png',
         description: 'A refined sign-in experience supporting a coherent, premium property-management platform.',
         services: ['Product Design', 'UX/UI', 'Brand'],
+        category: 'Platforms & Data',
     },
     {
         name: 'North Studio',
@@ -280,6 +290,7 @@ const projects = [
         image: '/images/work/north-studio.png',
         description: 'A bold digital marketing presence designed to make the studio’s work, energy and results immediately clear.',
         services: ['Web Design', 'Brand', 'Responsive UX'],
+        category: 'Websites',
     },
     {
         name: 'North Studio',
@@ -287,6 +298,7 @@ const projects = [
         image: '/images/work/north-studio-2.png',
         description: 'A cohesive visual system spanning print, digital, typography and brand applications.',
         services: ['Identity', 'Creative Direction', 'Collateral'],
+        category: 'Brand & Creative',
     },
     {
         name: 'Pivot-Up Consult',
@@ -294,6 +306,7 @@ const projects = [
         image: '/images/work/pivot-up.png',
         description: 'A responsive education consultancy experience guiding students from exploration to application support.',
         services: ['Web Design', 'UX/UI', 'Content'],
+        category: 'Websites',
     },
     {
         name: 'CareBridge',
@@ -301,6 +314,7 @@ const projects = [
         image: '/images/work/carebridge.png',
         description: 'A focused care-management workflow for tasks, medication and incident reporting.',
         services: ['Mobile App', 'Product Design', 'UX/UI'],
+        category: 'Products & Apps',
     },
     {
         name: 'CareBridge',
@@ -308,6 +322,7 @@ const projects = [
         image: '/images/work/carebridge-2.png',
         description: 'A connected interface for managing people, care plans, medication, documents and team communication.',
         services: ['Software', 'Mobile UX', 'Design System'],
+        category: 'Products & Apps',
     },
     {
         name: 'Flowt',
@@ -315,6 +330,7 @@ const projects = [
         image: '/images/work/flowt.png',
         description: 'A polished mobile workspace for planning projects, tracking tasks and understanding team performance.',
         services: ['Mobile App', 'Product Design', 'Analytics'],
+        category: 'Products & Apps',
     },
     {
         name: 'Flowt',
@@ -322,6 +338,7 @@ const projects = [
         image: '/images/work/flowt-2.png',
         description: 'A dark-mode operations dashboard that makes projects, progress, workload and activity easy to scan.',
         services: ['Dashboard', 'UX/UI', 'Data Visualisation'],
+        category: 'Platforms & Data',
     },
     {
         name: 'Pivot-Up Consult',
@@ -329,6 +346,7 @@ const projects = [
         image: '/images/work/pivot-up-2.png',
         description: 'A student journey app for discovering courses, tracking applications and accessing support.',
         services: ['Mobile App', 'Product Design', 'Education'],
+        category: 'Products & Apps',
     },
     {
         name: 'The Collective',
@@ -336,6 +354,7 @@ const projects = [
         image: '/images/work/the-collective.png',
         description: 'A warm, community-led identity system for a more connected approach to shared living.',
         services: ['Brand Strategy', 'Identity', 'Digital'],
+        category: 'Brand & Creative',
     },
     {
         name: 'The Collective',
@@ -343,6 +362,7 @@ const projects = [
         image: '/images/work/the-collective-2.png',
         description: 'A resident app bringing homes, spaces, events, community and support into one experience.',
         services: ['Mobile App', 'Community', 'UX/UI'],
+        category: 'Products & Apps',
     },
 ];
 
@@ -595,6 +615,7 @@ function Navbar() {
                         icon: Box,
                         submenu: serviceNavItems,
                     },
+                    { label: 'Portfolio', href: '/portfolio', icon: Images },
                     { label: 'Contact', href: '/contact', icon: Mail },
                 ]} />
                 <div className="nav-actions">
@@ -647,6 +668,7 @@ function Navbar() {
                             ))}
                         </div>
                     </section>
+                    <a className="mobile-primary-link" href="/portfolio" onClick={closeNavigation}>Portfolio <ArrowRight size={17} /></a>
                     <a className="mobile-primary-link" href="/contact" onClick={closeNavigation}>Contact <ArrowRight size={17} /></a>
                 </div>
                 <div className="mobile-menu-footer">
@@ -3640,6 +3662,10 @@ function App() {
 
     if (window.location.pathname === '/about') {
         return <AboutPage />;
+    }
+
+    if (window.location.pathname === '/portfolio') {
+        return <PortfolioPage Navbar={Navbar} Footer={Footer} FinalCTA={FinalCTA} projects={projects} />;
     }
 
     if (window.location.pathname === '/contact') {

@@ -42,6 +42,10 @@ Route::get('/about', function () {
     return view('app');
 });
 
+Route::get('/portfolio', function () {
+    return view('app');
+});
+
 Route::redirect('/about-1', '/about');
 
 Route::get('/contact', function () {
