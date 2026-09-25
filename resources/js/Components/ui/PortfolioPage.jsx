@@ -1,9 +1,64 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { ServicesCollageHero } from './ServicesCollageHero';
+import { ContactCollageHero } from './ContactCollageHero';
 
 const filters = ['All', 'Websites', 'Products & Apps', 'Brand & Creative', 'Platforms & Data'];
-const showPortfolioHero = false;
+
+const portfolioTestimonial = {
+    quote: "They took the time to actually understand the business before proposing anything — that's rarer than it should be.",
+    name: 'Ronke Adeyemi',
+    role: 'Operations Director, Fieldstone Group',
+};
+
+function ProjectCard({ project, index }) {
+    return (
+        <article className="portfolio-card" tabIndex={0} aria-label={project.name}>
+            <div className={`portfolio-card-media ${project.scrollOnHover ? 'is-vertical' : ''}`}>
+                <img src={project.image} alt={`${project.name} — ${project.industry}`} loading={index < 4 ? 'eager' : 'lazy'} />
+                <div className="portfolio-card-tags" aria-hidden="true">
+                    {project.services.map((service) => <span key={service}>{service}</span>)}
+                </div>
+                <span className="portfolio-card-open" aria-hidden="true"><ArrowUpRight size={21} /></span>
+            </div>
+            <div className="portfolio-card-caption">
+                <p>{project.name}</p>
+                <h3>{project.description}</h3>
+            </div>
+        </article>
+    );
+}
+
+function PortfolioTestimonial() {
+    return (
+        <aside className="portfolio-testimonial">
+            <span className="portfolio-quote-mark" aria-hidden="true">“</span>
+            <blockquote>{portfolioTestimonial.quote}</blockquote>
+            <div className="portfolio-testimonial-author">
+                <span aria-hidden="true">{portfolioTestimonial.name.charAt(0)}</span>
+                <p><strong>{portfolioTestimonial.name}</strong><small>{portfolioTestimonial.role}</small></p>
+            </div>
+        </aside>
+    );
+}
+
+function PortfolioMidCta() {
+    return (
+        <aside className="portfolio-mid-cta">
+            <h2>You&apos;re still here?</h2>
+            <p>You must really like us...</p>
+            <a href="/contact">Start a Conversation <ArrowUpRight size={17} /></a>
+        </aside>
+    );
+}
+
+function PortfolioAddProject() {
+    return (
+        <a className="portfolio-add-project" href="/contact">
+            <span aria-hidden="true">+</span>
+            <strong>Add your project — Start a Conversation</strong>
+        </a>
+    );
+}
 
 function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
     const [activeFilter, setActiveFilter] = useState('All');
@@ -24,38 +79,49 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
             : projects.filter((project) => project.category === activeFilter)
     ), [activeFilter, projects]);
 
-    const featuredProjects = projects.slice(0, 3);
+    const portfolioSequence = useMemo(() => {
+        const sequence = visibleProjects.map((project, index) => ({ type: 'project', project, index }));
+
+        sequence.splice(Math.min(1, sequence.length), 0, { type: 'testimonial' });
+
+        if (activeFilter === 'All' && sequence.length > 4) {
+            sequence.splice(Math.ceil(sequence.length / 2), 0, { type: 'mid-cta' });
+        }
+
+        sequence.push({ type: 'add-project' });
+
+        return sequence;
+    }, [activeFilter, visibleProjects]);
+
+    const portfolioColumns = useMemo(() => ([
+        portfolioSequence.filter((_, index) => index % 2 === 0),
+        portfolioSequence.filter((_, index) => index % 2 === 1),
+    ]), [portfolioSequence]);
+
+    const renderPortfolioItem = (item) => {
+        if (item.type === 'testimonial') return <PortfolioTestimonial key="testimonial" />;
+        if (item.type === 'mid-cta') return <PortfolioMidCta key="mid-cta" />;
+        if (item.type === 'add-project') return <PortfolioAddProject key="add-project" />;
+
+        return <ProjectCard project={item.project} index={item.index} key={`${item.project.name}-${item.project.image}`} />;
+    };
 
     return (
         <>
             <Navbar />
             <main className="portfolio-page">
-                {showPortfolioHero && <ServicesCollageHero
-                    eyebrow="Portfolio"
-                    title={<>Ideas made <span>real.</span></>}
-                    subtitle="A collection of brands, products and digital experiences built to solve real problems—and create meaningful momentum."
-                    images={featuredProjects.map((project) => ({
-                        src: project.image,
-                        alt: `${project.name} — ${project.industry}`,
-                    }))}
-                />}
+                <ContactCollageHero
+                    eyebrow="Selected work"
+                    title={<>Ideas we've helped<br /><span>take shape.</span></>}
+                    description="A selection of what we build, across strategy, software, AI, data, brand and the web."
+                    primaryHref="#portfolio-grid"
+                    primaryLabel="Explore our work"
+                />
 
-                <section className="portfolio-index" id="portfolio-grid">
+                <section className="portfolio-index" id="portfolio-grid" aria-label="Selected projects">
                     <div className="container">
-                        <header className="portfolio-index-heading">
-                            <div>
-                                <p className="eyebrow">Selected work</p>
-                                <h2>Some of what <em>we’ve built.</em></h2>
-                            </div>
-                            <p>A selection of our work across strategy, identity, websites, software and digital products.</p>
-                        </header>
-
                         <div className="portfolio-filter-row" role="group" aria-label="Filter portfolio projects">
                             {filters.map((filter) => {
-                                const count = filter === 'All'
-                                    ? projects.length
-                                    : projects.filter((project) => project.category === filter).length;
-
                                 return (
                                     <button
                                         className={activeFilter === filter ? 'is-active' : ''}
@@ -64,35 +130,21 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
                                         onClick={() => setActiveFilter(filter)}
                                         key={filter}
                                     >
-                                        {filter} <span>{String(count).padStart(2, '0')}</span>
+                                        {filter}
                                     </button>
                                 );
                             })}
                         </div>
 
                         <div className="portfolio-grid" aria-live="polite">
-                            {visibleProjects.map((project, index) => (
-                                <article className="portfolio-card" tabIndex={0} aria-label={project.name} key={`${project.name}-${project.image}`}>
-                                    <div className={`portfolio-card-media ${project.scrollOnHover ? 'is-vertical' : ''}`}>
-                                        <img src={project.image} alt={`${project.name} — ${project.industry}`} loading={index < 4 ? 'eager' : 'lazy'} />
-                                        <span className="portfolio-card-index">{String(index + 1).padStart(2, '0')}</span>
-                                        <span className="portfolio-card-open" aria-hidden="true"><ArrowUpRight size={19} /></span>
-                                    </div>
-                                    <div className="portfolio-card-copy">
-                                        <div className="portfolio-card-title-row">
-                                            <div>
-                                                <p>{project.industry}</p>
-                                                <h3>{project.name}</h3>
-                                            </div>
-                                            <span>{project.category}</span>
-                                        </div>
-                                        <p className="portfolio-card-description">{project.description}</p>
-                                        <ul aria-label={`Services delivered for ${project.name}`}>
-                                            {project.services.map((service) => <li key={service}>{service}</li>)}
-                                        </ul>
-                                    </div>
-                                </article>
+                            {portfolioColumns.map((column, columnIndex) => (
+                                <div className="portfolio-grid-column" key={columnIndex}>
+                                    {column.map(renderPortfolioItem)}
+                                </div>
                             ))}
+                        </div>
+                        <div className="portfolio-grid-mobile" aria-live="polite">
+                            {portfolioSequence.map(renderPortfolioItem)}
                         </div>
                     </div>
                 </section>

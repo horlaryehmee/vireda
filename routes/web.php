@@ -68,7 +68,6 @@ Route::get('/privacy-policy', function () {
     return view('app');
 });
 
-Route::get('/contact/challenge', [ContactController::class, 'challenge'])->middleware('throttle:20,1');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1');
 
 Route::get('/booking/settings', [BookingController::class, 'settings']);

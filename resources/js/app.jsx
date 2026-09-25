@@ -60,7 +60,6 @@ import { AboutFinancialHero } from './Components/ui/AboutFinancialHero';
 import { HeroGridBackground } from './Components/ui/HeroGridBackground';
 import { HowItWorksBlock } from './Components/ui/HowItWorksBlock';
 import { IconStack } from './Components/ui/IconStack';
-import { ConstellationGrid } from './Components/ui/ConstellationGrid';
 import { NeonMesh } from './Components/ui/NeonMesh';
 import { ProjectMarquee } from './Components/ui/ProjectMarquee';
 import { ClientMarquee } from './Components/ui/ClientMarquee';
@@ -679,28 +678,28 @@ function Navbar() {
     );
 }
 
-const heroTypewriterItems = [
-    'A problem that needs solving.',
-    'An idea that hasn’t found its shape yet.',
-    'A process that could work better.',
-    'An opportunity waiting to be explored.',
-    'A vision that needs the right team and tech',
+const heroHeadingTypewriterItems = [
+    'Something better.',
+    'Better brands.',
+    'Smarter systems.',
+    'Lasting traction.',
 ];
-const mobileHeroTypewriterItems = heroTypewriterItems;
 
-function HeroTypewriter() {
+function HeroHeadingTypewriter() {
     const [itemIndex, setItemIndex] = useState(0);
-    const [mobileItemIndex, setMobileItemIndex] = useState(0);
     const [visibleCount, setVisibleCount] = useState(0);
-    const [mobileVisibleCount, setMobileVisibleCount] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [isMobileDeleting, setIsMobileDeleting] = useState(false);
 
     useEffect(() => {
-        const currentText = heroTypewriterItems[itemIndex];
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setVisibleCount(heroHeadingTypewriterItems[0].length);
+            return undefined;
+        }
+
+        const currentText = heroHeadingTypewriterItems[itemIndex];
         const isComplete = visibleCount === currentText.length;
         const isEmpty = visibleCount === 0;
-        const delay = isComplete && !isDeleting ? 1500 : isDeleting ? 5 : 34;
+        const delay = isComplete && !isDeleting ? 1800 : isDeleting ? 35 : 75;
 
         const timeout = window.setTimeout(() => {
             if (!isDeleting && isComplete) {
@@ -710,7 +709,7 @@ function HeroTypewriter() {
 
             if (isDeleting && isEmpty) {
                 setIsDeleting(false);
-                setItemIndex((current) => (current + 1) % heroTypewriterItems.length);
+                setItemIndex((current) => (current + 1) % heroHeadingTypewriterItems.length);
                 return;
             }
 
@@ -720,42 +719,15 @@ function HeroTypewriter() {
         return () => window.clearTimeout(timeout);
     }, [itemIndex, visibleCount, isDeleting]);
 
-    const currentText = heroTypewriterItems[itemIndex];
-    const currentMobileText = mobileHeroTypewriterItems[mobileItemIndex];
-
-    useEffect(() => {
-        const currentText = mobileHeroTypewriterItems[mobileItemIndex];
-        const isComplete = mobileVisibleCount === currentText.length;
-        const isEmpty = mobileVisibleCount === 0;
-        const delay = isComplete && !isMobileDeleting ? 1500 : isMobileDeleting ? 5 : 34;
-
-        const timeout = window.setTimeout(() => {
-            if (!isMobileDeleting && isComplete) {
-                setIsMobileDeleting(true);
-                return;
-            }
-
-            if (isMobileDeleting && isEmpty) {
-                setIsMobileDeleting(false);
-                setMobileItemIndex((current) => (current + 1) % mobileHeroTypewriterItems.length);
-                return;
-            }
-
-            setMobileVisibleCount((current) => current + (isMobileDeleting ? -1 : 1));
-        }, delay);
-
-        return () => window.clearTimeout(timeout);
-    }, [mobileItemIndex, mobileVisibleCount, isMobileDeleting]);
+    const currentText = heroHeadingTypewriterItems[itemIndex];
 
     return (
-        <>
-            <p className="hero-typewriter hero-typewriter-desktop" aria-live="polite">
-                <span>{currentText.slice(0, visibleCount)}</span>
-            </p>
-            <p className="hero-typewriter hero-typewriter-mobile-live" aria-live="polite">
-                <span>{currentMobileText.slice(0, mobileVisibleCount)}</span>
-            </p>
-        </>
+        <span
+            className="hero-title-highlight hero-title-typewriter"
+            aria-label={currentText}
+        >
+            <span aria-hidden="true">{currentText.slice(0, visibleCount)}</span>
+        </span>
     );
 }
 
@@ -776,14 +748,13 @@ function Hero() {
                     <h1>
                         Let&apos;s build
                         <br />
-                        <span className="hero-title-highlight">something better.</span>
+                        <HeroHeadingTypewriter />
                     </h1>
                     <div className="blackhole-subcopy">
-                        <p className="hero-subcopy-intro">Every business has something worth building:</p>
-                        <HeroTypewriter />
                         <p className="hero-subcopy-summary">
-                            Viredá brings together strategy, technology and data to help businesses build better,
-                            work smarter and move forward with confidence.
+                            Every business has something worth building. From untapped opportunities and ideas to
+                            processes that have quietly outgrown themselves. We bring strategy, technology and
+                            creativity to build it better and make it last.
                         </p>
                     </div>
                     <div className="hero-actions">
@@ -1354,14 +1325,23 @@ function AboutVireda() {
     return (
         <section className="section about-section" id="about">
             <div className="container">
-                <header className="about-header">
-                    <p className="eyebrow">About Viredá</p>
-                    <h2 className="about-title">
-                        Built to make better things <span>possible.</span>
-                    </h2>
-                    <p className="about-lead">Viredá was created around a simple belief: good ideas deserve the opportunity to become something meaningful.</p>
-                </header>
-                <div className="about-body">
+                <div className="about-layout">
+                    <div className="about-content">
+                        <header className="about-header">
+                            <p className="eyebrow">About Viredá</p>
+                            <h2 className="about-title">
+                                Built to make better things <span>possible.</span>
+                            </h2>
+                            <p className="about-lead">Viredá was created around a simple belief: good ideas deserve the opportunity to become something meaningful.</p>
+                        </header>
+                        <div className="about-copy-grid">
+                            <p>We don't believe in offering solutions simply because they can be offered. We work with organisations to understand what they're trying to achieve, uncover what's getting in the way, and find the path that moves them forward.</p>
+                            <p>We work at the intersection of strategy, technology, data and creativity turning challenges into opportunities and ideas into solutions people can actually build on.</p>
+                            <p>Every engagement starts with understanding and ends with something tangible: a clearer direction, a better way of working, a solution that works, or an opportunity brought to life.</p>
+                            <p>We measure our work by the difference it makes, not simply by what we deliver.</p>
+                            <GetStartedButton href="/about" size="sm" className="about-link">More about Viredá</GetStartedButton>
+                        </div>
+                    </div>
                     <div className="about-system" aria-label="Viredá works across strategy, technology, data and creativity">
                         <img
                             className="about-system-image"
@@ -1370,13 +1350,6 @@ function AboutVireda() {
                             src="/images/homepage-about-vireda-team.jpg"
                             alt="The Viredá team collaborating in a modern office"
                         />
-                    </div>
-                    <div className="about-copy-grid">
-                        <p>We don't believe in offering solutions simply because they can be offered. We work with organisations to understand what they're trying to achieve, uncover what's getting in the way, and find the path that moves them forward.</p>
-                        <p>We work at the intersection of strategy, technology, data and creativity turning challenges into opportunities and ideas into solutions people can actually build on.</p>
-                        <p>Every engagement starts with understanding and ends with something tangible: a clearer direction, a better way of working, a solution that works, or an opportunity brought to life.</p>
-                        <p>We measure our work by the difference it makes, not simply by what we deliver.</p>
-                        <GetStartedButton href="#about" size="sm" className="about-link">More about Viredá</GetStartedButton>
                     </div>
                 </div>
             </div>
@@ -2713,6 +2686,94 @@ const aboutPageBeliefs = [
     [CircleCheck, 'Everything should have a reason.', 'Every system, design decision, feature, process and piece of technology should contribute to a meaningful outcome.'],
 ];
 
+function AboutPatterns() {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [expandedIndex, setExpandedIndex] = useState(null);
+    const tabs = useRef([]);
+
+    function handleKeyDown(event, index) {
+        let next;
+        if (event.key === 'ArrowDown') next = (index + 1) % aboutPagePatterns.length;
+        else if (event.key === 'ArrowUp') next = (index - 1 + aboutPagePatterns.length) % aboutPagePatterns.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = aboutPagePatterns.length - 1;
+        else return;
+        event.preventDefault();
+        setActiveIndex(next);
+        tabs.current[next]?.focus();
+    }
+
+    return (
+        <>
+            <div className="about-pattern-selector">
+                <div className="about-pattern-list" role="tablist" aria-label="Patterns we kept seeing" aria-orientation="vertical">
+                    {aboutPagePatterns.map((pattern, index) => (
+                        <button
+                            key={pattern.number}
+                            ref={(element) => { tabs.current[index] = element; }}
+                            type="button"
+                            role="tab"
+                            id={`pattern-tab-${index}`}
+                            aria-controls={`pattern-panel-${index}`}
+                            aria-selected={activeIndex === index}
+                            tabIndex={activeIndex === index ? 0 : -1}
+                            className="about-pattern-tab"
+                            onMouseEnter={() => setActiveIndex(index)}
+                            onClick={() => setActiveIndex(index)}
+                            onFocus={() => setActiveIndex(index)}
+                            onKeyDown={(event) => handleKeyDown(event, index)}
+                        >
+                            <span className="about-pattern-number">{pattern.number}</span>
+                            <span>{pattern.title}</span>
+                        </button>
+                    ))}
+                </div>
+                <div className="about-pattern-panels">
+                    {aboutPagePatterns.map((pattern, index) => {
+                        const Icon = pattern.icon;
+                        return (
+                            <article
+                                key={pattern.number}
+                                role="tabpanel"
+                                id={`pattern-panel-${index}`}
+                                aria-labelledby={`pattern-tab-${index}`}
+                                hidden={activeIndex !== index}
+                                tabIndex={0}
+                                className="about-pattern-detail"
+                            >
+                                <div className="about-pattern-detail-inner">
+                                    <span className="about-pattern-detail-icon" aria-hidden="true"><Icon size={22} strokeWidth={1.6} /></span>
+                                    <h3>{pattern.title}</h3>
+                                    <p>{pattern.body}</p>
+                                </div>
+                            </article>
+                        );
+                    })}
+                </div>
+            </div>
+            <div className="about-pattern-mobile">
+                {aboutPagePatterns.map((pattern, index) => {
+                    const Icon = pattern.icon;
+                    const expanded = expandedIndex === index;
+                    return (
+                        <article className={`about-pattern-tile${expanded ? ' is-open' : ''}`} key={pattern.number}>
+                            <h3>
+                                <button type="button" aria-expanded={expanded} aria-controls={`pattern-mobile-${index}`} onClick={() => setExpandedIndex(expanded ? null : index)}>
+                                    <span className="about-pattern-number" aria-hidden="true">{pattern.number}</span>
+                                    <span className="about-pattern-detail-icon" aria-hidden="true"><Icon size={22} strokeWidth={1.6} /></span>
+                                    <span>{pattern.title}</span>
+                                    {!expanded && <span className="about-pattern-tap-hint">Tap to read</span>}
+                                </button>
+                            </h3>
+                            <p id={`pattern-mobile-${index}`} hidden={!expanded}>{pattern.body}</p>
+                        </article>
+                    );
+                })}
+            </div>
+        </>
+    );
+}
+
 function AboutPage() {
     return (
         <>
@@ -2791,8 +2852,7 @@ function AboutPage() {
                     </div>
                 </section>
 
-                <section className="page-section about-patterns-section">
-                    <ConstellationGrid className="about-patterns-constellation" />
+                <section id="patterns" className="page-section about-patterns-section">
                     <PageSectionHeading
                         eyebrow="What We Kept Seeing"
                         highlight="behind the problems"
@@ -2803,22 +2863,8 @@ function AboutPage() {
                         that gradually become harder to ignore.
                     </PageSectionHeading>
                     <div className="about-patterns-field">
-                    <div className="container about-pattern-grid">
-                        {aboutPagePatterns.map((pattern) => {
-                            const Icon = pattern.icon;
-
-                            return (
-                                    <article className="about-pattern-card" key={pattern.number}>
-                                        <div className="about-pattern-card-top">
-                                            <span className="about-pattern-icon" aria-hidden="true">
-                                                <Icon size={20} strokeWidth={1.7} />
-                                            </span>
-                                        </div>
-                                    <h3>{pattern.title}</h3>
-                                    <p>{pattern.body}</p>
-                                </article>
-                            );
-                        })}
+                    <div className="container">
+                        <AboutPatterns />
                     <div className="about-patterns-closing">
                         <p>
                             None of these problems are unusual. That's the point. They're the kinds of things businesses
@@ -3319,7 +3365,6 @@ const emptyContactForm = {
     service: '',
     message: '',
     privacy: false,
-    human_answer: '',
     website: '',
 };
 
@@ -3328,40 +3373,6 @@ function ContactForm() {
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState('idle');
     const [feedback, setFeedback] = useState('');
-    const [challenge, setChallenge] = useState('');
-    const [challengeLoading, setChallengeLoading] = useState(true);
-
-    const loadChallenge = async ({ clearError = true } = {}) => {
-        setChallengeLoading(true);
-
-        try {
-            const response = await fetch('/contact/challenge', {
-                headers: { Accept: 'application/json' },
-                cache: 'no-store',
-            });
-            const result = await response.json();
-
-            if (!response.ok || !result.challenge) {
-                throw new Error('Human verification is temporarily unavailable. Please try again.');
-            }
-
-            setChallenge(result.challenge);
-            setForm((current) => ({ ...current, human_answer: '' }));
-
-            if (clearError) {
-                setErrors((current) => ({ ...current, human_answer: undefined }));
-            }
-        } catch (error) {
-            setChallenge('');
-            setFeedback(error.message || 'Human verification is temporarily unavailable. Please try again.');
-        } finally {
-            setChallengeLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        loadChallenge();
-    }, []);
 
     const updateField = (event) => {
         const { checked, name, type, value } = event.target;
@@ -3399,18 +3410,12 @@ function ContactForm() {
 
             if (!response.ok) {
                 setErrors(result.errors || {});
-
-                if (result.errors?.human_answer) {
-                    await loadChallenge({ clearError: false });
-                }
-
                 throw new Error(result.message || 'Please check the form and try again.');
             }
 
             setStatus('success');
             setFeedback(result.message);
             setForm(emptyContactForm);
-            await loadChallenge();
         } catch (error) {
             setStatus('error');
             setFeedback(error.message || 'We could not send your message. Please try again or email us directly.');
@@ -3478,13 +3483,6 @@ function ContactForm() {
                     <span className="contact-character-count">{form.message.length} / 5,000</span>
                     {fieldError('message') && <small>{fieldError('message')}</small>}
                 </label>
-                <div className="contact-field contact-human-field">
-                    <label className="contact-human-label" htmlFor="contact-human-answer">
-                        Verify you're human: {challengeLoading ? 'Loading...' : challenge ? `${challenge} =` : 'Unavailable'} <b aria-hidden="true">*</b>
-                    </label>
-                    <input id="contact-human-answer" type="number" name="human_answer" value={form.human_answer} onChange={updateField} inputMode="numeric" required disabled={challengeLoading || !challenge} aria-invalid={Boolean(fieldError('human_answer'))} />
-                    {fieldError('human_answer') && <small>{fieldError('human_answer')}</small>}
-                </div>
                 <label className="contact-honeypot" aria-hidden="true">
                     Website
                     <input name="website" value={form.website} onChange={updateField} tabIndex="-1" autoComplete="off" />
@@ -3499,7 +3497,7 @@ function ContactForm() {
 
             {feedback && <div className={`contact-feedback ${status}`} role="status">{feedback}</div>}
 
-            <button className="contact-submit" type="submit" disabled={status === 'sending' || challengeLoading || !challenge}>
+            <button className="contact-submit" type="submit" disabled={status === 'sending'}>
                 <span>{status === 'sending' ? 'Sending…' : 'Send message'}</span>
                 <Send size={18} aria-hidden="true" />
             </button>

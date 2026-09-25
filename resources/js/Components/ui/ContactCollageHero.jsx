@@ -18,7 +18,13 @@ const mediaVariants = {
     visible: { filter: 'blur(0px)', opacity: 1, transition: { delay: 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }, y: 0 },
 };
 
-export function ContactCollageHero() {
+export function ContactCollageHero({
+    eyebrow = 'Contact Viredá',
+    title = <>Got something in mind?<br /><span>Let's talk.</span></>,
+    description = "Whether you have a clear brief, a problem you're trying to solve, or an idea you're not sure how to bring to life, start with a useful conversation about what's possible.",
+    primaryHref = '/book',
+    primaryLabel = 'Book a conversation',
+} = {}) {
     const reduceMotion = useReducedMotion();
     const animationProps = reduceMotion ? {} : { animate: 'visible', initial: 'hidden' };
 
@@ -31,13 +37,13 @@ export function ContactCollageHero() {
 
             <motion.div className="container contact-collage-grid" variants={containerVariants} {...animationProps}>
                 <motion.div className="contact-collage-copy" variants={itemVariants}>
-                    <p className="eyebrow">Contact Viredá</p>
-                    <h1>Got something in mind?<br /><span>Let's talk.</span></h1>
+                    <p className="eyebrow">{eyebrow}</p>
+                    <h1>{title}</h1>
                     <p className="contact-collage-description">
-                        Whether you have a clear brief, a problem you're trying to solve, or an idea you're not sure how to bring to life, start with a useful conversation about what's possible.
+                        {description}
                     </p>
                     <div className="contact-collage-actions">
-                        <GetStartedButton href="/book">Book a conversation</GetStartedButton>
+                        <GetStartedButton href={primaryHref}>{primaryLabel}</GetStartedButton>
                         <a className="contact-collage-secondary" href="/book">Book a discovery call</a>
                     </div>
                 </motion.div>
