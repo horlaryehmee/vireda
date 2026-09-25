@@ -116,6 +116,19 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
                     description="A selection of what we build, across strategy, software, AI, data, brand and the web."
                     primaryHref="#portfolio-grid"
                     primaryLabel="Explore our work"
+                    secondaryHref="/contact"
+                    secondaryLabel="Start a conversation"
+                    images={{
+                        background: { src: '/images/work/altura.png', alt: '' },
+                        primary: {
+                            src: '/images/work/flowt-2.png',
+                            alt: 'Flowt operations dashboard project screenshot',
+                        },
+                        secondary: {
+                            src: '/images/work/westbrook.png',
+                            alt: 'Westbrook Property website project screenshot',
+                        },
+                    }}
                 />
 
                 <section className="portfolio-index" id="portfolio-grid" aria-label="Selected projects">

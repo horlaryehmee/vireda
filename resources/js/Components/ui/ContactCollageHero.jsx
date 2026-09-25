@@ -24,6 +24,19 @@ export function ContactCollageHero({
     description = "Whether you have a clear brief, a problem you're trying to solve, or an idea you're not sure how to bring to life, start with a useful conversation about what's possible.",
     primaryHref = '/book',
     primaryLabel = 'Book a conversation',
+    secondaryHref = '/book',
+    secondaryLabel = 'Book a discovery call',
+    images = {
+        background: { src: '/images/contact-hero-office.png', alt: '' },
+        primary: {
+            src: '/images/contact-discovery-conversation-v2.png',
+            alt: 'A consultant and prospective clients having an open discovery conversation',
+        },
+        secondary: {
+            src: '/images/contact-project-notes-v2.png',
+            alt: 'Collaborators turning an initial conversation into a clear project plan',
+        },
+    },
 } = {}) {
     const reduceMotion = useReducedMotion();
     const animationProps = reduceMotion ? {} : { animate: 'visible', initial: 'hidden' };
@@ -32,7 +45,7 @@ export function ContactCollageHero({
         <section className="contact-collage-hero" id="top" data-nav-theme="dark">
             <ParticlesBackground />
             <div className="contact-collage-wash" aria-hidden="true">
-                <img src="/images/contact-hero-office.png" alt="" />
+                <img src={images.background.src} alt={images.background.alt ?? ''} />
             </div>
 
             <motion.div className="container contact-collage-grid" variants={containerVariants} {...animationProps}>
@@ -44,16 +57,16 @@ export function ContactCollageHero({
                     </p>
                     <div className="contact-collage-actions">
                         <GetStartedButton href={primaryHref}>{primaryLabel}</GetStartedButton>
-                        <a className="contact-collage-secondary" href="/book">Book a discovery call</a>
+                        <a className="contact-collage-secondary" href={secondaryHref}>{secondaryLabel}</a>
                     </div>
                 </motion.div>
 
                 <motion.div className="contact-art-collage" variants={mediaVariants}>
                     <figure className="contact-art-primary">
-                        <img src="/images/contact-discovery-conversation-v2.png" alt="A consultant and prospective clients having an open discovery conversation" decoding="async" />
+                        <img src={images.primary.src} alt={images.primary.alt} decoding="async" />
                     </figure>
                     <figure className="contact-art-secondary">
-                        <img src="/images/contact-project-notes-v2.png" alt="Collaborators turning an initial conversation into a clear project plan" decoding="async" />
+                        <img src={images.secondary.src} alt={images.secondary.alt} decoding="async" />
                     </figure>
                 </motion.div>
             </motion.div>
