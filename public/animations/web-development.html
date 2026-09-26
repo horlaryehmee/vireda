@@ -281,6 +281,11 @@ const ring = document.getElementById('ring');
 const badgeTs = document.getElementById('badgeTs');
 const badgeNext = document.getElementById('badgeNext');
 const scoreCard = document.getElementById('scoreCard');
+// The services overview requests one playback; detail pages retain their playback mode.
+const playOnce = new URLSearchParams(window.location.search).get('playback') === 'once';
+function finishAnimation(){
+  document.querySelectorAll('.cursor').forEach(cursor => cursor.style.animation = 'none');
+}
 let timers = [];
 function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
@@ -326,7 +331,7 @@ function playAnimation(){
     scoreCard.style.opacity=1; scoreCard.style.transform='translateY(0) scale(1)';
     sched(()=>{ badgeTs.style.opacity=1; badgeTs.style.transform='translateY(0)'; }, 150);
     sched(()=>{ badgeNext.style.opacity=1; badgeNext.style.transform='translateY(0)'; }, 350);
-    sched(playAnimation, 3500);
+    sched(playOnce ? finishAnimation : playAnimation, 3500);
   }
 }
 playAnimation();

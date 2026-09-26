@@ -210,6 +210,11 @@
 </div>
 
 <script>
+// The services overview requests one playback; detail pages retain their playback mode.
+const playOnce = new URLSearchParams(window.location.search).get('playback') === 'once';
+function finishAnimation(){
+  document.querySelectorAll('.cursor').forEach(cursor => cursor.style.animation = 'none');
+}
 let timers = [];
 function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 function sched(fn, ms){ timers.push(setTimeout(fn, ms)); }
@@ -255,7 +260,7 @@ function playAnimation(){
   sched(()=>{ cal.style.opacity=1; cal.style.transform='translateY(0)'; }, 2900);
   sched(()=>{ sync.style.opacity=1; sync.style.transform='translateY(0)'; }, 3200);
 
-  sched(playAnimation, 5400);
+  sched(playOnce ? finishAnimation : playAnimation, 5400);
 }
 playAnimation();
 </script>

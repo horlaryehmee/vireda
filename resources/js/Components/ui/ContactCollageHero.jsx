@@ -57,7 +57,7 @@ export function ContactCollageHero({
                     </p>
                     <div className="contact-collage-actions">
                         <GetStartedButton href={primaryHref}>{primaryLabel}</GetStartedButton>
-                        <a className="contact-collage-secondary" href={secondaryHref}>{secondaryLabel}</a>
+                        {secondaryLabel && <a className="contact-collage-secondary" href={secondaryHref}>{secondaryLabel}</a>}
                     </div>
                 </motion.div>
 

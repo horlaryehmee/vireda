@@ -732,7 +732,7 @@ function HeroHeadingTypewriter() {
 }
 
 function Hero() {
-    const showDesktopObject = useMediaQuery('(min-width: 641px)');
+    const showDesktopObject = useMediaQuery('(min-width: 1201px), (min-width: 641px) and (orientation: landscape)');
 
     return (
         <section className="hero radial-hero" id="top" data-nav-theme="dark">
@@ -1767,6 +1767,27 @@ function CollapsibleServiceTags({ tags, serviceTitle }) {
 function ServiceAnimation({ animation }) {
     const frameRef = useRef(null);
     const [layout, setLayout] = useState(null);
+    const [hasStarted, setHasStarted] = useState(false);
+
+    useEffect(() => {
+        const node = frameRef.current;
+        if (!node) return undefined;
+        if (typeof IntersectionObserver === 'undefined') {
+            setHasStarted(true);
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+                setHasStarted(true);
+                observer.disconnect();
+            }
+        }, { threshold: 0.25 });
+        observer.observe(node);
+
+        return () => observer.disconnect();
+    }, []);
+
 
     useEffect(() => {
         const node = frameRef.current;
@@ -1794,11 +1815,11 @@ function ServiceAnimation({ animation }) {
 
     return (
         <div className="service-animation-frame" ref={frameRef}>
-            <iframe
+            {hasStarted && <iframe
                 className="service-animation-embed"
-                src={animation.src}
+                src={`${animation.src}?playback=once`}
                 title={animation.label}
-                loading="lazy"
+                loading="eager"
                 sandbox="allow-scripts"
                 tabIndex={-1}
                 aria-label={animation.label}
@@ -1811,7 +1832,7 @@ function ServiceAnimation({ animation }) {
                     height: `${animation.height}px`,
                     width: `${animation.width}px`,
                 }}
-            />
+            />}
         </div>
     );
 }

@@ -114,10 +114,9 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
                     eyebrow="Selected work"
                     title={<>Ideas we've helped<br /><span>take shape.</span></>}
                     description="A selection of what we build, across strategy, software, AI, data, brand and the web."
-                    primaryHref="#portfolio-grid"
-                    primaryLabel="Explore our work"
-                    secondaryHref="/contact"
-                    secondaryLabel="Start a conversation"
+                    primaryHref="/contact"
+                    primaryLabel="Start a conversation"
+                    secondaryLabel={null}
                     images={{
                         background: { src: '/images/work/altura.png', alt: '' },
                         primary: {
