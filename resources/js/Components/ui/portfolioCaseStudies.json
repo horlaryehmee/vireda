@@ -1,0 +1,236 @@
+{
+    "altura": {
+        "name": "Altura Consulting",
+        "tag": "BRAND IDENTITY · DIGITAL DIRECTION",
+        "headline": "Big thinking deserves to look like it.",
+        "resultLead": "A complete identity system",
+        "result": "from logo to website, built to stand next to the big firms.",
+        "problem": "Altura offered strategy, people and transformation work, but had no consistent identity. It needed to look credible and premium to senior clients without feeling cold or corporate.",
+        "changes": [
+            "Designed a logo system: primary, reversed, monogram and wordmark",
+            "Built the colour palette and type around a midnight and copper look",
+            "Wrote the taglines and tone of voice (\"Higher Perspectives. Real Progress.\")",
+            "Created icons, stationery, merchandise and social assets",
+            "Set the digital direction for the website"
+        ],
+        "ideaLabel": "Anatomy of the mark",
+        "idea": "The A is a summit: the higher view we help clients reach.",
+        "linkLabel": "Next project ?"
+    },
+    "kalm": {
+        "name": "Kalm",
+        "tag": "UX/UI DESIGN · PRODUCT DEVELOPMENT ·",
+        "headline": "They had the content. They needed an app people would actually come back to.",
+        "resultLead": "Live on iOS and Android",
+        "result": "Designed, built and launched end to end, from first sketch to the app stores.",
+        "problem": "Kalm had a library of meditations and sleep content but no app to deliver it. They needed an experience that felt calm and personal, and they wanted to avoid the drop-off that most wellbeing apps suffer after the first week.",
+        "changes": [
+            "Mapped the user journey with the Kalm team, from first open to daily habit",
+            "Designed the full UX/UI in a nature-led visual language that matches their brand",
+            "Developed the app for iOS and Android, including accounts, audio playback and progress tracking",
+            "Built personalised daily focus, guided breathing and sleep programmes",
+            "Tested with real users, launched on both app stores and continue to support updates"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Every screen should lower your users' heart rate, not raise it.",
+        "linkLabel": "Next project →"
+    },
+    "luxe": {
+        "name": "Luxe Beauty Studio",
+        "tag": "WEBSITE DESIGN · DEVELOPMENT · RESPONSIVE",
+        "headline": "They had loyal clients. They needed a website that brought in new ones.",
+        "resultLead": "Bookings now happen online",
+        "result": "Clients choose a service, date and time in seconds, straight from the homepage.",
+        "problem": "Luxe offered premium treatments, but its online presence didn't match the experience in the studio. Most bookings came through phone calls and Instagram DMs, which took up the team's time and lost clients outside opening hours.",
+        "changes": [
+            "Worked with the Luxe team to shape their brand voice and key services",
+            "Designed a soft, editorial look with blush tones and elegant serif type",
+            "Built a quick booking bar on the homepage: service, date, time, done",
+            "Created service pages for brows & lashes, facials, nails and massage",
+            "Designed mobile-first, so booking is one tap away on any screen"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "One click from inspiration to appointment.",
+        "linkLabel": "Next project →"
+    },
+    "peakfuel": {
+        "name": "PeakFuel Nutrition",
+        "tag": "E-COMMERCE · WEBSITE DESIGN · DEVELOPMENT",
+        "headline": "They had great products. Shoppers just couldn't find the right one.",
+        "resultLead": "A storefront built to convert",
+        "result": "Clear routes to the right product, with offers and trust signals on every page.",
+        "problem": "PeakFuel sold a wide range of supplements, but their old site made shoppers dig through long product lists. New visitors didn't know where to start, and there was little to reassure them that the products were genuine.",
+        "changes": [
+            "Worked with the PeakFuel team to map how customers shop, by product and by goal",
+            "Designed \"Shop by goal\" routes: build muscle, performance, immunity and weight management",
+            "Put trust signals up front: free delivery, authentic products and expert support",
+            "Created a bold, sporty look with strong product photography and a clear offers section",
+            "Developed the storefront with search, wishlist, loyalty rewards and email sign-up"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Shop by goal, not by guesswork.",
+        "linkLabel": "Next project →"
+    },
+    "westbrook": {
+        "name": "Westbrook Property",
+        "tag": "PLATFORM DESIGN · PRODUCT DEVELOPMENT · PROPERTY",
+        "headline": "They had a growing portfolio. The information behind it was scattered everywhere.",
+        "resultLead": "Every property in one view",
+        "result": "Tenants, payments, maintenance and reporting in a single platform for the whole team.",
+        "problem": "Westbrook managed homes across Newcastle, Gateshead, Sunderland and Durham, but the day-to-day work lived in spreadsheets, email threads and paper files. Chasing rent, tracking repairs and answering enquiries took hours, and managers had no clear picture of how the portfolio was performing.",
+        "changes": [
+            "Worked with the Westbrook team to map their daily work, from first enquiry to rent collection",
+            "Designed a dashboard showing income, occupancy, arrears and tasks at a glance",
+            "Built modules for properties, tenants, applications, maintenance, payments and documents",
+            "Added secure sign-in with Microsoft and Google accounts",
+            "Delivered reporting so managers can check portfolio performance in minutes"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Start every morning knowing exactly what needs doing.",
+        "linkLabel": "Next project →"
+    },
+    "north-web": {
+        "name": "North Studio",
+        "tag": "WEBSITE DESIGN · DEVELOPMENT · RESPONSIVE",
+        "headline": "They did bold work for their clients. Their own website didn't show it.",
+        "resultLead": "A website that sells the studio",
+        "result": "Their services, work and results are clear within seconds, on desktop and mobile.",
+        "problem": "North Studio is a digital marketing studio working with ambitious brands, but their old website was generic and text-heavy. Prospective clients couldn't quickly see what the studio did, who they had worked with or the results they delivered.",
+        "changes": [
+            "Worked with the North team to sharpen their message: \"Turn attention into growth\"",
+            "Designed a bold, confident look with electric blue, strong type and striking photography",
+            "Put proof up front: client logos, featured work and key results on the homepage",
+            "Laid out their six services clearly, from content creation to analytics",
+            "Built a fast, responsive site that works just as well on mobile"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Show the results before you explain the services.",
+        "linkLabel": "See the North Studio branding →"
+    },
+    "north-brand": {
+        "name": "North Studio",
+        "tag": "BRAND IDENTITY · VISUAL SYSTEM · PRINT",
+        "headline": "A studio that builds brands for others needed one of its own.",
+        "resultLead": "A brand ready for every touchpoint",
+        "result": "One identity across print, digital and pitches, built to look as ambitious as their clients.",
+        "problem": "North Studio had grown fast, but its look hadn't kept up. The logo, colours and fonts changed from pitch deck to social post, which made a confident, results-driven studio look less established than it was.",
+        "changes": [
+            "Designed the North logo and monogram, with a blue \"1\" built into the N",
+            "Built a palette of deep blue, cyan and light blue, set in Plus Jakarta Sans",
+            "Wrote the brand lines \"Bolder ideas. Brighter brands.\" and \"Strategy is good. Execution is better.\"",
+            "Created business cards, notebooks, stationery and a brand brochure",
+            "Delivered brand guidelines so their team applies the identity consistently"
+        ],
+        "ideaLabel": "The idea",
+        "idea": "The N rises into a 1: ambition built into the mark.",
+        "linkLabel": "See the North Studio website →"
+    },
+    "pivot-web": {
+        "name": "Pivot-Up Consult",
+        "tag": "WEBSITE DESIGN · DEVELOPMENT · EDUCATION",
+        "headline": "Studying abroad is a big decision. Their website needed to make it feel possible.",
+        "resultLead": "A clear path from first click to consultation",
+        "result": "Students can explore destinations, find courses and book advice from any phone.",
+        "problem": "Pivot-Up Consult helps students study in the UK, Canada, the US and Europe, but their services were hard to follow online. Students and parents didn't know where to start, and enquiries often arrived without the details the team needed to help.",
+        "changes": [
+            "Mapped the student journey with the Pivot-Up team, from first question to arrival",
+            "Designed \"Where will you study?\" and course search pages to make exploring simple",
+            "Laid out their core services clearly: applications, visas, documents and interview preparation",
+            "Added support beyond admission: accommodation, pre-departure and arrival guidance",
+            "Built a mobile-first site with consultation booking and WhatsApp contact"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Every page ends with a clear next step.",
+        "linkLabel": "See the Pivot-Up app →"
+    },
+    "pivot-app": {
+        "name": "Pivot-Up Student App",
+        "tag": "MOBILE & WEB APP · PRODUCT DEVELOPMENT · EDUCATION",
+        "headline": "Students wanted to know where their application stood, without chasing emails.",
+        "resultLead": "The whole study journey in one app",
+        "result": "Students find courses, track applications and message advisors on mobile and web.",
+        "problem": "After launching their new website, enquiries grew, and so did the questions. Advisors were answering the same ones every day by phone, email and WhatsApp: has my application gone in, which documents are missing, when will I hear back? Students felt in the dark, and the team lost hours to status updates.",
+        "changes": [
+            "Mapped every stage of an application with the Pivot-Up team, from choosing a course to the decision",
+            "Designed a journey tracker so students always see where their application is",
+            "Built course search across UK universities, filtered by undergraduate, postgraduate and foundation",
+            "Added advisor messaging, document uploads and consultation booking",
+            "Developed the app for mobile and web from one shared design"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "No more \"any update?\" emails.",
+        "linkLabel": "See the Pivot-Up website →"
+    },
+    "carebridge": {
+        "name": "CareBridge",
+        "tag": "APP DESIGN · PRODUCT DEVELOPMENT · SOCIAL CARE",
+        "headline": "Support workers were spending more time on paperwork than with the people they support.",
+        "resultLead": "Care records in one app",
+        "result": "Tasks, medication, care plans and incidents, recorded on shift from any phone.",
+        "problem": "CareBridge supports people in residential and supported living settings, but day-to-day records lived on paper MAR charts, handover sheets and separate systems. Staff lost time chasing information, and managers struggled to see what had been done on each shift.",
+        "changes": [
+            "Worked with the CareBridge team and frontline staff to map a typical shift",
+            "Designed a home screen showing today's visits, tasks and wellbeing checks at a glance",
+            "Built resident profiles with care plans, support needs, risk information and key contacts",
+            "Created medication recording that follows the MAR chart, with due, given and missed doses",
+            "Added incident and safeguarding reporting, with out-of-hours help one tap away"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Built for the middle of a shift, not the back office.",
+        "linkLabel": "Next project →"
+    },
+    "flowt": {
+        "name": "Flowt",
+        "tag": "APP DESIGN · PRODUCT DEVELOPMENT · PRODUCTIVITY",
+        "headline": "Their users had big plans. Keeping track of them was the hard part.",
+        "resultLead": "One workspace, on every screen",
+        "result": "Projects, tasks and team performance in sync across mobile and desktop.",
+        "problem": "Flowt set out to help teams plan and deliver projects, but their early users were juggling spreadsheets, chat threads and separate to-do apps. Teams needed one place to see what was due, who was on it and how the work was going.",
+        "changes": [
+            "Worked with the Flowt team to define the core workflow: plan, track, deliver",
+            "Designed a focused dark interface that keeps attention on the work",
+            "Built task pages with subtasks, due dates, owners and priorities",
+            "Created analytics for team workload, performance and project progress",
+            "Developed matching mobile and desktop apps so work carries over between devices"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Every screen answers one question: what's next?",
+        "linkLabel": "Next project →"
+    },
+    "collective-brand": {
+        "name": "The Collective",
+        "tag": "BRAND IDENTITY · VISUAL SYSTEM · SHARED LIVING",
+        "headline": "They weren't renting out rooms. They were building communities.",
+        "resultLead": "A brand people feel at home in",
+        "result": "One warm, consistent identity across signage, print, staff kit and the resident app.",
+        "problem": "The Collective runs shared homes where residents connect through events and shared spaces. But its look felt like any other lettings agency, with cold listings and stock photos, and it undersold the community at the heart of what they offer.",
+        "changes": [
+            "Created The Collective wordmark and the line \"People. Spaces. Better together.\"",
+            "Built a palette of deep green, sage and off-white, pairing Playfair Display with Inter",
+            "Designed a set of graphic shapes drawn from arches and leaves",
+            "Wrote the brand voice, from \"More than a place to live\" to \"Live. Connect. Belong.\"",
+            "Applied the brand to posters, staff lanyards, signage and the resident app"
+        ],
+        "ideaLabel": "The idea",
+        "idea": "Arches and leaves: shapes that feel like coming home.",
+        "linkLabel": "See The Collective app →"
+    },
+    "collective-app": {
+        "name": "The Collective Resident App",
+        "tag": "MOBILE & WEB APP · PRODUCT DEVELOPMENT · SHARED LIVING",
+        "headline": "The brand promised community. Residents needed a way to live it every day.",
+        "resultLead": "Home, community and support in one app",
+        "result": "Residents pay rent, book spaces, report issues and join events on mobile and web.",
+        "problem": "With the new brand in place, day-to-day life at The Collective still ran on noticeboards, group chats and emails. Residents missed events, repair requests got lost in inboxes, and booking a shared room meant asking the team.",
+        "changes": [
+            "Mapped the resident journey with The Collective team, from move-in to everyday life",
+            "Designed a home screen with events, bookings, house updates and support up front",
+            "Built repair reporting by category, with out-of-hours help one tap away",
+            "Added booking for lounges, meeting rooms and study spaces, plus rent payments",
+            "Created a community feed and messaging so residents and staff stay connected"
+        ],
+        "ideaLabel": "The design idea",
+        "idea": "Everything a resident needs, within two taps.",
+        "linkLabel": "See The Collective branding →"
+    }
+}

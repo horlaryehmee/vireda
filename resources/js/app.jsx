@@ -77,6 +77,7 @@ import StrategyOperationsPage from './Components/ui/StrategyOperationsPage';
 import SoftwareDigitalProductsPage from './Components/ui/SoftwareDigitalProductsPage';
 import DataAnalyticsPage from './Components/ui/DataAnalyticsPage';
 import PortfolioPage from './Components/ui/PortfolioPage';
+import TeamCarousel from './Components/ui/TeamCarousel';
 import BookingPage from './BookingPage';
 import { AdminDashboardPage, AdminLoginPage } from './AdminBooking';
 import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
@@ -237,17 +238,9 @@ const projects = [
         name: 'Luxe Beauty',
         industry: 'Beauty website',
         image: '/images/work/luxe-beauty.png',
+        mobileImage: '/images/work/luxe-mobile.png',
         description: 'A premium beauty studio website designed to turn services into a polished, appointment-focused experience.',
         services: ['Web Design', 'UX/UI', 'Booking'],
-        category: 'Websites',
-    },
-    {
-        name: 'Luxe Beauty',
-        industry: 'Mobile experience',
-        image: '/images/work/luxe-mobile.png',
-        scrollOnHover: true,
-        description: 'The responsive mobile experience for Luxe Beauty, shaped for fast service discovery and booking.',
-        services: ['Responsive Design', 'Mobile UX', 'Booking'],
         category: 'Websites',
     },
     {
@@ -2941,35 +2934,7 @@ function AboutPage() {
                     </div>
                 </section>
 
-                <section className="page-section about-founder-section">
-                    <div className="container about-founder-header">
-                        <p className="eyebrow">The People Behind It</p>
-                        <h2>A small team <span>by design.</span></h2>
-                        <p>
-                            Big enough to bring real depth across strategy, technology, data and creative, small enough
-                            that nothing gets lost between departments or handed off along the way.
-                        </p>
-                    </div>
-                    <div className="container about-founder-profile">
-                        <figure className="about-founder-photo">
-                            <img src="/images/vireda-ceo.jpg" alt="David Babatope, Founder and CEO of Viredá" loading="lazy" />
-                        </figure>
-                        <div className="about-founder-copy">
-                            <p className="eyebrow">David Babatope / Founder &amp; CEO</p>
-                            <h3>Building better ways forward.</h3>
-                            <p>
-                                David has spent several years working in management consulting across a range of
-                                industries, helping businesses fix their operations, understand their markets and work
-                                through strategic decisions. Alongside that, his technical background covers data
-                                analysis, data engineering and business intelligence.
-                            </p>
-                            <p>
-                                That combination gives him a close-up view of how a business actually runs, not just how
-                                it says it runs, and the technical ability to build what fixes it.
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                <TeamCarousel />
 
                 <section className="page-section about-proof-section">
                     <div className="container about-proof-inner">

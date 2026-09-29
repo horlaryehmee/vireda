@@ -1,0 +1,71 @@
+.team-reference-section { width: 100%; padding: 40px 0; scroll-margin-top: 100px; }
+.team-image-accordion { display: flex; justify-content: center; gap: 8px; width: 80%; margin: 12px auto 40px; }
+.team-image-accordion-card { position: relative; width: 100%; min-width: 0; border-radius: 12px; overflow: hidden; transition: width 300ms cubic-bezier(.5,.85,.25,1.15); }
+.team-image-accordion-card::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 33.333%; background: linear-gradient(to top, rgba(0,0,0,.5), transparent); transition: opacity 150ms; pointer-events: none; }
+.team-image-accordion-card::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.3); backdrop-filter: blur(4px); border-radius: 8px; opacity: 0; transition: opacity 150ms; pointer-events: none; }
+.team-image-accordion-card > img { display: block; width: 100%; height: 420px; object-fit: cover; object-position: center; }
+.team-image-accordion-overlay { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; border: 0; background: transparent; color: #fff; cursor: pointer; text-align: left; width: 100%; }
+.team-image-accordion-overlay h3 { color: #fff; font-family: var(--font-display); font-size: 18px; line-height: 1.15; font-weight: 600; margin: 0 0 5px; }
+.team-image-accordion-overlay > span { color: #fff; font-family: var(--font-sans); font-size: 13px; line-height: 1.3; font-weight: 400; }
+.team-image-accordion-overlay .team-image-accordion-arrow { position: absolute; right: 16px; top: 16px; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; background: rgba(0,0,0,.35); backdrop-filter: blur(8px); color: #fff; opacity: 0; transform: translateX(-6px); transition: opacity 200ms ease, transform 200ms ease; }
+.team-image-accordion-card:hover .team-image-accordion-arrow, .team-image-accordion-card:focus-within .team-image-accordion-arrow { opacity: 1; transform: none; transition-delay: 0ms; }
+.team-image-accordion-card:focus-within { outline: 3px solid #a5b4fc; outline-offset: 0; }
+.team-details-content { align-content: center; }
+.team-details-content > p { color: var(--page-text); font-family: var(--font-sans); margin: 0; line-height: 1.7; }
+.team-details-photo img { object-fit: contain; object-position: center; }
+.team-mobile-controls { display: none; }
+@media (min-width: 768px) {
+    .team-image-accordion-card::before { opacity: 0; }
+    .team-image-accordion-card:hover::before, .team-image-accordion-card:focus-within::before { opacity: 1; }
+    .team-image-accordion:has(.team-image-accordion-card:hover) .team-image-accordion-card:not(:hover),
+    .team-image-accordion:has(.team-image-accordion-card:focus-within) .team-image-accordion-card:not(:focus-within):not(:hover) { width: 20%; }
+    .team-image-accordion:has(.team-image-accordion-card:hover) .team-image-accordion-card:not(:hover)::after,
+    .team-image-accordion:has(.team-image-accordion-card:focus-within) .team-image-accordion-card:not(:focus-within):not(:hover)::after { opacity: 1; }
+    .team-image-accordion-overlay h3, .team-image-accordion-overlay > span:not(.team-image-accordion-arrow) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; opacity: 0; transform: translateY(8px); transition: opacity 200ms cubic-bezier(.5,.85,.25,1.8), transform 200ms cubic-bezier(.5,.85,.25,1.8); }
+    .team-image-accordion-card:hover h3, .team-image-accordion-card:focus-within h3 { opacity: 1; transform: translateY(0); transition-delay: 300ms; }
+    .team-image-accordion-card:hover .team-image-accordion-overlay > span:not(.team-image-accordion-arrow), .team-image-accordion-card:focus-within .team-image-accordion-overlay > span:not(.team-image-accordion-arrow) { opacity: 1; transform: translateY(0); transition-delay: 500ms; }
+}
+@media (max-width: 767px) {
+    .team-image-accordion { justify-content: flex-start; width: 100%; gap: 12px; padding: 4px 16px; margin-bottom: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; scrollbar-width: none; }
+    .team-image-accordion::-webkit-scrollbar { display: none; }
+    .team-image-accordion::after { content: ''; flex: 0 0 calc((100% - 12px) * 0.3 / 1.3); }
+    .team-image-accordion-card { flex: 0 0 calc((100% - 12px) / 1.3); scroll-snap-align: start; scroll-snap-stop: always; }
+    .team-image-accordion-card > img { height: clamp(300px, 90vw, 380px); object-position: center 25%; }
+    .team-image-accordion-overlay .team-image-accordion-arrow { opacity: 1; transform: none; }
+    .team-image-accordion-overlay { padding: 14px; }
+    .team-image-accordion-card::before { height: 45%; background: linear-gradient(to top, rgba(0,0,0,.75), transparent); }
+    .team-image-accordion-overlay h3 { font-size: 17px; }
+    .team-image-accordion-overlay > span:not(.team-image-accordion-arrow) { font-size: 12px; }
+    .team-mobile-controls { display: flex; align-items: center; justify-content: center; gap: 18px; }
+    .team-mobile-controls > button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--page-line); border-radius: 50%; background: transparent; color: var(--page-text); cursor: pointer; }
+    .team-mobile-dots { display: flex; gap: 2px; }
+    .team-mobile-dots button { width: 28px; height: 36px; border: 0; background: transparent; position: relative; cursor: pointer; }
+    .team-mobile-dots button::after { content: ''; position: absolute; inset: 14px 10px; border-radius: 50%; background: var(--page-text); opacity: .3; }
+    .team-mobile-dots button[aria-pressed='true']::after { background: var(--page-accent); opacity: 1; }
+    .team-mobile-controls button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+    .team-details-panel .team-details-photo { height: 340px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .team-image-accordion-card, .team-image-accordion-card::before, .team-image-accordion-card::after, .team-image-accordion-overlay h3, .team-image-accordion-overlay > span { transition: none; }
+}
+
+/* Keep the desktop accordion; loop portraits on mobile. */
+.team-mobile-marquee-track, .team-mobile-marquee-group { display: contents; }
+.team-mobile-marquee-copy { display: none; }
+@media (max-width: 767px) {
+    .team-image-accordion { display: block; overflow-x: auto; scroll-snap-type: none; -webkit-overflow-scrolling: touch; }
+    .team-image-accordion::after { display: none; }
+    .team-mobile-marquee-track { display: flex; width: max-content; }
+    .team-mobile-marquee-group { display: flex; gap: 12px; padding-right: 12px; }
+    .team-mobile-marquee-group .team-image-accordion-card { flex: 0 0 auto; width: calc((100vw - 44px) / 1.3); }
+    .team-image-accordion:hover .team-mobile-marquee-track,
+    .team-image-accordion:focus-within .team-mobile-marquee-track,
+    .team-image-accordion:active .team-mobile-marquee-track,
+    .team-image-accordion.is-paused .team-mobile-marquee-track { animation-play-state: paused; }
+}
+@keyframes teamMobileMarquee { to { transform: translateX(-50%); } }
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .team-image-accordion { overflow-x: auto; }
+    .team-mobile-marquee-track { animation: none; }
+    .team-mobile-marquee-copy { display: none; }
+}
