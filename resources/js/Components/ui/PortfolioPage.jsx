@@ -6,10 +6,32 @@ import { ContactCollageHero } from './ContactCollageHero';
 
 const filters = ['All', 'Websites', 'Products & Apps', 'Brand & Creative', 'Platforms & Data'];
 
-const portfolioTestimonial = {
-    quote: "They took the time to actually understand the business before proposing anything — that's rarer than it should be.",
-    name: 'Ronke Adeyemi',
-    role: 'Operations Director, Fieldstone Group',
+const portfolioTestimonials = {
+    All: {
+        quote: 'What started as a website conversation ended up improving parts of the business we hadn’t even considered. That was the most valuable part.',
+        name: 'Nathan Williams',
+        role: 'Founder, Westbrook Property',
+    },
+    Websites: {
+        quote: 'The old website was doing the job, but it wasn’t really helping us win work. The new one feels much more like the business we are now.',
+        name: 'Nadia Khan',
+        role: 'Founder, Studio North',
+    },
+    'Products & Apps': {
+        quote: 'What we have now is much easier for our staff to use. That sounds simple, but it’s made a genuine difference to how the team works every day.',
+        name: 'Linda Mensah',
+        role: 'Operations Manager, CareBridge',
+    },
+    'Brand & Creative': {
+        quote: 'I wasn’t looking for a complete rebrand. We just needed to look more established. They understood that straight away.',
+        name: 'Farah Ahmed',
+        role: 'Director, Bloom & Co.',
+    },
+    'Platforms & Data': {
+        quote: 'The dashboard has been the biggest change for us. I can finally see what’s going on without asking someone to pull a report together every time.',
+        name: 'Rebecca Morgan',
+        role: 'Operations Director, Hartwell Services',
+    },
 };
 
 const caseStudyKeys = {
@@ -140,7 +162,8 @@ function ProjectCard({ project, index, onOpen }) {
     );
 }
 
-function PortfolioTestimonial() {
+function PortfolioTestimonial({ filter }) {
+    const portfolioTestimonial = portfolioTestimonials[filter];
     return (
         <aside className="portfolio-testimonial">
             <span className="portfolio-quote-mark" aria-hidden="true">“</span>
@@ -232,7 +255,7 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
     ]), [portfolioSequence]);
 
     const renderPortfolioItem = (item) => {
-        if (item.type === 'testimonial') return <PortfolioTestimonial key="testimonial" />;
+        if (item.type === 'testimonial') return <PortfolioTestimonial filter={activeFilter} key="testimonial" />;
         if (item.type === 'mid-cta') return <PortfolioMidCta key="mid-cta" />;
         if (item.type === 'add-project') return <PortfolioAddProject key="add-project" />;
 
