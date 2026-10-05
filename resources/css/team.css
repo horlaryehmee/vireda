@@ -12,7 +12,7 @@
 .team-image-accordion-card:focus-within { outline: 3px solid #a5b4fc; outline-offset: 0; }
 .team-details-content { align-content: center; }
 .team-details-content > p { color: var(--page-text); font-family: var(--font-sans); margin: 0; line-height: 1.7; }
-.team-details-photo img { object-fit: contain; object-position: center; }
+.team-details-photo img { object-fit: cover; object-position: center 28%; }
 .team-mobile-controls { display: none; }
 @media (min-width: 768px) {
     .team-image-accordion-card::before { opacity: 0; }
@@ -43,7 +43,8 @@
     .team-mobile-dots button::after { content: ''; position: absolute; inset: 14px 10px; border-radius: 50%; background: var(--page-text); opacity: .3; }
     .team-mobile-dots button[aria-pressed='true']::after { background: var(--page-accent); opacity: 1; }
     .team-mobile-controls button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
-    .team-details-panel .team-details-photo { height: 340px; }
+    .team-details-panel .team-details-photo { height: clamp(300px, 105vw, 420px); }
+    .team-details-panel .team-details-photo img { object-position: center 28%; }
 }
 @media (prefers-reduced-motion: reduce) {
     .team-image-accordion-card, .team-image-accordion-card::before, .team-image-accordion-card::after, .team-image-accordion-overlay h3, .team-image-accordion-overlay > span { transition: none; }
