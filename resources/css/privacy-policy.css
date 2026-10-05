@@ -1,0 +1,14 @@
+.privacy-content-inner { font-family: var(--font-sans); }
+.privacy-content-inner h2 { font-family: var(--font-display); scroll-margin-top: 100px; }
+.privacy-policy-list { padding-left: 22px; margin: 16px 0 24px; color: var(--page-text); line-height: 1.7; }
+.privacy-policy-list li + li { margin-top: 8px; }
+.privacy-policy-table-wrap { overflow-x: auto; margin: 24px 0 32px; border: 1px solid var(--page-line); border-radius: 10px; }
+.privacy-policy-table { width: 100%; border-collapse: collapse; color: var(--page-text); font-family: var(--font-sans); font-size: .95rem; line-height: 1.6; }
+.privacy-policy-table th, .privacy-policy-table td { text-align: left; vertical-align: top; padding: 14px 18px; }
+.privacy-policy-table th { background: var(--page-panel); font-weight: 600; }
+.privacy-policy-table tbody tr { border-top: 1px solid var(--page-line); }
+.privacy-policy-table th:first-child { width: 55%; }
+@media (max-width: 640px) {
+    .privacy-policy-table th, .privacy-policy-table td { padding: 12px; }
+    .privacy-policy-table { font-size: .85rem; }
+}

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { groupWorkProjects } from './workProjects';
 
 /**
  * Horizontal, continuously scrolling project marquee.
@@ -16,14 +17,28 @@ import React, { useState } from 'react';
 // must repeat before the loop is wide enough to look seamless on a wide screen.
 const CARD_APPROX_WIDTH = 260;
 
+function MarqueeProjectCard({ project, duplicate }) {
+    return <li className="work-marquee-card" aria-hidden={duplicate ? 'true' : undefined}>
+        <div className="work-marquee-media">
+            <img src={project.image} alt={duplicate ? '' : project.name} loading="lazy" decoding="async" draggable="false" />
+        </div>
+        <span className="work-marquee-overlay">
+            <span className="work-marquee-title">{project.name}</span>
+            {project.description && <span className="work-marquee-description">{project.description}</span>}
+            {project.industry && <span className="work-marquee-industry">{project.industry}</span>}
+        </span>
+    </li>;
+}
+
 function ProjectMarquee({ projects = [], className = '' }) {
     const [paused, setPaused] = useState(false);
+    const groupedProjects = useMemo(() => groupWorkProjects(projects), [projects]);
 
     // The track translates by exactly -50%, so it must contain two identical halves.
     // One half has to be at least as wide as the viewport, otherwise the loop
     // reveals a gap. Repeat the source list until one half clears ~1800px.
-    const repeats = Math.max(1, Math.ceil(1800 / Math.max(1, projects.length * CARD_APPROX_WIDTH)));
-    const half = Array.from({ length: repeats }, () => projects).flat();
+    const repeats = Math.max(1, Math.ceil(1800 / Math.max(1, groupedProjects.length * CARD_APPROX_WIDTH)));
+    const half = Array.from({ length: repeats }, () => groupedProjects).flat();
     const cards = [...half, ...half];
 
     return (
@@ -42,35 +57,7 @@ function ProjectMarquee({ projects = [], className = '' }) {
                 data-paused={paused ? 'true' : 'false'}
                 style={{ '--work-marquee-duration': `${(half.length * 5.5).toFixed(2)}s` }}
             >
-                {cards.map((project, index) => (
-                    <li
-                        className={`work-marquee-card ${project.scrollOnHover ? 'is-vertical-scroll' : ''}`.trim()}
-                        key={`${project.name}-${index}`}
-                        // The second half is a visual duplicate of the first, so hide it
-                        // from assistive tech instead of announcing every project twice.
-                        aria-hidden={index >= half.length ? 'true' : undefined}
-                        tabIndex={index < half.length ? 0 : -1}
-                    >
-                        <div className="work-marquee-media">
-                            <img
-                                src={project.image}
-                                alt={project.name}
-                                loading="lazy"
-                                decoding="async"
-                                draggable="false"
-                            />
-                        </div>
-                        <span className="work-marquee-overlay">
-                            <span className="work-marquee-title">{project.name}</span>
-                            {project.description && (
-                                <span className="work-marquee-description">{project.description}</span>
-                            )}
-                            {project.industry && (
-                                <span className="work-marquee-industry">{project.industry}</span>
-                            )}
-                        </span>
-                    </li>
-                ))}
+                {cards.map((project, index) => <MarqueeProjectCard project={project} duplicate={index >= half.length} key={`${project.name}-${index}`} />)}
             </ul>
         </div>
     );

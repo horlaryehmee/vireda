@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useLayoutEffect, useRef, useState } from 'react';
+﻿import React, { Suspense, lazy, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
     ArrowRight,
@@ -78,6 +78,7 @@ import SoftwareDigitalProductsPage from './Components/ui/SoftwareDigitalProducts
 import DataAnalyticsPage from './Components/ui/DataAnalyticsPage';
 import PortfolioPage from './Components/ui/PortfolioPage';
 import TeamCarousel from './Components/ui/TeamCarousel';
+import PrivacyPolicyContent from './Components/ui/PrivacyDocument.jsx';
 import BookingPage from './BookingPage';
 import { AdminDashboardPage, AdminLoginPage } from './AdminBooking';
 import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
@@ -238,7 +239,6 @@ const projects = [
         name: 'Luxe Beauty',
         industry: 'Beauty website',
         image: '/images/work/luxe-beauty.png',
-        mobileImage: '/images/work/luxe-mobile.png',
         description: 'A premium beauty studio website designed to turn services into a polished, appointment-focused experience.',
         services: ['Web Design', 'UX/UI', 'Booking'],
         category: 'Websites',
@@ -249,15 +249,6 @@ const projects = [
         image: '/images/work/peakfuel.png',
         description: 'A conversion-led nutrition storefront with clear product discovery, offers and trust signals.',
         services: ['E-commerce', 'Web Design', 'Conversion'],
-        category: 'Websites',
-    },
-    {
-        name: 'Peak Fuel Nutrition',
-        industry: 'Mobile commerce',
-        image: '/images/work/peakfuel-mobile.png',
-        scrollOnHover: true,
-        description: 'A compact mobile shopping experience that keeps products, categories and purchasing within easy reach.',
-        services: ['Mobile Commerce', 'UX/UI', 'Conversion'],
         category: 'Websites',
     },
     {
@@ -280,7 +271,7 @@ const projects = [
         name: 'North Studio',
         industry: 'Agency website',
         image: '/images/work/north-studio.png',
-        description: 'A bold digital marketing presence designed to make the studio’s work, energy and results immediately clear.',
+        description: 'A bold digital marketing presence designed to make the studioâ€™s work, energy and results immediately clear.',
         services: ['Web Design', 'Brand', 'Responsive UX'],
         category: 'Websites',
     },
@@ -462,8 +453,8 @@ function BrandIcon({ brand }) {
 
 function Logo() {
     return (
-        <a className="logo" href="/" aria-label="Viredá home">
-            <img className="logo-image logo-image-light" src="/images/vireda-logo-light-420.png" alt="Viredá" width="420" height="140" />
+        <a className="logo" href="/" aria-label="ViredÃ¡ home">
+            <img className="logo-image logo-image-light" src="/images/vireda-logo-light-420.png" alt="ViredÃ¡" width="420" height="140" />
             <img className="logo-image logo-image-dark" src="/images/vireda-logo-dark-420.png" alt="" aria-hidden="true" width="420" height="140" />
         </a>
     );
@@ -745,9 +736,8 @@ function Hero() {
                     </h1>
                     <div className="blackhole-subcopy">
                         <p className="hero-subcopy-summary">
-                            Every business has something worth building. From untapped opportunities and ideas to
-                            processes that have quietly outgrown themselves. We bring strategy, technology and
-                            creativity to build it better and make it last.
+                            Every business has more to become. We bring strategy, technology and creativity to build
+                            what&apos;s next and make it your competitive edge.
                         </p>
                     </div>
                     <div className="hero-actions">
@@ -1321,27 +1311,27 @@ function AboutVireda() {
                 <div className="about-layout">
                     <div className="about-content">
                         <header className="about-header">
-                            <p className="eyebrow">About Viredá</p>
+                            <p className="eyebrow">About ViredÃ¡</p>
                             <h2 className="about-title">
                                 Built to make better things <span>possible.</span>
                             </h2>
-                            <p className="about-lead">Viredá was created around a simple belief: good ideas deserve the opportunity to become something meaningful.</p>
+                            <p className="about-lead">ViredÃ¡ was created around a simple belief: good ideas deserve the opportunity to become something meaningful.</p>
                         </header>
                         <div className="about-copy-grid">
                             <p>We don't believe in offering solutions simply because they can be offered. We work with organisations to understand what they're trying to achieve, uncover what's getting in the way, and find the path that moves them forward.</p>
                             <p>We work at the intersection of strategy, technology, data and creativity turning challenges into opportunities and ideas into solutions people can actually build on.</p>
                             <p>Every engagement starts with understanding and ends with something tangible: a clearer direction, a better way of working, a solution that works, or an opportunity brought to life.</p>
                             <p>We measure our work by the difference it makes, not simply by what we deliver.</p>
-                            <GetStartedButton href="/about" size="sm" className="about-link">More about Viredá</GetStartedButton>
+                            <GetStartedButton href="/about" size="sm" className="about-link">More about ViredÃ¡</GetStartedButton>
                         </div>
                     </div>
-                    <div className="about-system" aria-label="Viredá works across strategy, technology, data and creativity">
+                    <div className="about-system" aria-label="ViredÃ¡ works across strategy, technology, data and creativity">
                         <img
                             className="about-system-image"
                             loading="lazy"
                             decoding="async"
                             src="/images/homepage-about-vireda-team.jpg"
-                            alt="The Viredá team collaborating in a modern office"
+                            alt="The ViredÃ¡ team collaborating in a modern office"
                         />
                     </div>
                 </div>
@@ -1471,7 +1461,7 @@ function Footer() {
             <div className="container footer-line">
                 <span>Strategy. Technology. Data. Creativity.</span>
                 <span className="footer-credit">
-                    <span>&copy; {new Date().getFullYear()} Viredá.</span>
+                    <span>&copy; {new Date().getFullYear()} ViredÃ¡.</span>
                     <span>Management &amp; Technology Consulting.</span>
                 </span>
             </div>
@@ -1963,7 +1953,7 @@ function WebsiteExperienceAnimation() {
             <div className="web-animation-browser" aria-hidden="true">
                 <div className="web-animation-window-bar">
                     <div className="web-animation-dots"><span /><span /><span /></div>
-                    <div className="web-animation-urlbar">● Vireda.co.uk</div>
+                    <div className="web-animation-urlbar">â— Vireda.co.uk</div>
                 </div>
                 <div className="web-animation-browser-body">
                     <div className="web-animation-hero-bar" />
@@ -1972,7 +1962,7 @@ function WebsiteExperienceAnimation() {
             </div>
 
             <div className="web-animation-phone" aria-hidden="true">
-                <div className="web-animation-phone-status"><span>9:41</span><span>••</span></div>
+                <div className="web-animation-phone-status"><span>9:41</span><span>â€¢â€¢</span></div>
                 <div className="web-animation-phone-bar" />
                 <div className="web-animation-phone-image" />
                 <div className="web-animation-phone-line" />
@@ -1991,7 +1981,7 @@ function WebsiteExperienceAnimation() {
             <div className="web-animation-editor" aria-hidden="true">
                 <div className="web-animation-editor-bar">
                     <div className="web-animation-dots"><span /><span /><span /></div>
-                    <div className="web-animation-filetab">✓ Hero.tsx</div>
+                    <div className="web-animation-filetab">âœ“ Hero.tsx</div>
                 </div>
                 <div className="web-animation-editor-body">
                     {websiteAnimationLines.map((parts, index) => (
@@ -2030,9 +2020,9 @@ const aiAnimationTerminalLines = [
     [['', '  - react 19.0.0']],
     [['', '  - next 15.1.0']],
     [['', '  - tailwindcss 4.0']],
-    [['ok', '✓ Project created successfully']],
+    [['ok', 'âœ“ Project created successfully']],
     [['prompt', '> '], ['', 'npm run dev']],
-    [['ok', '✓ Ready on localhost:3000']],
+    [['ok', 'âœ“ Ready on localhost:3000']],
 ];
 
 function AiAutomationAnimation() {
@@ -2176,7 +2166,7 @@ function AiAutomationAnimation() {
           >
             <div className="ai-animation-panel ai-animation-chat" aria-hidden="true">
                 <div className="ai-animation-chat-header">
-                    <div className="ai-animation-chat-avatar">✦</div>
+                    <div className="ai-animation-chat-avatar">âœ¦</div>
                     <div><div className="ai-animation-chat-title">AI Assistant</div><div className="ai-animation-chat-status">Online</div></div>
                 </div>
                 <div className="ai-animation-chat-body">
@@ -2209,15 +2199,15 @@ function AiAutomationAnimation() {
                 <div className="ai-animation-integrations-title">Connected Integrations</div>
                 <div className="ai-animation-hub-wrap">
                     {[1, 2, 3].map((connector) => <span className={`ai-animation-connector is-${connector}${visibleConnectors >= connector ? ' is-visible' : ''}`} key={connector} />)}
-                    <div className="ai-animation-node is-slack"><span>📌</span><small>Slack</small></div>
-                    <div className="ai-animation-node is-excel"><span>📊</span><small>Excel</small></div>
-                    <div className="ai-animation-node is-sheets"><span>📄</span><small>Sheets</small></div>
-                    <div className="ai-animation-hub">✦</div>
+                    <div className="ai-animation-node is-slack"><span>ðŸ“Œ</span><small>Slack</small></div>
+                    <div className="ai-animation-node is-excel"><span>ðŸ“Š</span><small>Excel</small></div>
+                    <div className="ai-animation-node is-sheets"><span>ðŸ“„</span><small>Sheets</small></div>
+                    <div className="ai-animation-hub">âœ¦</div>
                 </div>
             </div>
 
             <div className={`ai-animation-panel ai-animation-tasks${showTasks ? ' is-visible' : ''}`} aria-hidden="true">
-                <div className="ai-animation-clock">◷</div>
+                <div className="ai-animation-clock">â—·</div>
                 <div className="ai-animation-tasks-number">{tasks} Tasks</div>
                 <div className="ai-animation-tasks-label">Automated this month</div>
                 <div className="ai-animation-dot-grid">
@@ -2336,14 +2326,14 @@ function BrandCreativeAnimation() {
             } : undefined}
           >
             <div className="brand-animation-panel brand-animation-figma" aria-hidden="true">
-                <div className="brand-animation-figma-header"><span /><strong>Website — Design</strong></div>
+                <div className="brand-animation-figma-header"><span /><strong>Website â€” Design</strong></div>
                 <div className="brand-animation-figma-body">
                     <div className="brand-animation-layers">
                         <small>LAYERS</small>
                         {['Hero Section', 'Heading', 'CTA Button', 'Avatar', 'Hero Image'].map((layer, index) => <span className={index === 0 ? 'is-active' : ''} key={layer}>{layer}</span>)}
                     </div>
                     <div className="brand-animation-mini-canvas">
-                        <small>Hero Section — 1440x800</small><i /><b /><b className="is-short" /><b className="is-medium" />
+                        <small>Hero Section â€” 1440x800</small><i /><b /><b className="is-short" /><b className="is-medium" />
                     </div>
                 </div>
             </div>
@@ -2824,7 +2814,7 @@ function AboutPage() {
                                 They were often missing the right connection between the two.
                             </p>
                             <p>
-                                We created Viredá to bring thinking, technology and creativity together around the problems
+                                We created ViredÃ¡ to bring thinking, technology and creativity together around the problems
                                 that actually matter, helping businesses improve what already exists, build what doesn't, and
                                 find better ways forward.
                             </p>
@@ -2837,7 +2827,7 @@ function AboutPage() {
                                 Everything we do comes back to three things: <strong>create</strong> what's missing, <strong>evolve</strong>
                                 what already exists, and help the business <strong>thrive</strong> because of it.
                             </p>
-                            <p className="about-story-closing">That's the idea at the heart of Viredá.</p>
+                            <p className="about-story-closing">That's the idea at the heart of ViredÃ¡.</p>
                         </div>
                     </div>
                 </section>
@@ -2848,7 +2838,7 @@ function AboutPage() {
                             <img src="/images/about-why-vireda-exists-v2.png" alt="A consulting team connecting strategy, process, technology and customer experience around a shared workflow" loading="lazy" decoding="async" />
                         </figure>
                         <div className="about-exists-copy">
-                            <p className="eyebrow">Why Viredá Exists</p>
+                            <p className="eyebrow">Why ViredÃ¡ Exists</p>
                             <h2>The answer rarely lives in <span>one category.</span></h2>
                             <p>
                                 A challenge that looks like a technology problem might start with a broken process. A
@@ -2885,7 +2875,7 @@ function AboutPage() {
                             learn to live with, because they're busy running the business, until eventually, the workaround
                             becomes the problem.
                         </p>
-                        <p className="about-patterns-closing-lead">That's usually where the conversation with Viredá starts.</p>
+                        <p className="about-patterns-closing-lead">That's usually where the conversation with ViredÃ¡ starts.</p>
                     </div>
                     </div>
                     </div>
@@ -3197,7 +3187,7 @@ function ServicesPage() {
                     title={<>We build what your business needs to <span>work better.</span></>}
                     subtitle="There's always room to improve, from the systems behind your business to the experiences your customers see. We bring thinking, technology and creativity together to find what's getting in the way, and build better ways of working, connecting and growing."
                     images={[
-                        { src: '/images/homepage-about-vireda-team.jpg', alt: 'The Viredá team collaborating around a table' },
+                        { src: '/images/homepage-about-vireda-team.jpg', alt: 'The ViredÃ¡ team collaborating around a table' },
                         { src: '/images/about-strategy-workshop.jpg', alt: 'A team working through a strategy session' },
                         { src: '/images/vireda-office-mockup.png', alt: 'A modern workspace prepared for collaborative work' },
                     ]}
@@ -3286,7 +3276,7 @@ function ServicesPage() {
                                 <p className="eyebrow">Selected Work</p>
                                 <h2 className="services-selected-work-title">A few of the <span>things we've built.</span></h2>
                             </div>
-                            <p>A look at recent work across web builds, e-commerce, software, CRM solutions and digital presence—no two projects are the same, but the standard behind them never changes.</p>
+                            <p>A look at recent work across web builds, e-commerce, software, CRM solutions and digital presenceâ€”no two projects are the same, but the standard behind them never changes.</p>
                         </header>
                     </div>
                     <ProjectMarquee projects={projects} />
@@ -3484,7 +3474,7 @@ function ContactForm() {
             {feedback && <div className={`contact-feedback ${status}`} role="status">{feedback}</div>}
 
             <button className="contact-submit" type="submit" disabled={status === 'sending'}>
-                <span>{status === 'sending' ? 'Sending…' : 'Send message'}</span>
+                <span>{status === 'sending' ? 'Sendingâ€¦' : 'Send message'}</span>
                 <Send size={18} aria-hidden="true" />
             </button>
         </form>
@@ -3493,7 +3483,7 @@ function ContactForm() {
 
 function ContactPage() {
     useEffect(() => {
-        document.title = 'Contact Viredá | Start a Conversation';
+        document.title = 'Contact ViredÃ¡ | Start a Conversation';
     }, []);
 
     return (
@@ -3544,7 +3534,7 @@ function ContactPage() {
 
 function PrivacyPolicyPage() {
     useEffect(() => {
-        document.title = 'Privacy Policy | Viredá';
+        document.title = 'Privacy Policy | ViredÃ¡';
     }, []);
 
     return (
@@ -3559,21 +3549,7 @@ function PrivacyPolicyPage() {
                 </section>
                 <section className="privacy-content">
                     <div className="container privacy-content-inner">
-                        <p className="privacy-updated">Last updated: 13 September 2026</p>
-                        <h2>Contact enquiries</h2>
-                        <p>When you contact Viredá, we collect the information you provide, such as your name, email address, phone number, service interest and message. We use it only to understand and respond to your enquiry, arrange a call, and keep a record of our conversation.</p>
-                        <h2>Discovery call bookings</h2>
-                        <p>When you book a call, we also process your selected date and time, company, discussion topic and booking reference. We use this information to reserve the appointment, prevent scheduling conflicts, send confirmations and manage the call.</p>
-                        <h2>Cookies and local storage</h2>
-                        <p>We do not currently use advertising, marketing or third-party analytics cookies. The site may use a necessary session cookie for security, form protection and contact-form verification. The site also uses browser local storage—not a tracking cookie—to remember your light or dark theme and your cookie-consent choice. You can clear these items through your browser settings.</p>
-                        <h2>How we use and protect it</h2>
-                        <p>We process this information because you have asked us to respond and because it is in our legitimate interest to manage genuine business enquiries. We take reasonable steps to protect it and do not sell your personal information.</p>
-                        <h2>Sharing and retention</h2>
-                        <p>Information may be handled by trusted service providers that support our website, email and business operations. Contact enquiries are sent to our configured business email provider, while booking records are stored in our business database and used to send booking confirmations and internal notifications. We keep enquiry information only for as long as it remains relevant to the conversation, our services, or applicable legal obligations.</p>
-                        <h2>Your choices</h2>
-                        <p>You can ask us to access, correct or delete the personal information we hold about you. You may also object to or restrict how it is used where applicable.</p>
-                        <h2>Contact us</h2>
-                        <p>For privacy questions or requests, email <a href="mailto:info@vireda.co.uk">info@vireda.co.uk</a>.</p>
+                        <PrivacyPolicyContent />
                     </div>
                 </section>
             </main>
@@ -3667,3 +3643,4 @@ const rootElement = document.getElementById('root');
 const root = window.__viredaRoot || createRoot(rootElement);
 window.__viredaRoot = root;
 root.render(<><App /><CookiePanel /></>);
+

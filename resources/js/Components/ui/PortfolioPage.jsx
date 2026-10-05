@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import caseStudies from './portfolioCaseStudies.json';
+import { getCaseStudyKey, groupWorkProjects } from './workProjects';
 import { ContactCollageHero } from './ContactCollageHero';
 
 const filters = ['All', 'Websites', 'Products & Apps', 'Brand & Creative', 'Platforms & Data'];
@@ -34,19 +35,6 @@ const portfolioTestimonials = {
     },
 };
 
-const caseStudyKeys = {
-    'altura.png': 'altura', 'kalm.png': 'kalm',
-    'luxe-beauty.png': 'luxe', 'luxe-mobile.png': 'luxe',
-    'peakfuel.png': 'peakfuel', 'peakfuel-mobile.png': 'peakfuel',
-    'westbrook.png': 'westbrook', 'westbrook-2.png': 'westbrook',
-    'north-studio.png': 'north-web', 'north-studio-2.png': 'north-brand',
-    'pivot-up.png': 'pivot-web', 'pivot-up-2.png': 'pivot-app',
-    'carebridge.png': 'carebridge', 'carebridge-2.png': 'carebridge',
-    'flowt.png': 'flowt', 'flowt-2.png': 'flowt',
-    'the-collective.png': 'collective-brand', 'the-collective-2.png': 'collective-app',
-};
-
-const getCaseStudyKey = (project) => caseStudyKeys[project.image.split('/').pop()];
 const relatedStudies = {
     'north-web': 'north-brand', 'north-brand': 'north-web',
     'pivot-web': 'pivot-app', 'pivot-app': 'pivot-web',
@@ -162,8 +150,7 @@ function ProjectCard({ project, index, onOpen }) {
     );
 }
 
-function PortfolioTestimonial({ filter }) {
-    const portfolioTestimonial = portfolioTestimonials[filter];
+function PortfolioTestimonial({ review: portfolioTestimonial }) {
     return (
         <aside className="portfolio-testimonial">
             <span className="portfolio-quote-mark" aria-hidden="true">“</span>
@@ -216,30 +203,24 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
         };
     }, []);
 
-    const groupedProjects = useMemo(() => {
-        const groups = new Map();
-        projects.forEach((project) => {
-            const key = getCaseStudyKey(project) || project.name;
-            const images = [project.image, project.mobileImage].filter(Boolean);
-            if (groups.has(key)) {
-                const group = groups.get(key);
-                group.images = [...new Set([...group.images, ...images])];
-                group.categories = [...new Set([...group.categories, project.category])];
-            } else {
-                groups.set(key, { ...project, images, categories: [project.category] });
-            }
-        });
-        return [...groups.values()];
-    }, [projects]);
+    const groupedProjects = useMemo(() => groupWorkProjects(projects), [projects]);
     const visibleProjects = useMemo(() => (
         activeFilter === 'All' ? groupedProjects : groupedProjects.filter((project) => project.categories.includes(activeFilter))
     ), [activeFilter, groupedProjects]);
 
     const portfolioSequence = useMemo(() => {
-        const sequence = visibleProjects.map((project, index) => ({ type: 'project', project, index }));
-
-        sequence.splice(Math.min(1, sequence.length), 0, { type: 'testimonial' });
-
+        const matchingProject = {
+            All: 'westbrook', Websites: 'north-web', 'Products & Apps': 'carebridge',
+        }[activeFilter];
+        const sequence = visibleProjects.map((project, index) => ({
+            type: 'project', project, index,
+            review: getCaseStudyKey(project) === matchingProject ? portfolioTestimonials[activeFilter] : null,
+        })).sort((left, right) => Number(Boolean(right.review)) - Number(Boolean(left.review)));
+        if (!matchingProject) {
+            sequence.splice(Math.min(1, sequence.length), 0, {
+                type: 'testimonial', review: portfolioTestimonials[activeFilter],
+            });
+        }
         if (activeFilter === 'All' && sequence.length > 4) {
             sequence.splice(Math.ceil(sequence.length / 2), 0, { type: 'mid-cta' });
         }
@@ -250,16 +231,19 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
     }, [activeFilter, visibleProjects]);
 
     const portfolioColumns = useMemo(() => ([
-        portfolioSequence.filter((_, index) => index % 2 === 0),
-        portfolioSequence.filter((_, index) => index % 2 === 1),
+        portfolioSequence.filter((item) => item.type !== 'project' || !item.review).filter((_, index) => index % 2 === 0),
+        portfolioSequence.filter((item) => item.type !== 'project' || !item.review).filter((_, index) => index % 2 === 1),
     ]), [portfolioSequence]);
 
     const renderPortfolioItem = (item) => {
-        if (item.type === 'testimonial') return <PortfolioTestimonial filter={activeFilter} key="testimonial" />;
+        if (item.type === 'testimonial') return <PortfolioTestimonial review={item.review} key={item.review.name} />;
         if (item.type === 'mid-cta') return <PortfolioMidCta key="mid-cta" />;
         if (item.type === 'add-project') return <PortfolioAddProject key="add-project" />;
 
-        return <ProjectCard project={item.project} index={item.index} onOpen={setSelectedProject} key={`${item.project.name}-${item.project.image}`} />;
+        return <div className={`portfolio-project-with-review ${item.review ? 'has-review' : ''}`} key={`${item.project.name}-${item.project.image}`}>
+            <ProjectCard project={item.project} index={item.index} onOpen={setSelectedProject} />
+            {item.review && <PortfolioTestimonial review={item.review} />}
+        </div>;
     };
 
     return (
@@ -304,6 +288,9 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
                             })}
                         </div>
 
+                        <div className="portfolio-featured-reviews" aria-live="polite">
+                            {portfolioSequence.filter((item) => item.type === 'project' && item.review).map(renderPortfolioItem)}
+                        </div>
                         <div className="portfolio-grid" aria-live="polite">
                             {portfolioColumns.map((column, columnIndex) => (
                                 <div className="portfolio-grid-column" key={columnIndex}>

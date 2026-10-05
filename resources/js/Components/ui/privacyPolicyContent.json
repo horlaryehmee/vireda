@@ -1,0 +1,289 @@
+[
+  {
+    "type": "paragraph",
+    "text": "Viredá"
+  },
+  {
+    "type": "updated",
+    "text": "Last updated: September 2026"
+  },
+  {
+    "type": "paragraph",
+    "text": "This policy explains what personal data Viredá (“we”, “us”, “our”) collects, why we collect it, and how we keep it safe when you visit www.vireda.co.uk or work with us."
+  },
+  {
+    "type": "paragraph",
+    "text": "Viredá Ltd is a management and technology consulting company registered in England and Wales. Viredá is the data controller for the personal data described here."
+  },
+  {
+    "type": "listItem",
+    "text": "Company: Viredá Ltd, company no. 17397212"
+  },
+  {
+    "type": "listItem",
+    "text": "Registered address: 71–75 Shelton Street, Covent Garden, London, WC2H 9JQ, England"
+  },
+  {
+    "type": "heading",
+    "text": "What data we collect"
+  },
+  {
+    "type": "paragraph",
+    "text": "We collect only what we need to respond to you and deliver our work."
+  },
+  {
+    "type": "listItem",
+    "text": "Enquiry details: your name, email address, phone number, the service you’re interested in and your message, when you use our contact form or get in touch."
+  },
+  {
+    "type": "listItem",
+    "text": "Discovery call bookings: your chosen date and time, company, discussion topic and booking reference, when you book a call."
+  },
+  {
+    "type": "listItem",
+    "text": "Messages: emails, WhatsApp Business chats, call and meeting notes about an enquiry or project."
+  },
+  {
+    "type": "listItem",
+    "text": "Project information: documents, data and system access you share with us so we can deliver an engagement."
+  },
+  {
+    "type": "listItem",
+    "text": "Billing details: invoicing name and address. Card and bank payments are handled by our payment provider, and we never see full card numbers."
+  },
+  {
+    "type": "listItem",
+    "text": "Website usage: pages viewed, referring site, browser and device type, collected through analytics tools."
+  },
+  {
+    "type": "listItem",
+    "text": "Cookies and local storage: a security session cookie, your theme and cookie choices, and analytics cookies if you consent (see Cookies below)."
+  },
+  {
+    "type": "paragraph",
+    "text": "Where client project data includes personal data about other people (for example, staff or service users), we handle it as a data processor under a separate agreement with that client."
+  },
+  {
+    "type": "heading",
+    "text": "How we use your data and why"
+  },
+  {
+    "type": "paragraph",
+    "text": "Each use rests on a lawful basis under UK GDPR."
+  },
+  {
+    "type": "table",
+    "rows": [
+      [
+        "Purpose",
+        "Lawful basis"
+      ],
+      [
+        "Replying to enquiries and keeping a record of our conversation",
+        "Legitimate interests"
+      ],
+      [
+        "Booking discovery calls, sending confirmations and avoiding scheduling conflicts",
+        "Legitimate interests, and steps you ask us to take before a contract"
+      ],
+      [
+        "Delivering consulting, website, software, data, AI and brand work",
+        "Contract"
+      ],
+      [
+        "Invoicing, accounts and tax records",
+        "Legal obligation"
+      ],
+      [
+        "Understanding and improving our website",
+        "Consent (analytics cookies)"
+      ],
+      [
+        "Keeping the website and forms secure",
+        "Legitimate interests"
+      ],
+      [
+        "Sending news about our services",
+        "Consent, or legitimate interests for existing clients"
+      ]
+    ]
+  },
+  {
+    "type": "paragraph",
+    "text": "You can opt out of marketing at any time by clicking unsubscribe or messaging us. We do not use your data for automated decisions that have legal or similarly significant effects on you."
+  },
+  {
+    "type": "heading",
+    "text": "How we store and protect it"
+  },
+  {
+    "type": "paragraph",
+    "text": "We store data with reputable providers in the UK and EEA where possible. Data is encrypted in transit, and at rest where our providers support it. Only people working on your enquiry or project can access it, and all accounts use strong passwords and two-factor authentication."
+  },
+  {
+    "type": "paragraph",
+    "text": "If a provider stores data outside the UK, we rely on UK adequacy regulations or the UK International Data Transfer Agreement to protect it."
+  },
+  {
+    "type": "table",
+    "rows": [
+      [
+        "Data",
+        "How long we keep it"
+      ],
+      [
+        "Enquiries and call bookings that don’t lead to work",
+        "24 months from last contact"
+      ],
+      [
+        "Client and project records",
+        "Length of the engagement plus 6 years"
+      ],
+      [
+        "Project data you give us access to",
+        "Returned or deleted at the end of the engagement, unless agreed otherwise"
+      ],
+      [
+        "Marketing list",
+        "Until you unsubscribe"
+      ],
+      [
+        "Website analytics",
+        "14 months, then aggregated"
+      ]
+    ]
+  },
+  {
+    "type": "heading",
+    "text": "Who we share it with"
+  },
+  {
+    "type": "paragraph",
+    "text": "We never sell your data. We share it only with providers that act on our instructions under a data processing agreement:"
+  },
+  {
+    "type": "table",
+    "rows": [
+      [
+        "Provider",
+        "What they do"
+      ],
+      [
+        "Zoho Mail",
+        "Business email"
+      ],
+      [
+        "WhatsApp Business (Meta)",
+        "Client messaging, when you choose to contact us that way"
+      ],
+      [
+        "Listed Hosting",
+        "Hosting the website, contact forms and our booking database"
+      ],
+      [
+        "Google Analytics",
+        "Website usage statistics"
+      ],
+      [
+        "Stripe",
+        "Processing card payments"
+      ],
+      [
+        "Klarna",
+        "Pay-later options at checkout, where offered"
+      ]
+    ]
+  },
+  {
+    "type": "paragraph",
+    "text": "We may also disclose data where the law requires it."
+  },
+  {
+    "type": "heading",
+    "text": "Your rights"
+  },
+  {
+    "type": "paragraph",
+    "text": "Under UK GDPR you can:"
+  },
+  {
+    "type": "listItem",
+    "text": "see the personal data we hold about you and get a copy"
+  },
+  {
+    "type": "listItem",
+    "text": "ask us to correct anything wrong or incomplete"
+  },
+  {
+    "type": "listItem",
+    "text": "ask us to delete your data where we have no reason to keep it"
+  },
+  {
+    "type": "listItem",
+    "text": "ask us to restrict or stop using it, including objecting to legitimate-interests use"
+  },
+  {
+    "type": "listItem",
+    "text": "receive your data in a portable, machine-readable format"
+  },
+  {
+    "type": "listItem",
+    "text": "withdraw consent at any time, where we rely on consent"
+  },
+  {
+    "type": "paragraph",
+    "text": "Email hello@vireda.co.uk to use any of these rights. We reply within one month and there is no charge."
+  },
+  {
+    "type": "heading",
+    "text": "Cookies"
+  },
+  {
+    "type": "paragraph",
+    "text": "We do not use advertising or marketing cookies."
+  },
+  {
+    "type": "listItem",
+    "text": "Necessary session cookie: used for security, form protection and contact-form verification. The site needs it to work, so it does not need your consent."
+  },
+  {
+    "type": "listItem",
+    "text": "Local storage: your browser stores your light or dark theme and your cookie choice. This is not a tracking cookie."
+  },
+  {
+    "type": "listItem",
+    "text": "Google Analytics cookies: set only if you accept them, to help us understand how the site is used."
+  },
+  {
+    "type": "paragraph",
+    "text": "You can change your cookie choice at any time through the cookie banner, and clear cookies and local storage in your browser settings."
+  },
+  {
+    "type": "heading",
+    "text": "Changes to this policy"
+  },
+  {
+    "type": "paragraph",
+    "text": "We update this policy when our practices change. The date at the top shows the latest version, and we will tell clients directly about significant changes."
+  },
+  {
+    "type": "heading",
+    "text": "Contact us"
+  },
+  {
+    "type": "listItem",
+    "text": "Email: hello@vireda.co.uk"
+  },
+  {
+    "type": "listItem",
+    "text": "WhatsApp / phone: 07443 121210"
+  },
+  {
+    "type": "listItem",
+    "text": "Post: 71–75 Shelton Street, Covent Garden, London, WC2H 9JQ, England"
+  },
+  {
+    "type": "paragraph",
+    "text": "If you’re unhappy with how we’ve handled your data, you can complain to the Information Commissioner’s Office at ico.org.uk or on 0303 123 1113. We’d appreciate the chance to put things right first."
+  }
+]
