@@ -1,0 +1,9 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Keep all requests within Laravel's public directory. The second rule also
+# prevents direct URLs from reaching app, vendor, storage, or .env.
+RewriteRule ^\.well-known/ - [L]
+RewriteRule ^public(?:/|$) - [L]
+RewriteRule ^(.*)$ public/$1 [L]

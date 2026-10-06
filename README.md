@@ -86,234 +86,102 @@ Open `http://127.0.0.1:8000`.
 
 ## cPanel Installation
 
-These steps are for a cPanel **main domain** whose document root is fixed at
-`/home/CPANEL_USER/public_html`. The repository stays at
-`/home/CPANEL_USER/vireda`; `.cpanel.yml` copies the public files into
-`public_html` and installs an `index.php` that loads Laravel from `vireda`.
+This setup uses the main domain's fixed document root,
+`/home/CPANEL_USER/public_html`. Keep the Laravel repository directly in
+`public_html`. The root `.htaccess` internally routes requests to
+`public/`, so the site opens at the domain root without a `/public` URL.
+The existing `public/index.php` loads the rest of Laravel.
 
-### 1. Prepare The cPanel Account
+**The root `.htaccess` is essential.** Confirm it appears in cPanel File
+Manager with hidden files enabled. If the host does not honor Apache rewrite
+rules, ask the host to enable them before using this layout.
 
-1. Log in to cPanel.
-2. Confirm the server supports PHP 8.3 or newer.
-3. Enable required PHP extensions, typically: `bcmath`, `ctype`, `curl`, `dom`, `fileinfo`, `filter`, `hash`, `mbstring`, `openssl`, `pdo`, `pdo_mysql` or `pdo_sqlite`, `session`, `tokenizer`, `xml`.
-4. Create a database if you will use MySQL:
-   - Open **MySQL Databases**.
-   - Create a database.
-   - Create a database user.
-   - Add the user to the database with all privileges.
+### 1. Set Up The Repository
 
-### 2. Upload Or Clone The Project
-
-Preferred cPanel Git method:
-
-1. Open **Git Version Control** in cPanel.
-2. Create a new repository from:
+In cPanel Git Version Control, place the repository directly at:
 
 ```text
-https://github.com/horlaryehmee/vireda.git
+/home/CPANEL_USER/public_html
 ```
 
-3. Clone it into this exact folder outside `public_html`:
+Pull the latest `main` branch so the root `.htaccess` is present. If an
+older copy exists in `public_html/vireda`, move any `.env`, database, or
+uploaded files you need into the root project, then remove that extra copy.
+Do not create `public_html/index.php`; Laravel's entry point stays in
+`public_html/public/index.php`.
 
-```text
-/home/CPANEL_USER/vireda
-```
+### 2. Configure PHP And The Environment
 
-If you already cloned the full repository into `public_html`, clone it again
-into `/home/CPANEL_USER/vireda` before deploying. Remove the old repository
-from `public_html` after checking that your `.env`, uploads, and other local
-data have been moved to the new location. The deployment script refuses to
-run from another path so it cannot accidentally publish the project itself.
-
-### 3. Keep The Main Domain's Document Root
-
-Leave the main domain pointed at `public_html`. Do not copy the entire
-repository there. The deployment step below copies only the contents of
-`vireda/public`, including `.htaccess` and the built assets. It then replaces
-`public_html/index.php` with the cPanel entry point.
-
-### 4. Create The Production `.env`
-
-In the project root, create `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Set the production values:
+Select PHP 8.3 or newer for the domain and CLI. Enable the PHP extensions
+required by Laravel and your database driver. Create `public_html/.env`
+from `.env.example` if it does not already exist. For the live site, set:
 
 ```env
-APP_NAME="VIREDÁ"
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://your-domain.com
-
-LOG_CHANNEL=stack
-SESSION_DRIVER=file
-CACHE_STORE=file
-QUEUE_CONNECTION=sync
+APP_URL=https://vireda.co.uk
 ```
 
-For MySQL:
+Preserve the existing `APP_KEY` and database settings when moving an
+existing installation. For SQLite, use a database path under
+`/home/CPANEL_USER/public_html/database/`; for MySQL, use the database
+name, user, and password created in cPanel. Keep `.env` out of Git.
 
-```env
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=cpanel_database_name
-DB_USERNAME=cpanel_database_user
-DB_PASSWORD=database_password
-```
+### 3. Install Dependencies
 
-For SQLite:
-
-```env
-DB_CONNECTION=sqlite
-DB_DATABASE=/home/CPANEL_USER/vireda/database/database.sqlite
-```
-
-Then create the SQLite file if needed:
+From cPanel Terminal:
 
 ```bash
-touch database/database.sqlite
+cd ~/public_html
+php -v
 ```
 
-### 5. Install Dependencies On cPanel
-
-Open **Terminal** in cPanel and run:
+If `composer` is available, run:
 
 ```bash
-cd /home/CPANEL_USER/vireda
 composer install --no-dev --optimize-autoloader
-php artisan key:generate
-php artisan migrate --force
 ```
 
-If `composer` is unavailable globally, use the Composer path provided by your host, or upload `composer.phar` and run:
+If it is unavailable, follow the verified installer instructions at
+https://getcomposer.org/download/ and run `php composer.phar install
+--no-dev --optimize-autoloader` from `~/public_html`. Stop if the installer
+download or signature verification fails. Confirm `vendor/autoload.php`
+exists before continuing.
+
+The repository includes the built `public/build` assets. Confirm that
+`public/build/manifest.json` exists. When changing frontend code, run
+`npm run build` locally and commit the updated `public/build` files,
+or build on the server if Node.js is available.
+
+### 4. Finish Setup
+
+From `~/public_html`:
 
 ```bash
-php composer.phar install --no-dev --optimize-autoloader
-```
-
-### 6. Build Frontend Assets
-
-If cPanel has Node.js:
-
-```bash
-cd /home/CPANEL_USER/vireda
-npm ci
-npm run build
-```
-
-This repository includes the committed `public/build` production assets for cPanel hosting environments where Node.js is unavailable. After `git pull`, confirm this file exists:
-
-```text
-public/build/manifest.json
-```
-
-If the committed build assets are missing or you need to rebuild locally:
-
-1. Build locally:
-
-```bash
-npm install
-npm run build
-```
-
-2. Upload the generated folder:
-
-```text
-public/build
-```
-
-to:
-
-```text
-/home/CPANEL_USER/vireda/public/build
-```
-
-The website will not load its CSS/JS correctly without `public/build/manifest.json`.
-
-### 7. Deploy Public Files
-
-After creating `.env`, installing Composer dependencies, and confirming
-`public/build/manifest.json` exists, open **Git Version Control → Manage →
-Pull or Deploy** and click **Deploy HEAD Commit**. The checked-in
-`.cpanel.yml` runs `deploy/cpanel.sh`, which copies public files to
-`/home/CPANEL_USER/public_html`. It deliberately stops if the repository is
-not at `/home/CPANEL_USER/vireda` or required files are missing.
-
-For a direct SSH deployment, run from the project directory:
-
-```bash
-bash deploy/cpanel.sh
-```
-
-### 8. Set Permissions
-
-Run:
-
-```bash
-chmod -R 775 storage bootstrap/cache
-```
-
-If your host requires stricter permissions, use:
-
-```bash
-find storage bootstrap/cache -type d -exec chmod 755 {} \;
-find storage bootstrap/cache -type f -exec chmod 644 {} \;
-```
-
-### 9. Optimize Laravel
-
-Run:
-
-```bash
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-php artisan event:cache
-```
-
-After future `.env` changes, clear and rebuild cache:
-
-```bash
-php artisan optimize:clear
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-```
-
-### 10. Storage Link
-
-If the site later uses uploaded files, run:
-
-```bash
-ln -s /home/CPANEL_USER/vireda/storage/app/public /home/CPANEL_USER/public_html/storage
-```
-
-### 11. Deployment Updates
-
-For future updates from GitHub:
-
-```bash
-cd /home/CPANEL_USER/vireda
-git pull origin main
-composer install --no-dev --optimize-autoloader
-npm ci
-npm run build
 php artisan migrate --force
 bash deploy/cpanel.sh
-php artisan optimize:clear
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan optimize
 ```
 
-If there is no Node.js on cPanel, build locally and commit the updated
-`public/build` folder before pulling. Skip `npm ci` and `npm run build` on
-cPanel, then run `bash deploy/cpanel.sh`. The cPanel **Deploy HEAD Commit**
-button also runs the deployment script after an **Update from Remote**.
+For a new installation without an `APP_KEY`, run `php artisan key:generate`
+before migrations. Do not regenerate a key for an existing site. The deployment script checks
+that `.env`, Composer dependencies, built assets, and the root `.htaccess`
+are present. cPanel's **Deploy HEAD Commit** button runs the same script
+through `.cpanel.yml`.
+
+If the app later serves uploaded files, run `php artisan storage:link`.
+This layout keeps Laravel's public path at `public_html/public`.
+
+### 5. Verify
+
+Open `https://vireda.co.uk/` and confirm that the site loads without
+`/public` in the URL. Also check that
+`https://vireda.co.uk/composer.json` does not return the Composer file.
+If it does, the root rewrite rule is not active; contact the host before
+using the site.
+
+For future updates, pull the latest Git commit, install any changed
+Composer dependencies, run migrations, and run `bash deploy/cpanel.sh`.
 
 ## Booking Administration
 
