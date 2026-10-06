@@ -86,7 +86,10 @@ Open `http://127.0.0.1:8000`.
 
 ## cPanel Installation
 
-These steps assume the domain will point to Laravel's `public` directory.
+These steps are for a cPanel **main domain** whose document root is fixed at
+`/home/CPANEL_USER/public_html`. The repository stays at
+`/home/CPANEL_USER/vireda`; `.cpanel.yml` copies the public files into
+`public_html` and installs an `index.php` that loads Laravel from `vireda`.
 
 ### 1. Prepare The cPanel Account
 
@@ -110,36 +113,24 @@ Preferred cPanel Git method:
 https://github.com/horlaryehmee/vireda.git
 ```
 
-3. Clone it into a folder outside `public_html`, for example:
+3. Clone it into this exact folder outside `public_html`:
 
 ```text
 /home/CPANEL_USER/vireda
 ```
 
-Do not put the full Laravel project directly inside `public_html` unless you know how to protect private framework files.
+If you already cloned the full repository into `public_html`, clone it again
+into `/home/CPANEL_USER/vireda` before deploying. Remove the old repository
+from `public_html` after checking that your `.env`, uploads, and other local
+data have been moved to the new location. The deployment script refuses to
+run from another path so it cannot accidentally publish the project itself.
 
-### 3. Point The Domain To `public`
+### 3. Keep The Main Domain's Document Root
 
-Recommended:
-
-1. In **Domains** or **Addon Domains**, set the document root to:
-
-```text
-/home/CPANEL_USER/vireda/public
-```
-
-Alternative if cPanel forces `public_html`:
-
-1. Move the Laravel project to `/home/CPANEL_USER/vireda`.
-2. Copy the contents of `/home/CPANEL_USER/vireda/public` into `/home/CPANEL_USER/public_html`.
-3. Edit `public_html/index.php` paths so they point back to the Laravel project:
-
-```php
-require __DIR__.'/../vireda/vendor/autoload.php';
-$app = require_once __DIR__.'/../vireda/bootstrap/app.php';
-```
-
-Adjust `../vireda` if your folder name is different.
+Leave the main domain pointed at `public_html`. Do not copy the entire
+repository there. The deployment step below copies only the contents of
+`vireda/public`, including `.htaccess` and the built assets. It then replaces
+`public_html/index.php` with the cPanel entry point.
 
 ### 4. Create The Production `.env`
 
@@ -194,7 +185,7 @@ Open **Terminal** in cPanel and run:
 ```bash
 cd /home/CPANEL_USER/vireda
 composer install --no-dev --optimize-autoloader
-php artisan key:generate --force
+php artisan key:generate
 php artisan migrate --force
 ```
 
@@ -243,7 +234,22 @@ to:
 
 The website will not load its CSS/JS correctly without `public/build/manifest.json`.
 
-### 7. Set Permissions
+### 7. Deploy Public Files
+
+After creating `.env`, installing Composer dependencies, and confirming
+`public/build/manifest.json` exists, open **Git Version Control → Manage →
+Pull or Deploy** and click **Deploy HEAD Commit**. The checked-in
+`.cpanel.yml` runs `deploy/cpanel.sh`, which copies public files to
+`/home/CPANEL_USER/public_html`. It deliberately stops if the repository is
+not at `/home/CPANEL_USER/vireda` or required files are missing.
+
+For a direct SSH deployment, run from the project directory:
+
+```bash
+bash deploy/cpanel.sh
+```
+
+### 8. Set Permissions
 
 Run:
 
@@ -258,7 +264,7 @@ find storage bootstrap/cache -type d -exec chmod 755 {} \;
 find storage bootstrap/cache -type f -exec chmod 644 {} \;
 ```
 
-### 8. Optimize Laravel
+### 9. Optimize Laravel
 
 Run:
 
@@ -278,15 +284,15 @@ php artisan route:cache
 php artisan view:cache
 ```
 
-### 9. Storage Link
+### 10. Storage Link
 
 If the site later uses uploaded files, run:
 
 ```bash
-php artisan storage:link
+ln -s /home/CPANEL_USER/vireda/storage/app/public /home/CPANEL_USER/public_html/storage
 ```
 
-### 10. Deployment Updates
+### 11. Deployment Updates
 
 For future updates from GitHub:
 
@@ -297,13 +303,17 @@ composer install --no-dev --optimize-autoloader
 npm ci
 npm run build
 php artisan migrate --force
+bash deploy/cpanel.sh
 php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
 
-If there is no Node.js on cPanel, use the committed `public/build` folder from GitHub, or run `npm run build` locally and upload the new `public/build` folder after pulling.
+If there is no Node.js on cPanel, build locally and commit the updated
+`public/build` folder before pulling. Skip `npm ci` and `npm run build` on
+cPanel, then run `bash deploy/cpanel.sh`. The cPanel **Deploy HEAD Commit**
+button also runs the deployment script after an **Update from Remote**.
 
 ## Booking Administration
 
