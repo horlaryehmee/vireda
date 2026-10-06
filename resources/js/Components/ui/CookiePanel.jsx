@@ -8,7 +8,7 @@ const initialPreferences = {
 
 export function CookiePanel({
     title = 'This site uses cookies',
-    message = 'We use essential storage to keep VIREDÁ working and remember your preferences.',
+    message = 'We use essential storage to keep Viredá working and remember your preferences.',
     privacyHref = '/privacy-policy',
 }) {
     const [render, setRender] = useState(false);
