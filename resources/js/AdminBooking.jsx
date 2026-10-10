@@ -27,7 +27,7 @@ function AdminLogo({ variant = 'light' }) {
     return (
         <a className={`admin-wordmark ${variant}`} href="/" aria-label="Viredá home">
             <img
-                src={`/images/vireda-logo-${variant}-420.png`}
+                src={variant === 'dark' ? '/images/vireda-logo-dark-420.webp' : '/images/vireda-logo-light-420.png'}
                 alt="Viredá"
                 width="420"
                 height="140"

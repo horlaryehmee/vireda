@@ -27,7 +27,7 @@ export function ContactHeroArtwork() {
 
                 <g mask={`url(#${maskId})`}>
                     <image
-                        href="/images/vireda-office-building.png"
+                        href="/images/vireda-office-building.webp"
                         width="1600"
                         height="780"
                         preserveAspectRatio="xMidYMid slice"
@@ -51,7 +51,7 @@ export function ContactHeroArtwork() {
                     </linearGradient>
                 </defs>
                 <g mask={`url(#${maskId}-mobile)`}>
-                    <image href="/images/vireda-office-building.png" width="900" height="760" preserveAspectRatio="xMidYMid slice" />
+                    <image href="/images/vireda-office-building.webp" width="900" height="760" preserveAspectRatio="xMidYMid slice" />
                     <rect width="900" height="760" fill={`url(#${maskId}-mobile-shade)`} />
                 </g>
             </svg>

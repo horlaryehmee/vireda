@@ -5,7 +5,7 @@ import '../../../css/team.css';
 
 const members = [
     {
-        name: 'David Babatope', role: 'Founder & CEO', image: '/images/vireda-ceo.jpg',
+        name: 'David Babatope', role: 'Founder & CEO', image: '/images/vireda-ceo.webp',
         headline: 'Building better ways forward.',
         bio: [
             'David has spent several years working in management consulting across a range of industries, helping businesses fix their operations, understand their markets and work through strategic decisions. Alongside that, his technical background covers data analysis, data engineering and business intelligence.',
@@ -13,7 +13,7 @@ const members = [
         ],
     },
     {
-        name: 'Olatunde', role: 'Strategy & Insight Lead', image: '/images/team/olatunde.png',
+        name: 'Olatunde', role: 'Strategy & Insight Lead', image: '/images/team/olatunde.webp',
         headline: 'Where research meets commercial strategy.',
         bio: [
             'Olatunde works where research meets commercial strategy. He leads business development, partnerships and sales strategy, grounding every decision in a clear view of the market.',
@@ -21,7 +21,7 @@ const members = [
         ],
     },
     {
-        name: 'Mike', role: 'Senior AI Engineer', image: '/images/team/mike.png',
+        name: 'Mike', role: 'Senior AI Engineer', image: '/images/team/mike.webp',
         headline: 'Turning messy problems into simple, useful solutions.',
         bio: [
             'Mike builds production ready LLM systems, intelligent agents and automations, from voice AI to multi-agent applications and RAG pipelines.',
@@ -29,7 +29,7 @@ const members = [
         ],
     },
     {
-        name: 'John Patrick', role: 'Swift Developer', image: '/images/team/john-patrick.png',
+        name: 'John Patrick', role: 'Swift Developer', image: '/images/team/john-patrick.webp',
         headline: 'Polished apps that are built to last.',
         bio: [
             'John is a Swift developer with more than a decade of experience. He writes code that is clear, concise and easy to maintain.',
@@ -37,7 +37,7 @@ const members = [
         ],
     },
     {
-        name: 'Bakare Olayemi', role: 'Full Stack Developer', image: '/images/team/bakare-olayemi.png',
+        name: 'Bakare Olayemi', role: 'Full Stack Developer', image: '/images/team/bakare-olayemi.webp',
         headline: 'He builds things that solve real problems.',
         bio: [
             'Olayemi works across the frontend and backend of web applications, turning ideas into working products. He enjoys figuring out how things should work, tackling technical challenges, and finding practical solutions when the obvious approach isn\'t always the best one.',

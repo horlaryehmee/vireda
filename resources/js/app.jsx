@@ -222,7 +222,7 @@ const projects = [
     {
         name: 'Altura Consulting',
         industry: 'Brand identity',
-        image: '/images/work/altura.png',
+        image: '/images/work/altura.webp',
         description: 'A complete consulting brand identity and digital direction built around clarity, progress and credibility.',
         services: ['Brand Strategy', 'Identity', 'Web Design'],
         category: 'Brand & Creative',
@@ -230,7 +230,7 @@ const projects = [
     {
         name: 'Kalm',
         industry: 'Wellness app',
-        image: '/images/work/kalm.png',
+        image: '/images/work/kalm.webp',
         description: 'A calm, nature-led mobile experience designed around meditation, sleep and mindful daily routines.',
         services: ['Product Design', 'Mobile App', 'UX/UI'],
         category: 'Products & Apps',
@@ -238,7 +238,7 @@ const projects = [
     {
         name: 'Luxe Beauty',
         industry: 'Beauty website',
-        image: '/images/work/luxe-beauty.png',
+        image: '/images/work/luxe-beauty.webp',
         description: 'A premium beauty studio website designed to turn services into a polished, appointment-focused experience.',
         services: ['Web Design', 'UX/UI', 'Booking'],
         category: 'Websites',
@@ -246,7 +246,7 @@ const projects = [
     {
         name: 'Peak Fuel Nutrition',
         industry: 'E-commerce website',
-        image: '/images/work/peakfuel.png',
+        image: '/images/work/peakfuel.webp',
         description: 'A conversion-led nutrition storefront with clear product discovery, offers and trust signals.',
         services: ['E-commerce', 'Web Design', 'Conversion'],
         category: 'Websites',
@@ -254,7 +254,7 @@ const projects = [
     {
         name: 'Westbrook Property',
         industry: 'Property platform',
-        image: '/images/work/westbrook.png',
+        image: '/images/work/westbrook.webp',
         description: 'A property operations dashboard bringing tenants, payments, maintenance and reporting into one view.',
         services: ['Software', 'Dashboard', 'Data'],
         category: 'Platforms & Data',
@@ -262,7 +262,7 @@ const projects = [
     {
         name: 'Westbrook Property',
         industry: 'Digital platform',
-        image: '/images/work/westbrook-2.png',
+        image: '/images/work/westbrook-2.webp',
         description: 'A refined sign-in experience supporting a coherent, premium property-management platform.',
         services: ['Product Design', 'UX/UI', 'Brand'],
         category: 'Platforms & Data',
@@ -270,7 +270,7 @@ const projects = [
     {
         name: 'North Studio',
         industry: 'Agency website',
-        image: '/images/work/north-studio.png',
+        image: '/images/work/north-studio.webp',
         description: 'A bold digital marketing presence designed to make the studio’s work, energy and results immediately clear.',
         services: ['Web Design', 'Brand', 'Responsive UX'],
         category: 'Websites',
@@ -278,7 +278,7 @@ const projects = [
     {
         name: 'North Studio',
         industry: 'Brand identity',
-        image: '/images/work/north-studio-2.png',
+        image: '/images/work/north-studio-2.webp',
         description: 'A cohesive visual system spanning print, digital, typography and brand applications.',
         services: ['Identity', 'Creative Direction', 'Collateral'],
         category: 'Brand & Creative',
@@ -286,7 +286,7 @@ const projects = [
     {
         name: 'Pivot-Up Consult',
         industry: 'Education website',
-        image: '/images/work/pivot-up.png',
+        image: '/images/work/pivot-up.webp',
         description: 'A responsive education consultancy experience guiding students from exploration to application support.',
         services: ['Web Design', 'UX/UI', 'Content'],
         category: 'Websites',
@@ -294,7 +294,7 @@ const projects = [
     {
         name: 'CareBridge',
         industry: 'Care management app',
-        image: '/images/work/carebridge.png',
+        image: '/images/work/carebridge.webp',
         description: 'A focused care-management workflow for tasks, medication and incident reporting.',
         services: ['Mobile App', 'Product Design', 'UX/UI'],
         category: 'Products & Apps',
@@ -302,7 +302,7 @@ const projects = [
     {
         name: 'CareBridge',
         industry: 'Care platform',
-        image: '/images/work/carebridge-2.png',
+        image: '/images/work/carebridge-2.webp',
         description: 'A connected interface for managing people, care plans, medication, documents and team communication.',
         services: ['Software', 'Mobile UX', 'Design System'],
         category: 'Products & Apps',
@@ -310,7 +310,7 @@ const projects = [
     {
         name: 'Flowt',
         industry: 'Productivity app',
-        image: '/images/work/flowt.png',
+        image: '/images/work/flowt.webp',
         description: 'A polished mobile workspace for planning projects, tracking tasks and understanding team performance.',
         services: ['Mobile App', 'Product Design', 'Analytics'],
         category: 'Products & Apps',
@@ -318,7 +318,7 @@ const projects = [
     {
         name: 'Flowt',
         industry: 'Project dashboard',
-        image: '/images/work/flowt-2.png',
+        image: '/images/work/flowt-2.webp',
         description: 'A dark-mode operations dashboard that makes projects, progress, workload and activity easy to scan.',
         services: ['Dashboard', 'UX/UI', 'Data Visualisation'],
         category: 'Platforms & Data',
@@ -326,7 +326,7 @@ const projects = [
     {
         name: 'Pivot-Up Consult',
         industry: 'Student app',
-        image: '/images/work/pivot-up-2.png',
+        image: '/images/work/pivot-up-2.webp',
         description: 'A student journey app for discovering courses, tracking applications and accessing support.',
         services: ['Mobile App', 'Product Design', 'Education'],
         category: 'Products & Apps',
@@ -334,7 +334,7 @@ const projects = [
     {
         name: 'The Collective',
         industry: 'Brand identity',
-        image: '/images/work/the-collective.png',
+        image: '/images/work/the-collective.webp',
         description: 'A warm, community-led identity system for a more connected approach to shared living.',
         services: ['Brand Strategy', 'Identity', 'Digital'],
         category: 'Brand & Creative',
@@ -342,7 +342,7 @@ const projects = [
     {
         name: 'The Collective',
         industry: 'Community app',
-        image: '/images/work/the-collective-2.png',
+        image: '/images/work/the-collective-2.webp',
         description: 'A resident app bringing homes, spaces, events, community and support into one experience.',
         services: ['Mobile App', 'Community', 'UX/UI'],
         category: 'Products & Apps',
@@ -353,17 +353,17 @@ const projects = [
 // and a white-ink file for the dark theme; `width`/`height` are the optically
 // balanced display sizes (equal ink area across marks of very different aspect).
 const clientLogos = [
-    { name: 'FOOTASYUM', light: '/images/clients/footasyum-light.png', dark: '/images/clients/footasyum-dark.png', width: 148, height: 18 },
-    { name: 'Westbrook Property', light: '/images/clients/westbrook-property-light.png', dark: '/images/clients/westbrook-property-dark.png', width: 75, height: 43 },
-    { name: 'NHS', light: '/images/clients/nhs-light.png', dark: '/images/clients/nhs-dark.png', width: 99, height: 32 },
-    { name: 'Altura Consulting', light: '/images/clients/altura-consulting-light.png', dark: '/images/clients/altura-consulting-dark.png', width: 75, height: 43 },
-    { name: 'Peakfuel Nutrition', light: '/images/clients/peakfuel-nutrition-light.png', dark: '/images/clients/peakfuel-nutrition-dark.png', width: 134, height: 24 },
-    { name: 'CareBridge', light: '/images/clients/carebridge-light.png', dark: '/images/clients/carebridge-dark.png', width: 81, height: 40 },
-    { name: 'The Collective', light: '/images/clients/the-collective-light.png', dark: '/images/clients/the-collective-dark.png', width: 105, height: 31 },
-    { name: 'New Balance', light: '/images/clients/new-balance-light.png', dark: '/images/clients/new-balance-dark.png', width: 81, height: 40 },
-    { name: 'Alan Shearer Foundation', light: '/images/clients/alan-shearer-foundation-light.png', dark: '/images/clients/alan-shearer-foundation-dark.png', width: 93, height: 34 },
-    { name: 'Pivot-Up Consult', light: '/images/clients/pivot-up-consult-light.png', dark: '/images/clients/pivot-up-consult-dark.png', width: 96, height: 33 },
-    { name: 'North Studio', light: '/images/clients/north-studio-light.png', dark: '/images/clients/north-studio-dark.png', width: 94, height: 34 },
+    { name: 'FOOTASYUM', light: '/images/clients/footasyum-light.webp', dark: '/images/clients/footasyum-dark.webp', width: 148, height: 18 },
+    { name: 'Westbrook Property', light: '/images/clients/westbrook-property-light.webp', dark: '/images/clients/westbrook-property-dark.webp', width: 75, height: 43 },
+    { name: 'NHS', light: '/images/clients/nhs-light.webp', dark: '/images/clients/nhs-dark.webp', width: 99, height: 32 },
+    { name: 'Altura Consulting', light: '/images/clients/altura-consulting-light.webp', dark: '/images/clients/altura-consulting-dark.webp', width: 75, height: 43 },
+    { name: 'Peakfuel Nutrition', light: '/images/clients/peakfuel-nutrition-light.webp', dark: '/images/clients/peakfuel-nutrition-dark.webp', width: 134, height: 24 },
+    { name: 'CareBridge', light: '/images/clients/carebridge-light.webp', dark: '/images/clients/carebridge-dark.webp', width: 81, height: 40 },
+    { name: 'The Collective', light: '/images/clients/the-collective-light.webp', dark: '/images/clients/the-collective-dark.webp', width: 105, height: 31 },
+    { name: 'New Balance', light: '/images/clients/new-balance-light.webp', dark: '/images/clients/new-balance-dark.webp', width: 81, height: 40 },
+    { name: 'Alan Shearer Foundation', light: '/images/clients/alan-shearer-foundation-light.webp', dark: '/images/clients/alan-shearer-foundation-dark.webp', width: 93, height: 34 },
+    { name: 'Pivot-Up Consult', light: '/images/clients/pivot-up-consult-light.webp', dark: '/images/clients/pivot-up-consult-dark.webp', width: 96, height: 33 },
+    { name: 'North Studio', light: '/images/clients/north-studio-light.webp', dark: '/images/clients/north-studio-dark.webp', width: 94, height: 34 },
 ];
 
 const getInitialTheme = () => (
@@ -455,7 +455,7 @@ function Logo() {
     return (
         <a className="logo" href="/" aria-label="Viredá home">
             <img className="logo-image logo-image-light" src="/images/vireda-logo-light-420.png" alt="Viredá" width="420" height="140" />
-            <img className="logo-image logo-image-dark" src="/images/vireda-logo-dark-420.png" alt="" aria-hidden="true" width="420" height="140" />
+            <img className="logo-image logo-image-dark" src="/images/vireda-logo-dark-420.webp" alt="" aria-hidden="true" width="420" height="140" />
         </a>
     );
 }
@@ -1330,7 +1330,7 @@ function AboutVireda() {
                             className="about-system-image"
                             loading="lazy"
                             decoding="async"
-                            src="/images/homepage-about-vireda-team.jpg"
+                            src="/images/homepage-about-vireda-team.webp"
                             alt="The Viredá team collaborating in a modern office"
                         />
                     </div>
@@ -2381,7 +2381,7 @@ const servicePageResults = [
         imageSrc: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=85',
         imageAlt: 'Healthcare team reviewing patient enquiries',
         tag: 'Outcome',
-        brandLogoSrc: '/images/vireda-logo-dark-420.png',
+        brandLogoSrc: '/images/vireda-logo-dark-420.webp',
         problem: 'Good enquiries were coming in but too many were going cold.',
         body: 'Enquiries were being handled manually, meaning responses could be delayed and follow-up was inconsistent.',
         actionLabel: 'What we implemented',
@@ -2396,7 +2396,7 @@ const servicePageResults = [
         imageSrc: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85',
         imageAlt: 'E-commerce team reviewing online sales performance',
         tag: 'Conversion',
-        brandLogoSrc: '/images/vireda-logo-dark-420.png',
+        brandLogoSrc: '/images/vireda-logo-dark-420.webp',
         problem: "The website was getting traffic. It wasn't doing enough with it.",
         body: 'Customers were reaching product pages but dropping out before completing their purchase, while the team had limited insight into where the biggest opportunities were.',
         actionLabel: 'What we changed',
@@ -2411,7 +2411,7 @@ const servicePageResults = [
         imageSrc: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85',
         imageAlt: 'Modern property buildings and management activity',
         tag: 'Operations',
-        brandLogoSrc: '/images/vireda-logo-dark-420.png',
+        brandLogoSrc: '/images/vireda-logo-dark-420.webp',
         problem: 'The team was managing hundreds of properties through spreadsheets, emails and too many tabs.',
         body: 'Property information was spread across different systems, making it difficult to keep records up to date and easy for important tasks to get missed.',
         actionLabel: 'What we changed',
@@ -2426,7 +2426,7 @@ const servicePageResults = [
         imageSrc: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=85',
         imageAlt: 'Professional services team working through financial documents',
         tag: 'Brand',
-        brandLogoSrc: '/images/vireda-logo-dark-420.png',
+        brandLogoSrc: '/images/vireda-logo-dark-420.webp',
         problem: "The company had grown, but its positioning hadn't.",
         body: 'The business had expanded its services but its website and brand still communicated what it had been several years earlier.',
         actionLabel: 'What we changed',
@@ -2788,8 +2788,8 @@ function AboutPage() {
                     description="Most businesses don't lack ideas, ambition or opportunities. What gets in the way is often everything in between: the processes, technology, information and experiences that haven't evolved with the business."
                     buttonText="Work with us"
                     buttonLink="#start"
-                    imageUrl1="/images/about-hero-team.jpg"
-                    imageUrl2="/images/about-hero-computer-right-v2.jpg"
+                    imageUrl1="/images/about-hero-team.webp"
+                    imageUrl2="/images/about-hero-computer-right-v2.webp"
                 />
 
                 <section className="page-section about-story-section">
@@ -2835,7 +2835,7 @@ function AboutPage() {
                 <section className="page-section about-exists-section">
                     <div className="about-exists-grid">
                         <figure className="about-exists-media">
-                            <img src="/images/about-why-vireda-exists-v2.png" alt="A consulting team connecting strategy, process, technology and customer experience around a shared workflow" loading="lazy" decoding="async" />
+                            <img src="/images/about-why-vireda-exists-v2.webp" alt="A consulting team connecting strategy, process, technology and customer experience around a shared workflow" loading="lazy" decoding="async" />
                         </figure>
                         <div className="about-exists-copy">
                             <p className="eyebrow">Why Viredá Exists</p>
@@ -2884,7 +2884,7 @@ function AboutPage() {
                 <section className="page-section about-fit-section">
                     <div className="about-fit-grid">
                         <figure className="about-fit-media">
-                            <img src="/images/about-is-this-you-v2.png" alt="A growing business team reviewing its systems and identifying a clearer way forward" loading="lazy" decoding="async" />
+                            <img src="/images/about-is-this-you-v2.webp" alt="A growing business team reviewing its systems and identifying a clearer way forward" loading="lazy" decoding="async" />
                         </figure>
                         <div className="about-fit-panel">
                             <p className="eyebrow">Is This You?</p>
@@ -3187,9 +3187,9 @@ function ServicesPage() {
                     title={<>We build what your business needs to <span>work better.</span></>}
                     subtitle="There's always room to improve, from the systems behind your business to the experiences your customers see. We bring thinking, technology and creativity together to find what's getting in the way, and build better ways of working, connecting and growing."
                     images={[
-                        { src: '/images/homepage-about-vireda-team.jpg', alt: 'The Viredá team collaborating around a table' },
-                        { src: '/images/about-strategy-workshop.jpg', alt: 'A team working through a strategy session' },
-                        { src: '/images/vireda-office-mockup.png', alt: 'A modern workspace prepared for collaborative work' },
+                        { src: '/images/homepage-about-vireda-team.webp', alt: 'The Viredá team collaborating around a table' },
+                        { src: '/images/about-strategy-workshop.webp', alt: 'A team working through a strategy session' },
+                        { src: '/images/vireda-office-mockup.webp', alt: 'A modern workspace prepared for collaborative work' },
                     ]}
                 />
 

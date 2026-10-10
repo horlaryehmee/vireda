@@ -27,13 +27,13 @@ export function ContactCollageHero({
     secondaryHref = '/book',
     secondaryLabel = 'Book a discovery call',
     images = {
-        background: { src: '/images/contact-hero-office.png', alt: '' },
+        background: { src: '/images/contact-hero-office.webp', alt: '' },
         primary: {
-            src: '/images/contact-discovery-conversation-v2.png',
+            src: '/images/contact-discovery-conversation-v2.webp',
             alt: 'A consultant and prospective clients having an open discovery conversation',
         },
         secondary: {
-            src: '/images/contact-project-notes-v2.png',
+            src: '/images/contact-project-notes-v2.webp',
             alt: 'Collaborators turning an initial conversation into a clear project plan',
         },
     },

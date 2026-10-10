@@ -10629,7 +10629,7 @@ h3 {
         background-image:
             linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.42) 100%),
             linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.04) 42%, rgba(0, 0, 0, 0.56) 100%),
-            url('/images/mobile-hero-gold-architecture-960.jpg');
+            url('/images/mobile-hero-gold-architecture-960.webp');
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -11693,7 +11693,7 @@ main .capability-tags span {
 }
 
 .services-page-hero {
-    background-image: url('/images/services-hero-gold-architecture.png');
+    background-image: url('/images/services-hero-gold-architecture.webp');
     background-position: center center;
     background-size: cover;
 }
@@ -11704,7 +11704,7 @@ main .capability-tags span {
 }
 
 .about-page-hero {
-    background-image: url('/images/about-hero-office.png');
+    background-image: url('/images/about-hero-office.webp');
     background-position: center center;
     background-size: cover;
     justify-content: center;
@@ -11712,7 +11712,7 @@ main .capability-tags span {
 }
 
 .contact-page-hero {
-    background-image: url('/images/contact-hero-office.png');
+    background-image: url('/images/contact-hero-office.webp');
     background-position: center center;
     background-size: cover;
 }

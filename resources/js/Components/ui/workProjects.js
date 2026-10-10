@@ -1,24 +1,24 @@
 const caseStudyKeys = {
-    'altura.png': 'altura', 'kalm.png': 'kalm',
-    'luxe-beauty.png': 'luxe', 'peakfuel.png': 'peakfuel',
-    'westbrook.png': 'westbrook', 'westbrook-2.png': 'westbrook',
-    'north-studio.png': 'north-web', 'north-studio-2.png': 'north-brand',
-    'pivot-up.png': 'pivot-web', 'pivot-up-2.png': 'pivot-app',
-    'carebridge.png': 'carebridge', 'carebridge-2.png': 'carebridge',
-    'flowt.png': 'flowt', 'flowt-2.png': 'flowt',
-    'the-collective.png': 'collective-brand', 'the-collective-2.png': 'collective-app',
+    'altura.webp': 'altura', 'kalm.webp': 'kalm',
+    'luxe-beauty.webp': 'luxe', 'peakfuel.webp': 'peakfuel',
+    'westbrook.webp': 'westbrook', 'westbrook-2.webp': 'westbrook',
+    'north-studio.webp': 'north-web', 'north-studio-2.webp': 'north-brand',
+    'pivot-up.webp': 'pivot-web', 'pivot-up-2.webp': 'pivot-app',
+    'carebridge.webp': 'carebridge', 'carebridge-2.webp': 'carebridge',
+    'flowt.webp': 'flowt', 'flowt-2.webp': 'flowt',
+    'the-collective.webp': 'collective-brand', 'the-collective-2.webp': 'collective-app',
 };
 
 const preferredProjectImages = {
-    carebridge: '/images/work/carebridge-2.png',
-    flowt: '/images/work/flowt-2.png',
+    carebridge: '/images/work/carebridge-2.webp',
+    flowt: '/images/work/flowt-2.webp',
 };
 
 const additionalProjectImages = {
-    kalm: ['kalm-ui-1.png', 'kalm-ui-2.png', 'kalm-ui-3.png'],
-    luxe: ['luxe-beauty-ui-1.png', 'luxe-beauty-ui-2.png', 'luxe-beauty-ui-3.png'],
-    westbrook: ['westbrook-property-ui-1.png', 'westbrook-property-ui-2.png'],
-    'north-web': ['north-studio-ui-1.png', 'north-studio-ui-2.png', 'north-studio-ui-3.png'],
+    kalm: ['kalm-ui-1.webp', 'kalm-ui-2.webp', 'kalm-ui-3.webp'],
+    luxe: ['luxe-beauty-ui-1.webp', 'luxe-beauty-ui-2.webp', 'luxe-beauty-ui-3.webp'],
+    westbrook: ['westbrook-property-ui-1.webp', 'westbrook-property-ui-2.webp'],
+    'north-web': ['north-studio-ui-1.webp', 'north-studio-ui-2.webp', 'north-studio-ui-3.webp'],
 };
 
 export const getCaseStudyKey = (project) => caseStudyKeys[project.image.split('/').pop()];

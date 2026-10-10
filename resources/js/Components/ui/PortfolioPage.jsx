@@ -258,13 +258,13 @@ function PortfolioPage({ Navbar, Footer, FinalCTA, projects = [] }) {
                     primaryLabel="Start a conversation"
                     secondaryLabel={null}
                     images={{
-                        background: { src: '/images/work/altura.png', alt: '' },
+                        background: { src: '/images/work/altura.webp', alt: '' },
                         primary: {
-                            src: '/images/work/flowt-2.png',
+                            src: '/images/work/flowt-2.webp',
                             alt: 'Flowt operations dashboard project screenshot',
                         },
                         secondary: {
-                            src: '/images/work/westbrook.png',
+                            src: '/images/work/westbrook.webp',
                             alt: 'Westbrook Property website project screenshot',
                         },
                     }}
