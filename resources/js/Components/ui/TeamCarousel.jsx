@@ -36,6 +36,15 @@ const members = [
             'His own app was featured as the number one new app in the UK App Store in two categories, and he is the maker of pushtri and several open source projects. He turns complex product ideas into polished apps that are built to last.',
         ],
     },
+    {
+        name: 'Bakare Olayemi', role: 'Full Stack Developer', image: '/images/team/bakare-olayemi.png',
+        headline: 'He builds things that solve real problems.',
+        bio: [
+            'Olayemi works across the frontend and backend of web applications, turning ideas into working products. He enjoys figuring out how things should work, tackling technical challenges, and finding practical solutions when the obvious approach isn\'t always the best one.',
+            'People call him a full stack developer, but he prefers to think of himself as a problem solver. For him, the interesting part of development is understanding the problem behind the code and building something that solves it properly.',
+            'He believes good software should do more than work. It should make sense to the people using it and make the task it was built for easier.',
+        ],
+    },
 ];
 
 function TeamDetails({ member, onClose }) {

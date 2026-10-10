@@ -299,6 +299,43 @@
 .portfolio-image-controls button:hover, .portfolio-image-controls button:focus-visible { background: var(--page-accent); color: #111; }
 .portfolio-modal-gallery::after { pointer-events: none; }
 .portfolio-modal-gallery .portfolio-image-controls { bottom: 90px; }
+@media (min-width: 981px) {
+    .client-result-modal-panel:has(.portfolio-modal-gallery) {
+        display: block;
+        max-height: calc(100dvh - 48px);
+        max-width: 1120px;
+        overflow-y: auto;
+        width: min(100%, 1120px);
+    }
+
+    .portfolio-modal-gallery.client-result-modal-media {
+        background: #fffaf0;
+        height: auto;
+    }
+
+    .portfolio-modal-gallery::after { display: none; }
+    .portfolio-modal-gallery .portfolio-image-gallery { aspect-ratio: 3 / 2; height: auto; }
+    .portfolio-modal-gallery .portfolio-image-track > img { object-fit: cover; }
+    .portfolio-modal-gallery .portfolio-image-controls { bottom: 18px; }
+
+    .portfolio-modal-gallery.client-result-modal-media figcaption {
+        background: #fffaf0;
+        bottom: auto;
+        left: auto;
+        padding: 18px clamp(26px, 4vw, 44px);
+        position: relative;
+        right: auto;
+    }
+
+    .portfolio-modal-gallery.client-result-modal-media figcaption strong { color: #17181b; }
+    .dark .portfolio-modal-gallery.client-result-modal-media,
+    .dark .portfolio-modal-gallery.client-result-modal-media figcaption { background: #050505; }
+    .dark .portfolio-modal-gallery.client-result-modal-media figcaption strong { color: #fff8e6; }
+    .client-result-modal-panel:has(.portfolio-modal-gallery) .client-result-modal-content {
+        max-height: none;
+        overflow: visible;
+    }
+}
 .portfolio-card-mobile-media { margin-top: 12px; }
 .client-result-modal-media.portfolio-project-media-stack { overflow-y: auto; }
 .portfolio-project-media-stack::after { display: none; }

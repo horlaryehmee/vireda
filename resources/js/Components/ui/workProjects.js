@@ -14,6 +14,13 @@ const preferredProjectImages = {
     flowt: '/images/work/flowt-2.png',
 };
 
+const additionalProjectImages = {
+    kalm: ['kalm-ui-1.png', 'kalm-ui-2.png', 'kalm-ui-3.png'],
+    luxe: ['luxe-beauty-ui-1.png', 'luxe-beauty-ui-2.png', 'luxe-beauty-ui-3.png'],
+    westbrook: ['westbrook-property-ui-1.png', 'westbrook-property-ui-2.png'],
+    'north-web': ['north-studio-ui-1.png', 'north-studio-ui-2.png', 'north-studio-ui-3.png'],
+};
+
 export const getCaseStudyKey = (project) => caseStudyKeys[project.image.split('/').pop()];
 
 export function groupWorkProjects(projects) {
@@ -31,11 +38,12 @@ export function groupWorkProjects(projects) {
     });
     return [...groups.entries()].map(([key, group]) => {
         const preferredImage = preferredProjectImages[key];
-        if (!preferredImage || !group.images.includes(preferredImage)) return group;
+        const cover = preferredImage && group.images.includes(preferredImage) ? preferredImage : group.image;
+        const additionalImages = (additionalProjectImages[key] || []).map((name) => `/images/work/${name}`);
         return {
             ...group,
-            image: preferredImage,
-            images: [preferredImage, ...group.images.filter((image) => image !== preferredImage)],
+            image: cover,
+            images: [cover, ...additionalImages, ...group.images.filter((image) => image !== cover && !additionalImages.includes(image))],
         };
     });
 }
