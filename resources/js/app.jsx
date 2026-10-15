@@ -2935,7 +2935,7 @@ function AboutPage() {
                             project we take on ends with something real - a system that works, a brand that fits, numbers
                             that moved in the right direction.
                         </p>
-                        <GetStartedButton href="/#our-work">See the results for yourself</GetStartedButton>
+                        <GetStartedButton href="/portfolio">See the results for yourself</GetStartedButton>
                     </div>
                 </section>
 

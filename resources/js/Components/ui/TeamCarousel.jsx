@@ -13,7 +13,7 @@ const members = [
         ],
     },
     {
-        name: 'Olatunde', role: 'Strategy & Insight Lead', image: '/images/team/olatunde.webp',
+        name: 'Olatunde Anozie', role: 'Strategy & Insight Lead', image: '/images/team/olatunde.webp',
         headline: 'Where research meets commercial strategy.',
         bio: [
             'Olatunde works where research meets commercial strategy. He leads business development, partnerships and sales strategy, grounding every decision in a clear view of the market.',
@@ -21,7 +21,7 @@ const members = [
         ],
     },
     {
-        name: 'Mike', role: 'Senior AI Engineer', image: '/images/team/mike.webp',
+        name: 'Michael Olaniyi', role: 'Senior AI Engineer', image: '/images/team/mike.webp',
         headline: 'Turning messy problems into simple, useful solutions.',
         bio: [
             'Mike builds production ready LLM systems, intelligent agents and automations, from voice AI to multi-agent applications and RAG pipelines.',
@@ -43,6 +43,27 @@ const members = [
             'Olayemi works across the frontend and backend of web applications, turning ideas into working products. He enjoys figuring out how things should work, tackling technical challenges, and finding practical solutions when the obvious approach isn\'t always the best one.',
             'People call him a full stack developer, but he prefers to think of himself as a problem solver. For him, the interesting part of development is understanding the problem behind the code and building something that solves it properly.',
             'He believes good software should do more than work. It should make sense to the people using it and make the task it was built for easier.',
+        ],
+    },
+    {
+        name: 'Rosie D. Grant', role: 'Brand Designer', image: '/images/team/rosie-d-grant.webp',
+        headline: 'Distinctive brands built to connect and make an impact.',
+        bio: [
+            'Rosie creates distinctive brand identities that combine creative thinking with commercial impact. Drawing on over 7 years of agency experience, she develops concepts from strategy through to execution, helping businesses build memorable brands that connect with their audiences.',
+        ],
+    },
+    {
+        name: 'Jide Fabanwo', role: 'Senior Design Engineer', image: '/images/team/jide-fabanwo.webp',
+        headline: 'Building Interfaces with Intent',
+        bio: [
+            'Jide combines design and code to build thoughtful digital experiences, with a strong focus on craft and detail. He takes ideas from first sketch to polished, production-ready product, creating work that feels intuitive to use and a pleasure to come back to.',
+        ],
+    },
+    {
+        name: 'Freda Erhunmwonsere', role: 'Cloud Engineer', image: '/images/team/freda-erhunmwonsere.webp',
+        headline: 'Architecting Smarter Cloud Ecosystems',
+        bio: [
+            'Freda designs cloud systems that run faster, scale cleanly and cost less to operate. She advises clients across industries on getting more from their infrastructure, from planning how workloads are scheduled and resourced to resolving performance bottlenecks. Working across AWS and Microsoft Azure, she applies mathematical modelling to build solutions that are efficient, reliable and built to last.',
         ],
     },
 ];
@@ -89,7 +110,6 @@ export default function TeamCarousel() {
     const closeDetails = React.useCallback(() => setSelectedMember(null), []);
     useEffect(() => {
         const viewport = marqueeRef.current;
-        const mobile = window.matchMedia('(max-width: 767px)');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         let frame;
         let lastTime;
@@ -98,7 +118,7 @@ export default function TeamCarousel() {
             const elapsed = lastTime === undefined ? 0 : Math.min(time - lastTime, 50);
             lastTime = time;
             const interacting = time < interactionUntil.current || viewport.matches(':hover, :focus-within, :active');
-            if (mobile.matches && !reducedMotion.matches && !paused && !selectedMember && !interacting) {
+            if (!reducedMotion.matches && !paused && !selectedMember && !interacting) {
                 const loopWidth = viewport.querySelector('.team-mobile-marquee-group').offsetWidth;
                 position += elapsed * 0.025;
                 if (loopWidth && position >= loopWidth) position -= loopWidth;
